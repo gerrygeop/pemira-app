@@ -1,0 +1,148 @@
+import React, { useState } from "react";
+import { IconChevronDown, IconMenu2, IconX } from "@tabler/icons-react";
+import Dropdown from "@/Components/Dropdown";
+import NavLink from "@/Components/NavLink";
+import ResponsiveNavLink from "@/Components/ResponsiveNavLink";
+import { usePage } from "@inertiajs/react";
+
+export default function Navbar({ header }) {
+    const { auth } = usePage().props;
+    const { user, guard } = auth;
+
+    const [showingNavigationDropdown, setShowingNavigationDropdown] =
+        useState(false);
+
+    return (
+        <nav className="bg-white md:bg-transparent border-b">
+            <div className="sm:hidden p-2 pt-4 border">
+                <div className="flex items-center justify-start space-x-2">
+                    <img
+                        src="https://img.logoipsum.com/289.svg"
+                        alt="Logo"
+                        className="w-24"
+                    />
+                </div>
+            </div>
+
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="flex justify-between h-16">
+                    <div className="flex">
+                        <div className="shrink-0 flex items-center">
+                            {guard === "admin" && (
+                                <h1 className="text-gray-800 text-lg sm:text-xl font-medium">
+                                    {header}
+                                </h1>
+                            )}
+                        </div>
+                    </div>
+
+                    <div className="hidden sm:flex sm:items-center sm:ml-6">
+                        <div className="ml-3 relative">
+                            <Dropdown>
+                                <Dropdown.Trigger>
+                                    <span className="inline-flex rounded-md">
+                                        <button
+                                            type="button"
+                                            className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-600 bg-transparent hover:text-gray-900 focus:outline-none transition ease-in-out duration-150"
+                                        >
+                                            {user.name}
+                                            <IconChevronDown className="ml-2 -mr-0.5 h-4 w-4" />
+                                        </button>
+                                    </span>
+                                </Dropdown.Trigger>
+
+                                <Dropdown.Content>
+                                    {guard === "admin" && (
+                                        <Dropdown.Link
+                                            href={route("profile.edit")}
+                                        >
+                                            Profile
+                                        </Dropdown.Link>
+                                    )}
+                                    <Dropdown.Link
+                                        href={
+                                            guard === "admin"
+                                                ? route("dp.logout")
+                                                : route("logout")
+                                        }
+                                        method="post"
+                                        as="button"
+                                    >
+                                        Log Out
+                                    </Dropdown.Link>
+                                </Dropdown.Content>
+                            </Dropdown>
+                        </div>
+                    </div>
+
+                    {/* Responsive Toggle Menu */}
+                    <div className="-mr-2 flex items-center sm:hidden">
+                        <button
+                            onClick={() =>
+                                setShowingNavigationDropdown(
+                                    (previousState) => !previousState
+                                )
+                            }
+                            className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out"
+                        >
+                            {showingNavigationDropdown ? (
+                                <IconX />
+                            ) : (
+                                <IconMenu2 />
+                            )}
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            {/* Responsive Menu */}
+            <div
+                className={
+                    (showingNavigationDropdown ? "block" : "hidden") +
+                    " sm:hidden w-full bg-white border absolute left-0 z-50"
+                }
+            >
+                {guard === "admin" && (
+                    <div className="pt-2 pb-3 space-y-1 border-b border-gray-200">
+                        <ResponsiveNavLink
+                            href={route("dp.dashboard")}
+                            active={route().current("dp.dashboard")}
+                        >
+                            Dashboard
+                        </ResponsiveNavLink>
+                    </div>
+                )}
+
+                <div className="pt-4 pb-1">
+                    <div className="px-4">
+                        <div className="font-medium text-base text-gray-800">
+                            {user.name}
+                        </div>
+                        <div className="font-medium text-sm text-gray-500">
+                            {guard === "admin" ? user.username : user.nim}
+                        </div>
+                    </div>
+
+                    <div className="mt-3 space-y-1">
+                        {guard === "admin" && (
+                            <ResponsiveNavLink href={route("profile.edit")}>
+                                Profile
+                            </ResponsiveNavLink>
+                        )}
+                        <ResponsiveNavLink
+                            method="post"
+                            href={
+                                guard === "admin"
+                                    ? route("dp.logout")
+                                    : route("logout")
+                            }
+                            as="button"
+                        >
+                            Log Out
+                        </ResponsiveNavLink>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    );
+}
