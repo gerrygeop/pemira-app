@@ -5,10 +5,14 @@ import NavLink from "@/Components/NavLink";
 import ResponsiveNavLink from "@/Components/ResponsiveNavLink";
 import { Link } from "@inertiajs/react";
 
-export default function Authenticated({ auth, header, children }) {
+export default function Authenticated({
+    user,
+    guard = "web",
+    header,
+    children,
+}) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] =
         useState(false);
-    const { user, guard } = auth;
 
     return (
         <div className="min-h-screen bg-gray-100">
@@ -23,12 +27,16 @@ export default function Authenticated({ auth, header, children }) {
                             </div>
 
                             <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                                <NavLink
-                                    href={route("dashboard")}
-                                    active={route().current("dashboard")}
-                                >
-                                    Dashboard
-                                </NavLink>
+                                {guard === "admin" ? (
+                                    <NavLink href="#">Dashboard</NavLink>
+                                ) : (
+                                    <NavLink
+                                        href={route("dashboard")}
+                                        active={route().current("dashboard")}
+                                    >
+                                        Dashboard
+                                    </NavLink>
+                                )}
                             </div>
                         </div>
 
@@ -60,11 +68,13 @@ export default function Authenticated({ auth, header, children }) {
                                     </Dropdown.Trigger>
 
                                     <Dropdown.Content>
-                                        <Dropdown.Link
-                                            href={route("profile.edit")}
-                                        >
-                                            Profile
-                                        </Dropdown.Link>
+                                        {guard === "admin" && (
+                                            <Dropdown.Link
+                                                href={route("profile.edit")}
+                                            >
+                                                Profile
+                                            </Dropdown.Link>
+                                        )}
                                         <Dropdown.Link
                                             href={
                                                 guard === "admin"
