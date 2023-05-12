@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Http\Resources\AdminResource;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 use Tightenco\Ziggy\Ziggy;
@@ -23,6 +24,19 @@ class HandleInertiaRequests extends Middleware
         return parent::version($request);
     }
 
+    public function getShareUser($request)
+    {
+        if ($request->user()) {
+            if (auth()->guard()->name === 'admin') {
+                return new AdminResource($request->user());
+            } else {
+                return $request->user()->only('id', 'name', 'nim', 'email');
+            }
+        } else {
+            return null;
+        }
+    }
+
     /**
      * Define the props that are shared by default.
      *
@@ -32,7 +46,7 @@ class HandleInertiaRequests extends Middleware
     {
         return array_merge(parent::share($request), [
             'auth' => [
-                'user' => $request->user(),
+                'user' => $this->getShareUser($request),
                 'guard' => auth()->guard()->name,
 
             ],
