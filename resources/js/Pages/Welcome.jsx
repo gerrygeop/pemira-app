@@ -43,8 +43,6 @@ export default function Welcome({ auth }) {
                                 <h2 className="text-5xl font-semibold uppercase">
                                     Pemilihan Umum Raya universitas mulawarman
                                 </h2>
-                                {/* <h3 className="text-2xl font-bold uppercase">
-                                </h3> */}
                                 <p className="mt-3 md:w-3/4 text-base text-gray-200">
                                     PEMIRA adalah pesta demokrasi mahasiswa
                                     dalam rangka pemilihan Presiden dan Wakil
@@ -52,12 +50,12 @@ export default function Welcome({ auth }) {
                                     Politik Universitas Mularman.
                                 </p>
 
-                                <div class="mt-4 flex flex-col sm:flex-row">
+                                <div className="mt-4 flex flex-col sm:flex-row">
                                     <Link
                                         href="https://www.instagram.com/reel/ClmmO_QDga9/?igshid=YmMyMTA2M2Y="
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        class="flex items-center justify-center py-2 px-3 gap-x-1 text-white text-sm bg-indigo-500 hover:bg-indigo-600 focus:outline-none tracking-wide capitalize rounded-md sm:w-1/5 md:w-1/4"
+                                        className="flex items-center justify-center py-2 px-3 gap-x-1 text-white text-sm bg-indigo-500 hover:bg-indigo-600 focus:outline-none tracking-wide capitalize rounded-md sm:w-1/5 md:w-1/4"
                                     >
                                         <span>Tutorial Laptop/PC</span>
                                     </Link>
@@ -66,7 +64,7 @@ export default function Welcome({ auth }) {
                                         href="https://www.instagram.com/reel/Clml0N3jJN0/?igshid=YmMyMTA2M2Y="
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        class="flex items-center justify-center py-2 px-3 gap-x-1 text-white text-sm bg-indigo-500 hover:bg-indigo-600 focus:outline-none tracking-wide capitalize rounded-md sm:w-1/5 md:w-1/4 mt-2 ml-0 sm:ml-2 sm:mt-0"
+                                        className="flex items-center justify-center py-2 px-3 gap-x-1 text-white text-sm bg-indigo-500 hover:bg-indigo-600 focus:outline-none tracking-wide capitalize rounded-md sm:w-1/5 md:w-1/4 mt-2 ml-0 sm:ml-2 sm:mt-0"
                                     >
                                         <span>Tutorial Smartphone</span>
                                     </Link>

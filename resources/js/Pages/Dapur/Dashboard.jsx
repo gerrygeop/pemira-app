@@ -7,7 +7,7 @@ export default function Dashboard({ auth }) {
             auth={auth}
             header={
                 <h2 className="font-semibold text-xl text-gray-800 leading-tight">
-                    Dashboard
+                    Dashboard Dapur
                 </h2>
             }
         >
