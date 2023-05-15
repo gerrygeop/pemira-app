@@ -23,21 +23,21 @@ export default function FormRole({ closeModal, permissions, role }) {
 
     const onStore = (e) => {
         e.preventDefault();
-        post(route("dp.roles.store"), {
+        post(route("d.roles.store"), {
             onSuccess: () => handleCloseModal(),
         });
     };
 
     const onUpdate = (e) => {
         e.preventDefault();
-        patch(route("dp.roles.update", role.id), {
+        patch(route("d.roles.update", role.id), {
             onSuccess: () => handleCloseModal(),
         });
     };
 
     const onDelete = (e) => {
         e.preventDefault();
-        destroy(route("dp.roles.destroy", role.id), {
+        destroy(route("d.roles.destroy", role.id), {
             onSuccess: () => handleCloseModal(),
         });
     };

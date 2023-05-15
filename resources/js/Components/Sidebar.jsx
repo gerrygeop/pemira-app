@@ -16,16 +16,16 @@ export default function Sidebar() {
 
                 <nav>
                     <SideLink
-                        href={route("dp.dashboard")}
-                        active={route().current("dp.dashboard")}
+                        href={route("d.dashboard")}
+                        active={route().current("d.dashboard")}
                     >
                         <IconLayoutDashboard />
                         <span className="tracking-wide">Dashboard</span>
                     </SideLink>
 
                     <SideLink
-                        href={route("dp.roles.index")}
-                        active={route().current("dp.roles.*")}
+                        href={route("d.roles.index")}
+                        active={route().current("d.roles.*")}
                     >
                         <IconShieldLock />
                         <span className="tracking-wide">

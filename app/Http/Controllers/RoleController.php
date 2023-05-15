@@ -38,7 +38,7 @@ class RoleController extends Controller
             return $role;
         });
 
-        return to_route('dp.roles.index')->with('status', $role->name . ' berhasil dibuat');
+        return to_route('d.roles.index')->with('status', $role->name . ' berhasil dibuat');
     }
 
     /**
@@ -56,7 +56,7 @@ class RoleController extends Controller
             $role->allowTo($validated['permissions']);
         });
 
-        return to_route('dp.roles.index')->with('status', $role->name . ' berhasil diupdate');
+        return to_route('d.roles.index')->with('status', $role->name . ' berhasil diupdate');
     }
 
     /**

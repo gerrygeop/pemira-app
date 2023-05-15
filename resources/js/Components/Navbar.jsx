@@ -62,7 +62,7 @@ export default function Navbar({ header }) {
                                     <Dropdown.Link
                                         href={
                                             guard === "admin"
-                                                ? route("dp.logout")
+                                                ? route("d.logout")
                                                 : route("logout")
                                         }
                                         method="post"
@@ -105,8 +105,8 @@ export default function Navbar({ header }) {
                 {guard === "admin" && (
                     <div className="pt-2 pb-3 space-y-1 border-b border-gray-200">
                         <ResponsiveNavLink
-                            href={route("dp.dashboard")}
-                            active={route().current("dp.dashboard")}
+                            href={route("d.dashboard")}
+                            active={route().current("d.dashboard")}
                         >
                             Dashboard
                         </ResponsiveNavLink>
@@ -133,7 +133,7 @@ export default function Navbar({ header }) {
                             method="post"
                             href={
                                 guard === "admin"
-                                    ? route("dp.logout")
+                                    ? route("d.logout")
                                     : route("logout")
                             }
                             as="button"
