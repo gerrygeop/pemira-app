@@ -1,5 +1,7 @@
 import Navbar from "@/Components/Navbar";
 import Sidebar from "@/Components/Sidebar";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function DapurLayout({ header, children }) {
     return (
@@ -10,6 +12,8 @@ export default function DapurLayout({ header, children }) {
                 <Navbar header={header} />
                 {children}
             </main>
+
+            <ToastContainer />
         </div>
     );
 }
