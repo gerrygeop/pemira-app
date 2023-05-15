@@ -1,6 +1,10 @@
 import React from "react";
 import SideLink from "./SideLink";
-import { IconLayoutDashboard, IconShieldLock } from "@tabler/icons-react";
+import {
+    IconLayoutDashboard,
+    IconShieldLock,
+    IconBuildingBank,
+} from "@tabler/icons-react";
 
 export default function Sidebar() {
     return (
@@ -21,6 +25,14 @@ export default function Sidebar() {
                     >
                         <IconLayoutDashboard />
                         <span className="tracking-wide">Dashboard</span>
+                    </SideLink>
+
+                    <SideLink
+                        href={route("d.pemira.index")}
+                        active={route().current("d.pemira.*")}
+                    >
+                        <IconBuildingBank />
+                        <span className="tracking-wide">Pemira</span>
                     </SideLink>
 
                     <SideLink

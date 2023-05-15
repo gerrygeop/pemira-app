@@ -5,7 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 export default function DapurLayout({ header, children }) {
     return (
-        <div className="min-h-screen bg-gray-100 flex flex-col lg:flex-row">
+        <div className="min-h-screen bg-[#f0f2f5] flex flex-col lg:flex-row">
             <Sidebar />
 
             <main className="flex-1 ml-0 md:ml-52 lg:ml-64">
