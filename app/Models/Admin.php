@@ -37,4 +37,9 @@ class Admin extends Authenticatable
     {
         return $this->roles->map->permissions->flatten()->pluck('name')->unique();
     }
+
+    public function pemira()
+    {
+        return $this->belongsToMany(Pemira::class);
+    }
 }
