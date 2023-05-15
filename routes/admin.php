@@ -22,9 +22,9 @@ Route::prefix('d')->name('d.')->group(function () {
 
     Route::middleware('auth:admin')->group(function () {
 
-        Route::get('/d/dashboard', function () {
+        Route::get('dashboard', function () {
             return Inertia::render('Dapur/Dashboard');
-        })->name('d.dashboard');
+        })->name('dashboard');
 
         Route::get('register', [RegisteredAdminController::class, 'create'])
             ->name('register');
