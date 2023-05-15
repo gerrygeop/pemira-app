@@ -4,10 +4,12 @@ import Modal from "@/Components/Modal";
 import Table from "@/Components/Table";
 import DapurLayout from "@/Layouts/DapurLayout";
 import { Head, router } from "@inertiajs/react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { IconPlus } from "@tabler/icons-react";
 import { toast } from "react-toastify";
 import FormPemira from "./FormPemira";
+import { format } from "date-fns";
+import idLocale from "date-fns/locale/id";
 
 export default function Index({ pemiraList, flash }) {
     const [isShowingForm, setIsShowingForm] = useState(false);
@@ -65,8 +67,24 @@ export default function Index({ pemiraList, flash }) {
                                     <Table.Td className="uppercase">
                                         {item.nama_pemira}
                                     </Table.Td>
-                                    <Table.Td>{item.activated_at}</Table.Td>
-                                    <Table.Td>{item.finished_at}</Table.Td>
+                                    <Table.Td>
+                                        {format(
+                                            new Date(item.activated_at),
+                                            "d MMM yyyy, HH:mm",
+                                            {
+                                                locale: idLocale,
+                                            }
+                                        )}
+                                    </Table.Td>
+                                    <Table.Td>
+                                        {format(
+                                            new Date(item.finished_at),
+                                            "d MMM yyyy, HH:mm",
+                                            {
+                                                locale: idLocale,
+                                            }
+                                        )}
+                                    </Table.Td>
                                 </tr>
                             ))
                         ) : (
