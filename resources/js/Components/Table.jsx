@@ -3,12 +3,10 @@ import React from "react";
 const Table = ({ children }) => {
     return (
         <div className="flex flex-col">
-            <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
+            <div className="-mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
                 <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-                    <div className="shadow-sm overflow-hidden border border-gray-200 sm:rounded-md">
-                        <table className="min-w-full divide-y divide-gray-200">
-                            {children}
-                        </table>
+                    <div className="overflow-hidden">
+                        <table className="min-w-full">{children}</table>
                     </div>
                 </div>
             </div>
@@ -17,7 +15,11 @@ const Table = ({ children }) => {
 };
 
 const Thead = ({ children, className }) => {
-    return <thead className={`bg-gray-50 ${className}`}>{children}</thead>;
+    return (
+        <thead className={`bg-white border-y border-gray-400 ${className}`}>
+            {children}
+        </thead>
+    );
 };
 
 const Tbody = ({ children, className }) => {
@@ -32,7 +34,7 @@ const Th = ({ children, className, ...props }) => {
     return (
         <th
             {...props}
-            className={`px-6 py-3 text-gray-500 text-left text-xs font-medium uppercase tracking-wider ${className}`}
+            className={`px-4 py-3 text-gray-500 text-left text-xs font-bold uppercase tracking-wider ${className}`}
         >
             {children}
         </th>
@@ -42,7 +44,7 @@ const Td = ({ children, className, ...props }) => {
     return (
         <td
             {...props}
-            className={`px-6 py-4 whitespace-nowrap text-base font-medium text-gray-800 ${className}`}
+            className={`px-4 py-4 whitespace-nowrap text-base font-medium text-gray-800 ${className}`}
         >
             {children}
         </td>
