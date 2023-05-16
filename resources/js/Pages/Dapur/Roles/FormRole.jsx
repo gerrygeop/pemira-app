@@ -5,6 +5,7 @@ import SecondaryButton from "@/Components/SecondaryButton";
 import TextInput from "@/Components/TextInput";
 import { useForm } from "@inertiajs/react";
 import React from "react";
+import { toast } from "react-toastify";
 
 export default function FormRole({ closeModal, permissions, role }) {
     const {
@@ -24,27 +25,50 @@ export default function FormRole({ closeModal, permissions, role }) {
     const onStore = (e) => {
         e.preventDefault();
         post(route("d.roles.store"), {
-            onSuccess: () => handleCloseModal(),
+            onSuccess: () => {
+                handleCloseModal();
+                successAlert(`Berhasil membuat role`);
+            },
         });
     };
 
     const onUpdate = (e) => {
         e.preventDefault();
         patch(route("d.roles.update", role.id), {
-            onSuccess: () => handleCloseModal(),
+            onSuccess: () => {
+                handleCloseModal();
+                successAlert(`Role ${role.name} Berhasil diperbarui`);
+            },
         });
     };
 
     const onDelete = (e) => {
         e.preventDefault();
+        let roleName = role.name;
         destroy(route("d.roles.destroy", role.id), {
-            onSuccess: () => handleCloseModal(),
+            onSuccess: () => {
+                handleCloseModal();
+                successAlert(`Role ${roleName} Berhasil dihapus`);
+            },
         });
     };
 
     const handleCloseModal = () => {
         closeModal();
         reset();
+    };
+
+    const successAlert = (message) => {
+        toast.success(message, {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+        });
     };
 
     const handlePermissionChange = (e, permissionId) => {

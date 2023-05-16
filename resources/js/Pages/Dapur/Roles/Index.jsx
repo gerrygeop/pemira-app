@@ -3,10 +3,9 @@ import Modal from "@/Components/Modal";
 import Table from "@/Components/Table";
 import DapurLayout from "@/Layouts/DapurLayout";
 import { Head } from "@inertiajs/react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { IconPlus } from "@tabler/icons-react";
 import FormRole from "./FormRole";
-import { toast } from "react-toastify";
 import PrimaryButton from "@/Components/PrimaryButton";
 
 export default function Index({ roles, permissions, flash }) {
@@ -27,19 +26,6 @@ export default function Index({ roles, permissions, flash }) {
         setIsShowingForm(false);
         setRole(null);
     };
-
-    useEffect(() => {
-        toast.success(flash.status, {
-            position: "top-right",
-            autoClose: 2000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: false,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-        });
-    }, [flash.status]);
 
     return (
         <DapurLayout header="Roles & Permissions">
