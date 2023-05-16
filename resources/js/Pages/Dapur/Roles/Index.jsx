@@ -8,10 +8,9 @@ import { IconPlus } from "@tabler/icons-react";
 import FormRole from "./FormRole";
 import PrimaryButton from "@/Components/PrimaryButton";
 
-export default function Index({ roles, permissions, flash }) {
+export default function Index({ roles, permissions }) {
     const [role, setRole] = useState(null);
     const [isShowingForm, setIsShowingForm] = useState(false);
-    console.log(flash.status);
 
     const handleRowClickOpenModal = (r) => {
         setRole(r);
