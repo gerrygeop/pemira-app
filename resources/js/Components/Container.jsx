@@ -10,7 +10,7 @@ const Container = ({ children, classFirst = "", classSecond = "" }) => {
     );
 };
 
-const Box = ({ children, classFirst = "", classSecond = "" }) => {
+export const Box = ({ children, classFirst = "", classSecond = "" }) => {
     return (
         <div
             className={`bg-white overflow-hidden shadow-sm sm:rounded-lg ${classFirst}`}
@@ -23,7 +23,5 @@ const Box = ({ children, classFirst = "", classSecond = "" }) => {
         </div>
     );
 };
-
-Container.Box = Box;
 
 export default Container;
