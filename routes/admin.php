@@ -28,6 +28,7 @@ Route::prefix('d')->name('d.')->group(function () {
 
         // Pemira
         Route::resource('pemira', PemiraController::class);
+        Route::patch('pemira/switchable/{pemira}', [PemiraController::class, 'switchable'])->name('pemira.switchable');
 
         // Roles & Permissions
         Route::resource('roles', RoleController::class)->except(['show', 'create', 'edit']);

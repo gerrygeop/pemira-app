@@ -24,6 +24,9 @@ class PemiraController extends Controller
     {
         return Inertia::render('Dapur/Pemira/Show', [
             'pemira' => $pemira,
+            'utility' => [
+                'title_btn' => $pemira->buttonTitle()
+            ],
         ]);
     }
 
@@ -47,7 +50,7 @@ class PemiraController extends Controller
             return $pemira;
         });
 
-        return to_route('d.pemira.index')->with('status', $pemira->nama_pemira . ' berhasil dibuat');
+        return to_route('d.pemira.show', $pemira)->with('status', 'New Pemira');
     }
 
     /**
@@ -55,10 +58,9 @@ class PemiraController extends Controller
      */
     public function update(Request $request, Pemira $pemira)
     {
-        return dd($request->all());
         $validated = $request->validate([
             'nama_pemira' => ['required', 'string', 'max:200'],
-            'keterangan' => ['required', 'string'],
+            'keterangan' => ['nullable', 'string'],
             'activated_at' => ['required', 'date'],
             'finished_at' => ['required', 'date'],
         ]);
@@ -68,7 +70,7 @@ class PemiraController extends Controller
             $pemira->update($validated);
         });
 
-        return to_route('d.pemira.index')->with('status', $pemira->nama_pemira . ' berhasil diupdate');
+        return to_route('d.pemira.show', $pemira);
     }
 
     /**
@@ -76,8 +78,16 @@ class PemiraController extends Controller
      */
     public function destroy(Pemira $pemira)
     {
-        $pemiraName = $pemira->nama_pemira;
         $pemira->delete();
-        return back()->with('status', $pemiraName . ' berhasil dihapus');
+        return to_route('d.pemira.index')->with('status', 'Delete');
+    }
+
+    /**
+     * Change Pemira status to Active
+     */
+    public function switchable(Pemira $pemira)
+    {
+        $pemira->toggleStatus();
+        return back()->with('status', $pemira->status);
     }
 }
