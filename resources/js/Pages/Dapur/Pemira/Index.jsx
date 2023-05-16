@@ -15,7 +15,7 @@ export default function Index({ pemiraList, flash }) {
     const [isShowingForm, setIsShowingForm] = useState(false);
 
     const handleRowClickOpenModal = (pemira) => {
-        router.visit(route("pemira.show", pemira.id));
+        router.visit(route("d.pemira.show", pemira.id));
     };
 
     const successAlert = () => {
