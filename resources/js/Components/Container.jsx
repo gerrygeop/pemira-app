@@ -10,13 +10,18 @@ const Container = ({ children, classFirst = "", classSecond = "" }) => {
     );
 };
 
-export const Box = ({ children, classFirst = "", classSecond = "" }) => {
+export const Box = ({
+    children,
+    classFirst = "",
+    classSecond = "",
+    padding = "p-6",
+}) => {
     return (
         <div
             className={`bg-white overflow-hidden shadow-sm sm:rounded-lg ${classFirst}`}
         >
             <div
-                className={`p-6 bg-white border-b border-gray-200 ${classSecond}`}
+                className={`${padding} bg-white border-b border-gray-200 ${classSecond}`}
             >
                 {children}
             </div>

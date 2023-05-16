@@ -1,3 +1,9 @@
+import {
+    IconPlayerPauseFilled,
+    IconPlayerPlayFilled,
+    IconPlayerStopFilled,
+} from "@tabler/icons-react";
+
 export default function PrimaryButton({
     className = "",
     disabled,
@@ -19,37 +25,37 @@ export default function PrimaryButton({
     );
 }
 
-export function BorderButton({
+export function PlayButton({
     className = "",
-    colors = "",
-    disabled,
     children,
+    disabled,
+    status,
     ...props
 }) {
-    let theme =
-        "text-gray-700 hover:border-gray-400 hover:text-gray-800 focus:text-gray-900 focus:ring-gray-500";
-    switch (colors) {
-        case "indigo":
-            theme =
-                "text-indigo-600 border-indigo-300 hover:text-indigo-800 focus:text-indigo-900 focus:ring-indigo-500";
-            break;
-        case "red":
-            theme =
-                "text-red-600 border-red-400 hover:text-red-700 focus:text-red-900 focus:ring-red-500";
-            break;
-        default:
-            break;
-    }
+    const theme = {
+        publish:
+            "bg-gray-800 hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900",
+        tutup: "bg-red-600 hover:bg-red-500 focus:bg-red-500 active:bg-red-700",
+        tunda: "bg-yellow-500 hover:bg-yellow-400 focus:bg-yellow-400 active:bg-yellow-600",
+    }[status];
+
+    const icons = {
+        publish: <IconPlayerPlayFilled className="w-5 h-5 mr-2" />,
+        tutup: <IconPlayerStopFilled className="w-5 h-5 mr-2" />,
+        tunda: <IconPlayerPauseFilled className="w-5 h-5 mr-2" />,
+    }[status];
+
     return (
         <button
             {...props}
             className={
-                `flex items-center px-4 py-2 bg-white font-semibold text-xs border ${theme} uppercase tracking-widest rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 transition ease-in-out duration-150 ${
+                `inline-flex items-center px-4 py-2 rounded-md font-semibold text-xs text-white uppercase tracking-widest border border-transparent ${theme} focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition ease-in-out duration-150 ${
                     disabled && "opacity-25"
                 } ` + className
             }
             disabled={disabled}
         >
+            {icons}
             {children}
         </button>
     );
