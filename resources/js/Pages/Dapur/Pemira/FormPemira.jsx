@@ -8,34 +8,15 @@ import React from "react";
 import "flatpickr/dist/themes/airbnb.css";
 import Flatpickr from "react-flatpickr";
 import { Indonesian } from "flatpickr/dist/l10n/id.js";
+import { toast } from "react-toastify";
 
-export default function FormPemira({
-    closeModal = () => {},
-    successAlert,
-    pemira = "",
-}) {
-    const {
-        data,
-        setData,
-        post,
-        patch,
-        delete: destroy,
-        processing,
-        reset,
-        errors,
-    } = useForm({
+export default function FormPemira({ onCancel = () => {}, pemira = "" }) {
+    const { data, setData, post, patch, processing, reset, errors } = useForm({
         nama_pemira: pemira ? pemira.nama_pemira : "",
         activated_at: pemira ? pemira.activated_at : "",
         finished_at: pemira ? pemira.finished_at : "",
-        keterangan: pemira ? pemira.keterangan : "",
+        keterangan: pemira ? pemira?.keterangan : "",
     });
-
-    const onStore = (e) => {
-        e.preventDefault();
-        post(route("d.pemira.store"), {
-            onSuccess: () => handleCloseModal(),
-        });
-    };
 
     const onChangeDates = (date_at) => {
         let date = new Date(date_at);
@@ -54,28 +35,40 @@ export default function FormPemira({
         return formattedDate;
     };
 
+    const onStore = (e) => {
+        e.preventDefault();
+        post(route("d.pemira.store"), {
+            onSuccess: () => {
+                handleCloseForm();
+                toastMessage(`Berhasil membuat Pemira`);
+            },
+        });
+    };
+
     const onUpdate = (e) => {
         e.preventDefault();
         patch(route("d.pemira.update", pemira.id), {
-            onSuccess: () => handleCloseModal(),
+            onSuccess: () => {
+                handleCloseForm();
+                toastMessage(`${pemira.nama_pemira} berhasil diperbarui`);
+            },
         });
     };
 
-    const onDelete = (e) => {
-        e.preventDefault();
-        destroy(route("d.pemira.destroy", pemira.id), {
-            onSuccess: () => handleCloseModal(),
-        });
-    };
-
-    const handleCloseModal = () => {
-        closeModal();
+    const handleCloseForm = () => {
+        onCancel();
         reset();
-        successAlert();
+    };
+
+    const toastMessage = (message) => {
+        toast.success(message, {
+            autoClose: 3000,
+            pauseOnHover: false,
+        });
     };
 
     return (
-        <form onSubmit={pemira ? onUpdate : onStore} className="p-6">
+        <form onSubmit={pemira ? onUpdate : onStore}>
             <div className="mt-2">
                 <InputLabel htmlFor="nama_pemira" value="Nama Pemira" />
 
@@ -152,7 +145,7 @@ export default function FormPemira({
                 <textarea
                     id="keterangan"
                     name="keterangan"
-                    value={data.keterangan}
+                    value={data.keterangan ?? ""}
                     onChange={(e) => setData("keterangan", e.target.value)}
                     className="mt-2 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
                 ></textarea>
@@ -160,31 +153,14 @@ export default function FormPemira({
                 <InputError message={errors.keterangan} className="mt-2" />
             </div>
 
-            <div
-                className={`mt-8 flex items-center ${
-                    pemira ? "justify-between" : "justify-end"
-                }`}
-            >
-                {pemira && (
-                    <button
-                        type="button"
-                        className="text-red-600 hover:underline"
-                        onClick={(e) => onDelete(e)}
-                        disabled={processing}
-                    >
-                        Hapus
-                    </button>
-                )}
+            <div className="mt-8 flex items-center justify-end">
+                <SecondaryButton onClick={handleCloseForm}>
+                    Batal
+                </SecondaryButton>
 
-                <div className="flex items-center justify-end">
-                    <SecondaryButton onClick={handleCloseModal}>
-                        Batal
-                    </SecondaryButton>
-
-                    <PrimaryButton className="ml-3" disabled={processing}>
-                        Simpan
-                    </PrimaryButton>
-                </div>
+                <PrimaryButton className="ml-3" disabled={processing}>
+                    Simpan
+                </PrimaryButton>
             </div>
         </form>
     );

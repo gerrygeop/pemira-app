@@ -3,13 +3,13 @@ import Modal from "@/Components/Modal";
 import Table from "@/Components/Table";
 import DapurLayout from "@/Layouts/DapurLayout";
 import { Head, router } from "@inertiajs/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IconPlus } from "@tabler/icons-react";
-import { toast } from "react-toastify";
 import FormPemira from "./FormPemira";
 import { format } from "date-fns";
 import idLocale from "date-fns/locale/id";
 import PrimaryButton from "@/Components/PrimaryButton";
+import { toast } from "react-toastify";
 
 export default function Index({ pemiraList, flash }) {
     const [isShowingForm, setIsShowingForm] = useState(false);
@@ -18,18 +18,14 @@ export default function Index({ pemiraList, flash }) {
         router.visit(route("d.pemira.show", pemira.id));
     };
 
-    const successAlert = () => {
-        toast.success(flash.status, {
-            position: "top-right",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: false,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-        });
-    };
+    useEffect(() => {
+        if (flash.status === "Delete") {
+            toast.success("Pemira berhasil dihapus", {
+                autoClose: 3000,
+                pauseOnHover: false,
+            });
+        }
+    }, []);
 
     return (
         <DapurLayout header="Pemira">
@@ -103,10 +99,9 @@ export default function Index({ pemiraList, flash }) {
             </Container>
 
             <Modal show={isShowingForm} onClose={() => setIsShowingForm(false)}>
-                <FormPemira
-                    closeModal={() => setIsShowingForm(false)}
-                    successAlert={successAlert}
-                />
+                <div className="p-6">
+                    <FormPemira onCancel={() => setIsShowingForm(false)} />
+                </div>
             </Modal>
         </DapurLayout>
     );
