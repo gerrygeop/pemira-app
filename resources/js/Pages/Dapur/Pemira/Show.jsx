@@ -157,7 +157,7 @@ export default function Show({ pemira, utility, flash }) {
                     </div>
                 </Box>
 
-                <Box classFirst="mt-6 border">
+                <Box classFirst="mt-6">
                     <div className="py-4 flex items-center justify-end">
                         <PrimaryButton type="button">
                             <IconSquareRoundedPlus className="w-5 h-5 mr-2" />

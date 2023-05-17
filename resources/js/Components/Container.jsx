@@ -18,11 +18,9 @@ export const Box = ({
 }) => {
     return (
         <div
-            className={`bg-white overflow-hidden shadow-sm sm:rounded-lg ${classFirst}`}
+            className={`bg-white overflow-hidden shadow-sm border sm:rounded-lg ${classFirst}`}
         >
-            <div
-                className={`${padding} bg-white border-b border-gray-200 ${classSecond}`}
-            >
+            <div className={`${padding} bg-white ${classSecond}`}>
                 {children}
             </div>
         </div>

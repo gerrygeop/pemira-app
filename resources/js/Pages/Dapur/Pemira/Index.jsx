@@ -32,7 +32,7 @@ export default function Index({ pemiraList, flash }) {
             <Head title="Pemira" />
 
             <Container>
-                <Box classFirst="border">
+                <Box>
                     <div className="py-4 flex items-center justify-end">
                         <PrimaryButton
                             type="button"

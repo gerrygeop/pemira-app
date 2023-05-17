@@ -31,7 +31,7 @@ export default function Index({ roles, permissions }) {
             <Head title="Roles & Permissions" />
 
             <Container>
-                <Box classFirst="border">
+                <Box>
                     <div className="py-4 flex items-center justify-end">
                         <PrimaryButton type="button" onClick={openModal}>
                             <IconPlus className="w-5 h-5 mr-2" />
