@@ -16,7 +16,7 @@ const Table = ({ children }) => {
 
 const Thead = ({ children, className }) => {
     return (
-        <thead className={`bg-white border-y border-gray-400 ${className}`}>
+        <thead className={`bg-white border-b border-gray-400 ${className}`}>
             {children}
         </thead>
     );
@@ -34,7 +34,7 @@ const Th = ({ children, className, ...props }) => {
     return (
         <th
             {...props}
-            className={`px-4 py-3 text-gray-500 text-left text-xs font-bold uppercase tracking-wider ${className}`}
+            className={`px-4 py-3 text-gray-900 text-left text-xs font-bold uppercase tracking-wider ${className}`}
         >
             {children}
         </th>
