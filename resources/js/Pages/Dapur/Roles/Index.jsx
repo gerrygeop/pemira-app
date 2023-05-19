@@ -1,4 +1,4 @@
-import Container, { Box } from "@/Components/Container";
+import Container, { Board, Section } from "@/Components/Container";
 import Modal from "@/Components/Modal";
 import Table from "@/Components/Table";
 import DapurLayout from "@/Layouts/DapurLayout";
@@ -31,53 +31,60 @@ export default function Index({ roles, permissions }) {
             <Head title="Roles & Permissions" />
 
             <Container>
-                <Box>
-                    <div className="py-4 flex items-center justify-end">
-                        <PrimaryButton type="button" onClick={openModal}>
-                            <IconPlus className="w-5 h-5 mr-2" />
-                            Role baru
-                        </PrimaryButton>
-                    </div>
-                    <Table>
-                        <Table.Thead>
-                            <tr>
-                                <Table.Th scope="col">Nama</Table.Th>
-                                <Table.Th scope="col" className="px-4">
-                                    Permissions
-                                </Table.Th>
-                            </tr>
-                        </Table.Thead>
-                        <Table.Tbody>
-                            {roles.map((role) => (
-                                <tr
-                                    key={role.id}
-                                    role="button"
-                                    onClick={() =>
-                                        handleRowClickOpenModal(role)
-                                    }
-                                    className="cursor-pointer hover:bg-slate-50"
-                                >
-                                    <Table.Td className="uppercase">
-                                        {role.name}
-                                    </Table.Td>
-                                    <Table.Td>
-                                        {role.permissions
-                                            .slice(0, 3)
-                                            .map((permission, iteration) => (
-                                                <span
-                                                    key={permission.id}
-                                                    className="px-1 mr-1 bg-indigo-50 border border-indigo-900/20 text-indigo-800 rounded"
-                                                >
-                                                    {permission.name}
-                                                </span>
-                                            ))}
-                                        {role.permissions.length > 3 && " ..."}
-                                    </Table.Td>
+                <Board>
+                    <Section>
+                        <div className="flex items-center justify-end">
+                            <PrimaryButton type="button" onClick={openModal}>
+                                <IconPlus className="w-5 h-5 -ml-0.5 mr-1.5" />
+                                Role baru
+                            </PrimaryButton>
+                        </div>
+                        <Table>
+                            <Table.Thead>
+                                <tr>
+                                    <Table.Th scope="col">Nama</Table.Th>
+                                    <Table.Th scope="col" className="px-4">
+                                        Permissions
+                                    </Table.Th>
                                 </tr>
-                            ))}
-                        </Table.Tbody>
-                    </Table>
-                </Box>
+                            </Table.Thead>
+                            <Table.Tbody>
+                                {roles.map((role) => (
+                                    <tr
+                                        key={role.id}
+                                        role="button"
+                                        onClick={() =>
+                                            handleRowClickOpenModal(role)
+                                        }
+                                        className="cursor-pointer hover:bg-slate-50"
+                                    >
+                                        <Table.Td>
+                                            <span className="uppercase text-sm font-semibold text-gray-800">
+                                                {role.name}
+                                            </span>
+                                        </Table.Td>
+                                        <Table.Td>
+                                            {role.permissions
+                                                .slice(0, 3)
+                                                .map(
+                                                    (permission, iteration) => (
+                                                        <span
+                                                            key={permission.id}
+                                                            className="px-1 mr-1.5 bg-yellow-50 text-yellow-800 ring-1 ring-yellow-600/20 rounded"
+                                                        >
+                                                            {permission.name}
+                                                        </span>
+                                                    )
+                                                )}
+                                            {role.permissions.length > 3 &&
+                                                " ..."}
+                                        </Table.Td>
+                                    </tr>
+                                ))}
+                            </Table.Tbody>
+                        </Table>
+                    </Section>
+                </Board>
             </Container>
 
             <Modal show={isShowingForm} onClose={closeModal}>

@@ -8,7 +8,7 @@ import {
 
 export default function Sidebar() {
     return (
-        <div className="fixed hidden md:block md:w-52 lg:w-64">
+        <div className="fixed hidden lg:block lg:w-64">
             <div className="flex flex-col md:h-screen bg-gray-700 py-6 px-2">
                 <div className="flex-shrink-0 flex items-center mx-5 mb-10">
                     <img

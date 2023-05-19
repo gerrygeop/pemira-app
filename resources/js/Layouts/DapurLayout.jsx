@@ -8,7 +8,7 @@ export default function DapurLayout({ header, children }) {
         <div className="min-h-screen bg-[#f0f2f5] flex flex-col lg:flex-row">
             <Sidebar />
 
-            <main className="flex-1 ml-0 md:ml-52 lg:ml-64">
+            <main className="flex-1 ml-0 lg:ml-64">
                 <Navbar header={header} />
                 {children}
             </main>

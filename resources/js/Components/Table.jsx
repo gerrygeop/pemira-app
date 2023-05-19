@@ -16,7 +16,7 @@ const Table = ({ children }) => {
 
 const Thead = ({ children, className }) => {
     return (
-        <thead className={`bg-white border-b border-gray-400 ${className}`}>
+        <thead className={`bg-white border-b border-gray-300 ${className}`}>
             {children}
         </thead>
     );
@@ -44,7 +44,7 @@ const Td = ({ children, className, ...props }) => {
     return (
         <td
             {...props}
-            className={`px-4 py-4 whitespace-nowrap text-base font-medium text-gray-800 ${className}`}
+            className={`px-4 py-4 whitespace-nowrap font-medium text-gray-600 ${className}`}
         >
             {children}
         </td>

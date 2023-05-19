@@ -10,7 +10,7 @@ export default function Badge({ children, status = "default" }) {
 
     return (
         <span
-            className={`inline-flex items-center rounded-md px-2 py-1 font-medium text-xs ring-1 ring-inset ${colors}`}
+            className={`inline-flex items-center rounded-md px-2 py-1 font-medium capitalize text-sm ring-1 ring-inset ${colors}`}
         >
             {children}
         </span>

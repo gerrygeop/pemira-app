@@ -1,23 +1,17 @@
 import Modal from "@/Components/Modal";
-import Table from "@/Components/Table";
 import DapurLayout from "@/Layouts/DapurLayout";
-import { Head, router, useForm } from "@inertiajs/react";
+import { Head, useForm } from "@inertiajs/react";
 import { useEffect, useState } from "react";
-import {
-    IconAlertOctagonFilled,
-    IconPlayerPlayFilled,
-    IconSquareRoundedPlus,
-} from "@tabler/icons-react";
+import { IconAlertOctagonFilled } from "@tabler/icons-react";
 import { toast } from "react-toastify";
 import FormPemira from "./FormPemira";
-import { format } from "date-fns";
-import idLocale from "date-fns/locale/id";
-import PrimaryButton, { PlayButton } from "@/Components/PrimaryButton";
-import Container, { Box } from "@/Components/Container";
+import { PlayButton } from "@/Components/PrimaryButton";
+import Container, { Board, Section } from "@/Components/Container";
 import DangerButton from "@/Components/DangerButton";
 import SecondaryButton from "@/Components/SecondaryButton";
 import Badge from "@/Components/Badge";
 import TablePaslon from "../Paslon/TablePaslon";
+import DateTime from "@/Components/DateTime";
 
 export default function Show({ pemira, utility, flash }) {
     const [isShowingModal, setIsShowingModal] = useState(false);
@@ -69,9 +63,9 @@ export default function Show({ pemira, utility, flash }) {
             <Head title={pemira.nama_pemira} />
 
             <Container>
-                <Box padding="p-0">
-                    <div className="px-4 md:px-6 py-6 border-b flex flex-col md:flex-row items-center justify-between gap-y-6 md:gap-y-0">
-                        <div className="flex items-center w-full order-last md:order-first">
+                <Board>
+                    <Section className="sm:py-6 flex flex-row items-center justify-between">
+                        <div className="flex items-center">
                             <span className="font-medium text-sm text-gray-600 mr-2">
                                 Status:
                             </span>
@@ -80,45 +74,18 @@ export default function Show({ pemira, utility, flash }) {
                             </Badge>
                         </div>
 
-                        <div className="flex items-center justify-between w-full md:w-auto">
-                            <div className="flex items-center divide-x md:mr-14">
-                                <button
-                                    type="button"
-                                    className="text-red-600 pr-4"
-                                    onClick={() => {
-                                        setIsShowingModal(true);
-                                        setConfirmingDeletion(true);
-                                        setEditing(false);
-                                    }}
-                                >
-                                    Hapus
-                                </button>
-                                <button
-                                    type="button"
-                                    className="text-gray-800 pl-4"
-                                    onClick={() => {
-                                        setIsShowingModal(true);
-                                        setEditing(true);
-                                        setConfirmingDeletion(false);
-                                    }}
-                                >
-                                    Edit
-                                </button>
-                            </div>
+                        <PlayButton
+                            type="button"
+                            onClick={(e) => onSwitchStatus(e)}
+                            status={utility.title_btn}
+                            disabled={processing}
+                        >
+                            {utility.title_btn}
+                        </PlayButton>
+                    </Section>
 
-                            <PlayButton
-                                type="button"
-                                onClick={(e) => onSwitchStatus(e)}
-                                status={utility.title_btn}
-                                disabled={processing}
-                            >
-                                {utility.title_btn}
-                            </PlayButton>
-                        </div>
-                    </div>
-
-                    <div className="px-4 md:px-6 py-6">
-                        <div className="mb-6">
+                    <Section>
+                        <div className="mb-4">
                             <h1 className="font-semibold text-2xl lg:text-3xl text-gray-800">
                                 {pemira.nama_pemira}
                             </h1>
@@ -126,43 +93,60 @@ export default function Show({ pemira, utility, flash }) {
                                 {pemira?.keterangan}
                             </p>
                         </div>
-                        <div className="flex flex-col md:flex-row items-start md:items-center md:divide-x">
+                        <div className="flex flex-col md:flex-row items-start md:items-center">
                             <div className="pb-2 md:pb-0 md:pr-8">
-                                <span className="text-sm text-gray-600 font-medium">
+                                <span className="text-sm text-gray-600">
                                     Mulai:
                                 </span>
                                 <h5 className="text-lg text-gray-800 font-semibold">
-                                    {format(
-                                        new Date(pemira.activated_at),
-                                        "d MMM yyyy, HH:mm",
-                                        {
-                                            locale: idLocale,
-                                        }
-                                    )}
+                                    <DateTime datetime={pemira?.activated_at} />
                                 </h5>
                             </div>
 
                             <div className="pt-2 md:pt-0 md:pl-8">
-                                <span className="text-sm text-gray-600 font-medium">
+                                <span className="text-sm text-gray-600">
                                     Selesai:
                                 </span>
                                 <h5 className="text-lg text-gray-800 font-semibold">
-                                    {format(
-                                        new Date(pemira.finished_at),
-                                        "d MMM yyyy, HH:mm",
-                                        {
-                                            locale: idLocale,
-                                        }
-                                    )}
+                                    <DateTime datetime={pemira?.finished_at} />
                                 </h5>
                             </div>
                         </div>
-                    </div>
-                </Box>
+                    </Section>
 
-                <Box classFirst="mt-6">
-                    <TablePaslon pemira={pemira} />
-                </Box>
+                    <Section className="sm:py-4">
+                        <div className="flex items-center justify-end gap-x-2">
+                            <SecondaryButton
+                                type="button"
+                                className="text-red-600 pr-4"
+                                onClick={() => {
+                                    setIsShowingModal(true);
+                                    setConfirmingDeletion(true);
+                                    setEditing(false);
+                                }}
+                            >
+                                Hapus
+                            </SecondaryButton>
+                            <SecondaryButton
+                                type="button"
+                                className="text-gray-800 pl-4"
+                                onClick={() => {
+                                    setIsShowingModal(true);
+                                    setEditing(true);
+                                    setConfirmingDeletion(false);
+                                }}
+                            >
+                                Edit
+                            </SecondaryButton>
+                        </div>
+                    </Section>
+                </Board>
+
+                <Board className="mt-8">
+                    <Section>
+                        <TablePaslon pemira={pemira} />
+                    </Section>
+                </Board>
             </Container>
 
             <Modal

@@ -9,6 +9,7 @@ import "flatpickr/dist/themes/airbnb.css";
 import Flatpickr from "react-flatpickr";
 import { Indonesian } from "flatpickr/dist/l10n/id.js";
 import { toast } from "react-toastify";
+import TextArea from "@/Components/TextArea";
 
 export default function FormPemira({ onCancel = () => {}, pemira = "" }) {
     const { data, setData, post, patch, processing, reset, errors } = useForm({
@@ -142,13 +143,13 @@ export default function FormPemira({ onCancel = () => {}, pemira = "" }) {
                     </span>
                 </InputLabel>
 
-                <textarea
+                <TextArea
                     id="keterangan"
                     name="keterangan"
                     value={data.keterangan ?? ""}
                     onChange={(e) => setData("keterangan", e.target.value)}
-                    className="mt-2 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
-                ></textarea>
+                    className="mt-2 block w-full"
+                ></TextArea>
 
                 <InputError message={errors.keterangan} className="mt-2" />
             </div>

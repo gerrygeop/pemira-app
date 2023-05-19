@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { IconChevronDown, IconMenu2, IconX } from "@tabler/icons-react";
 import Dropdown from "@/Components/Dropdown";
-import NavLink from "@/Components/NavLink";
 import ResponsiveNavLink from "@/Components/ResponsiveNavLink";
 import { usePage } from "@inertiajs/react";
 
@@ -13,8 +12,8 @@ export default function Navbar({ header }) {
         useState(false);
 
     return (
-        <nav className="bg-white md:bg-transparent border-b">
-            <div className="sm:hidden p-2 pt-4 border">
+        <nav className="bg-white lg:bg-transparent border-b">
+            <div className="lg:hidden p-2 pt-4 border">
                 <div className="flex items-center justify-start space-x-2">
                     <img
                         src="https://img.logoipsum.com/289.svg"
@@ -36,7 +35,7 @@ export default function Navbar({ header }) {
                         </div>
                     </div>
 
-                    <div className="hidden sm:flex sm:items-center sm:ml-6">
+                    <div className="hidden lg:flex lg:items-center lg:ml-6">
                         <div className="ml-3 relative">
                             <Dropdown>
                                 <Dropdown.Trigger>
@@ -76,7 +75,7 @@ export default function Navbar({ header }) {
                     </div>
 
                     {/* Responsive Toggle Menu */}
-                    <div className="-mr-2 flex items-center sm:hidden">
+                    <div className="-mr-2 flex items-center lg:hidden">
                         <button
                             onClick={() =>
                                 setShowingNavigationDropdown(
@@ -99,7 +98,7 @@ export default function Navbar({ header }) {
             <div
                 className={
                     (showingNavigationDropdown ? "block" : "hidden") +
-                    " sm:hidden w-full bg-white border absolute left-0 z-50"
+                    " lg:hidden w-full bg-white shadow-lg border absolute left-0 z-50"
                 }
             >
                 {guard === "admin" && (
@@ -109,6 +108,18 @@ export default function Navbar({ header }) {
                             active={route().current("d.dashboard")}
                         >
                             Dashboard
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink
+                            href={route("d.pemira.index")}
+                            active={route().current("d.pemira.*")}
+                        >
+                            Pemira
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink
+                            href={route("d.roles.index")}
+                            active={route().current("d.roles.*")}
+                        >
+                            Roles & Permissions
                         </ResponsiveNavLink>
                     </div>
                 )}
