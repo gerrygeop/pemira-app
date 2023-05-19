@@ -5,6 +5,8 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Pemira extends Model
 {
@@ -17,9 +19,14 @@ class Pemira extends Model
     protected $guarded = ['id'];
     protected $table = 'pemira';
 
-    public function admins()
+    public function admins(): BelongsToMany
     {
         return $this->belongsToMany(Admin::class);
+    }
+
+    public function paslon(): HasMany
+    {
+        return $this->hasMany(Paslon::class);
     }
 
     public function validateActivation()
