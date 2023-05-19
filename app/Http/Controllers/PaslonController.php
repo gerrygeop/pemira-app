@@ -7,6 +7,7 @@ use App\Models\Candidate;
 use App\Models\Paslon;
 use App\Models\Pemira;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -19,14 +20,6 @@ class PaslonController extends Controller
         $this->middleware('can:create_paslon')->only('create', 'store');
         $this->middleware('can:update_paslon')->only('edit', 'update');
         $this->middleware('can:delete_paslon')->only('destroy');
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Paslon $paslon)
-    {
-        //
     }
 
     /**
@@ -76,15 +69,37 @@ class PaslonController extends Controller
     {
         return Inertia::render('Dapur/Paslon/FormPaslon', [
             'paslon' => $paslon,
+            'can' => [
+                'update_paslon' => Auth::guard('admin')->user()->can('update_paslon'),
+                'delete_paslon' => Auth::guard('admin')->user()->can('delete_paslon'),
+            ]
         ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Paslon $paslon)
+    public function update(PaslonRequest $request, Paslon $paslon)
     {
-        //
+        $validated = $request->validated();
+
+        DB::transaction(function () use ($validated, $paslon) {
+            Candidate::where('id', $paslon->candidate_id)->update([
+                'name' => $validated['candidate']['name'],
+                'profile' => json_encode($validated['candidate']['profile']),
+            ]);
+            Candidate::where('id', $paslon->partner_id)->update([
+                'name' => $validated['partner']['name'],
+                'profile' => json_encode($validated['partner']['profile']),
+            ]);
+
+            $paslon->update([
+                'no_urut' => $validated['no_urut'],
+                'items' => json_encode($validated['items']),
+            ]);
+        });
+
+        return to_route('d.pemira.show', $paslon->pemira_id)->with('status', 'Update Paslon');
     }
 
     /**

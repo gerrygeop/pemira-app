@@ -11,7 +11,7 @@ export default function TablePaslon({ pemira, can }) {
 
     const handleOnShow = (paslonId) => {
         if (can.read_paslon) {
-            router.visit(route("d.pemira.paslon.show", paslonId));
+            router.visit(route("d.pemira.paslon.edit", paslonId));
         }
     };
 

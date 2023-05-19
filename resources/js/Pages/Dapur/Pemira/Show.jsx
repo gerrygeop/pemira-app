@@ -55,6 +55,8 @@ export default function Show({ pemira, utils, flash }) {
             toastMessage("Pemira ditunda");
         } else if (flash.status === "New Paslon") {
             toastMessage("Paslon berhasil ditambahkan");
+        } else if (flash.status === "Update Paslon") {
+            toastMessage("Paslon berhasil diperbarui");
         }
     }, [flash.status]);
 
