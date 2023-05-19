@@ -32,70 +32,52 @@ class Pemira extends Model
 
     public function validateActivation()
     {
-        if ($this->activated_at_less_than_now() && $this->status !== $this->PEMIRA_PENDING) {
-            $this->activate();
+        if ($this->less_than_now($this->activated_at) && $this->status !== $this->PEMIRA_PENDING) {
+            $this->update_status($this->PEMIRA_ACTIVE);
         }
-        if ($this->finished_at_less_than_now()) {
-            $this->inactivate();
+        if ($this->less_than_now($this->finished_at)) {
+            $this->update_status($this->PEMIRA_INACTIVE);
         }
     }
 
     public function toggleStatus()
     {
-        if ($this->status === $this->PEMIRA_INACTIVE && !$this->activated_at_less_than_now()) {
-            return $this->activate();
-        }
-        if ($this->status === $this->PEMIRA_ACTIVE && !$this->activated_at_less_than_now()) {
-            return $this->inactivate();
-        }
-        if ($this->status === $this->PEMIRA_PENDING) {
-            return $this->activate();
-        }
-        if ($this->status !== $this->PEMIRA_PENDING && $this->activated_at_less_than_now()) {
-            return $this->pending();
+        if ($this->less_than_now($this->finished_at)) {
+            return $this->update_status($this->PEMIRA_FINISHED);
+        } else if ($this->status === $this->PEMIRA_INACTIVE && !$this->less_than_now($this->activated_at)) {
+            return $this->update_status($this->PEMIRA_ACTIVE);
+        } else if ($this->status === $this->PEMIRA_ACTIVE && !$this->less_than_now($this->activated_at)) {
+            return $this->update_status($this->PEMIRA_INACTIVE);
+        } else if ($this->status !== $this->PEMIRA_PENDING && $this->less_than_now($this->activated_at)) {
+            return $this->update_status($this->PEMIRA_PENDING);
+        } else if ($this->status === $this->PEMIRA_PENDING) {
+            return $this->update_status($this->PEMIRA_ACTIVE);
         }
     }
 
-    public function activated_at_less_than_now()
+    private function less_than_now($at)
     {
-        $datetime = Carbon::parse($this->activated_at);
+        $datetime = Carbon::parse($at);
         if ($datetime->lt(now())) return true;
     }
 
-    public function finished_at_less_than_now()
+    private function update_status($status)
     {
-        $datetime = Carbon::parse($this->finished_at);
-        if ($datetime->lt(now())) return true;
-    }
-
-    private function activate()
-    {
-        $this->status = $this->PEMIRA_ACTIVE;
+        $this->status = $status;
         $this->save();
     }
 
-    private function inactivate()
+    public function statusTitle()
     {
-        $this->status = $this->PEMIRA_INACTIVE;
-        $this->save();
-    }
-
-    private function pending()
-    {
-        $this->status = $this->PEMIRA_PENDING;
-        $this->save();
-    }
-
-    public function buttonTitle()
-    {
-        if ($this->status === $this->PEMIRA_INACTIVE || $this->status === $this->PEMIRA_PENDING) {
-            return 'publish';
+        if ($this->status !== $this->PEMIRA_ACTIVE) {
+            return 'aktifkan';
         }
-        if ($this->status === $this->PEMIRA_ACTIVE && !$this->activated_at_less_than_now()) {
+        if ($this->status !== $this->PEMIRA_INACTIVE) {
             return 'tutup';
         }
-        if ($this->status === $this->PEMIRA_ACTIVE && $this->activated_at_less_than_now()) {
+        if ($this->status !== $this->PEMIRA_PENDING) {
             return 'tunda';
         }
+        return 'selesai';
     }
 }

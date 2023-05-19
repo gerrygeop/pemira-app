@@ -14,7 +14,7 @@ class PemiraController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('can:read_pemira')->only('show');
+        $this->middleware('can:read_pemira')->only('show', 'index');
     }
 
     public function index(): Response
@@ -30,7 +30,7 @@ class PemiraController extends Controller
         return Inertia::render('Dapur/Pemira/Show', [
             'pemira' => $pemira->load('paslon'),
             'utility' => [
-                'title_btn' => $pemira->buttonTitle()
+                'title' => $pemira->statusTitle()
             ],
         ]);
     }
