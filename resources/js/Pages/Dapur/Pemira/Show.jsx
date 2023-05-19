@@ -17,6 +17,7 @@ import Container, { Box } from "@/Components/Container";
 import DangerButton from "@/Components/DangerButton";
 import SecondaryButton from "@/Components/SecondaryButton";
 import Badge from "@/Components/Badge";
+import TablePaslon from "../Paslon/TablePaslon";
 
 export default function Show({ pemira, utility, flash }) {
     const [isShowingModal, setIsShowingModal] = useState(false);
@@ -58,6 +59,8 @@ export default function Show({ pemira, utility, flash }) {
             toastMessage("Pemira dinonaktifkan");
         } else if (flash.status === "pending") {
             toastMessage("Pemira ditunda");
+        } else if (flash.status === "New Paslon") {
+            toastMessage("Paslon berhasil ditambahkan");
         }
     }, [flash.status]);
 
@@ -158,30 +161,7 @@ export default function Show({ pemira, utility, flash }) {
                 </Box>
 
                 <Box classFirst="mt-6">
-                    <div className="py-4 flex items-center justify-end">
-                        <PrimaryButton type="button">
-                            <IconSquareRoundedPlus className="w-5 h-5 mr-2" />
-                            Paslon
-                        </PrimaryButton>
-                    </div>
-                    <Table>
-                        <Table.Thead>
-                            <tr>
-                                <Table.Th scope="col">No</Table.Th>
-                                <Table.Th scope="col">Paslon</Table.Th>
-                                <Table.Th scope="col">Selesai</Table.Th>
-                            </tr>
-                        </Table.Thead>
-                        <Table.Tbody>
-                            <tr>
-                                <Table.Td colSpan="3">
-                                    <p className="text-gray-500 text-center italic">
-                                        Tidak ada data
-                                    </p>
-                                </Table.Td>
-                            </tr>
-                        </Table.Tbody>
-                    </Table>
+                    <TablePaslon pemira={pemira} />
                 </Box>
             </Container>
 
