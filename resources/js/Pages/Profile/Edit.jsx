@@ -1,12 +1,12 @@
-import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import DeleteUserForm from "./Partials/DeleteUserForm";
 import UpdatePasswordForm from "./Partials/UpdatePasswordForm";
 import UpdateProfileInformationForm from "./Partials/UpdateProfileInformationForm";
 import { Head } from "@inertiajs/react";
+import DapurLayout from "@/Layouts/DapurLayout";
 
 export default function Edit({ mustVerifyEmail, status }) {
     return (
-        <AuthenticatedLayout header="Profile">
+        <DapurLayout header="Profile">
             <Head title="Profile" />
 
             <div className="py-12">
@@ -24,6 +24,6 @@ export default function Edit({ mustVerifyEmail, status }) {
                     </div>
                 </div>
             </div>
-        </AuthenticatedLayout>
+        </DapurLayout>
     );
 }

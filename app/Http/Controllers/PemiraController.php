@@ -12,6 +12,11 @@ use Inertia\Response;
 
 class PemiraController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:read_pemira')->only('show');
+    }
+
     public function index(): Response
     {
         // return dd(Auth::guard('admin')->user()->pemira);
@@ -20,10 +25,10 @@ class PemiraController extends Controller
         ]);
     }
 
-    public function show(Pemira $pemira)
+    public function show(Pemira $pemira): Response
     {
         return Inertia::render('Dapur/Pemira/Show', [
-            'pemira' => $pemira,
+            'pemira' => $pemira->load('paslon'),
             'utility' => [
                 'title_btn' => $pemira->buttonTitle()
             ],

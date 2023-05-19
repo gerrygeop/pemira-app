@@ -60,21 +60,18 @@ export default function Index({ roles, permissions }) {
                                     <Table.Td className="uppercase">
                                         {role.name}
                                     </Table.Td>
-                                    <Table.Td className="">
-                                        {role.permissions.map(
-                                            (permission, iteration) => (
+                                    <Table.Td>
+                                        {role.permissions
+                                            .slice(0, 3)
+                                            .map((permission, iteration) => (
                                                 <span
                                                     key={permission.id}
-                                                    className=""
+                                                    className="px-1 mr-1 bg-indigo-50 border border-indigo-900/20 text-indigo-800 rounded"
                                                 >
                                                     {permission.name}
-                                                    {iteration <
-                                                        role.permissions
-                                                            .length -
-                                                            1 && ", "}
                                                 </span>
-                                            )
-                                        )}
+                                            ))}
+                                        {role.permissions.length > 3 && " ..."}
                                     </Table.Td>
                                 </tr>
                             ))}
