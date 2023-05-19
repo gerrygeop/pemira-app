@@ -15,6 +15,9 @@ class PemiraController extends Controller
     public function __construct()
     {
         $this->middleware('can:read_pemira')->only('show', 'index');
+        $this->middleware('can:create_pemira')->only('store');
+        $this->middleware('can:update_pemira')->only('update', 'switchable');
+        $this->middleware('can:delete_pemira')->only('destroy');
     }
 
     public function index(): Response

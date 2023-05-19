@@ -11,6 +11,11 @@ use Inertia\Response;
 
 class RoleController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:all_access');
+    }
+
     /**
      * Display a listing of the resource.
      */

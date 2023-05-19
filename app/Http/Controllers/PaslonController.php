@@ -13,10 +13,18 @@ use Inertia\Response;
 
 class PaslonController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:read_paslon')->only('show');
+        $this->middleware('can:create_paslon')->only('create', 'store');
+        $this->middleware('can:update_paslon')->only('edit', 'update');
+        $this->middleware('can:delete_paslon')->only('destroy');
+    }
+
     /**
-     * Display a listing of the resource.
+     * Display the specified resource.
      */
-    public function index()
+    public function show(Paslon $paslon)
     {
         //
     }
@@ -62,19 +70,13 @@ class PaslonController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(Paslon $paslon)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      */
     public function edit(Paslon $paslon)
     {
-        //
+        return Inertia::render('Dapur/Paslon/FormPaslon', [
+            'paslon' => $paslon,
+        ]);
     }
 
     /**
