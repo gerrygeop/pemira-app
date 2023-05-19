@@ -60,9 +60,6 @@ export default function TablePaslon({ pemira }) {
                                                 &
                                             </span>
                                             {paslon.partner?.name}
-                                            {paslon.partner?.name}
-                                            {paslon.partner?.name}
-                                            {paslon.partner?.name}
                                         </div>
                                     </div>
                                 </Table.Td>

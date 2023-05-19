@@ -64,29 +64,29 @@ export default function Show({ pemira, utility, flash }) {
 
             <Container>
                 <Board>
-                    <Section className="sm:py-6 flex flex-row items-center justify-between">
+                    <div className="py-4 px-4 sm:px-6 flex items-center justify-between">
                         <div className="flex items-center">
                             <span className="font-medium text-sm text-gray-600 mr-2">
                                 Status:
                             </span>
-                            <Badge status={pemira.status}>
-                                {pemira.status}
-                            </Badge>
+                            <Badge status={pemira.status} />
                         </div>
 
-                        <PlayButton
-                            type="button"
-                            onClick={(e) => onSwitchStatus(e)}
-                            status={utility.title_btn}
-                            disabled={processing}
-                        >
-                            {utility.title_btn}
-                        </PlayButton>
-                    </Section>
+                        {pemira?.status !== "finished" && (
+                            <PlayButton
+                                type="button"
+                                onClick={(e) => onSwitchStatus(e)}
+                                status={utility.title}
+                                disabled={processing}
+                            >
+                                {utility.title}
+                            </PlayButton>
+                        )}
+                    </div>
 
                     <Section>
                         <div className="mb-4">
-                            <h1 className="font-semibold text-2xl lg:text-3xl text-gray-800">
+                            <h1 className="font-semibold uppercase text-2xl lg:text-3xl text-gray-800">
                                 {pemira.nama_pemira}
                             </h1>
                             <p className="text-gray-600">
@@ -114,11 +114,11 @@ export default function Show({ pemira, utility, flash }) {
                         </div>
                     </Section>
 
-                    <Section className="sm:py-4">
+                    <div className="py-4 px-4 sm:px-6">
                         <div className="flex items-center justify-end gap-x-2">
                             <SecondaryButton
                                 type="button"
-                                className="text-red-600 pr-4"
+                                className="text-red-600"
                                 onClick={() => {
                                     setIsShowingModal(true);
                                     setConfirmingDeletion(true);
@@ -129,7 +129,7 @@ export default function Show({ pemira, utility, flash }) {
                             </SecondaryButton>
                             <SecondaryButton
                                 type="button"
-                                className="text-gray-800 pl-4"
+                                className="text-gray-800"
                                 onClick={() => {
                                     setIsShowingModal(true);
                                     setEditing(true);
@@ -139,7 +139,7 @@ export default function Show({ pemira, utility, flash }) {
                                 Edit
                             </SecondaryButton>
                         </div>
-                    </Section>
+                    </div>
                 </Board>
 
                 <Board className="mt-8">

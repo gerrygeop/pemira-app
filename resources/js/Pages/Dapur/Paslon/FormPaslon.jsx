@@ -216,10 +216,7 @@ export default function FormPaslon({ paslon = "", pemira = "" }) {
                         </Section>
 
                         <Section>
-                            <SectionTitle
-                                title="Form Calon Wakil Ketua"
-                                description="Kosongkan jika tidak diperlukan"
-                            >
+                            <SectionTitle title="Form Calon Wakil Ketua">
                                 <div>
                                     <InputLabel
                                         htmlFor="partner-name"

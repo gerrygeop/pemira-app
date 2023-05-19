@@ -5,7 +5,7 @@ export default function TextArea({ className, rows = "3", ...props }) {
         <textarea
             rows={rows}
             {...props}
-            className={`border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm ${className}`}
+            className={`focus:bg-slate-50 border-slate-300 focus:border-slate-500 focus:ring-slate-500 rounded-md shadow-sm ${className}`}
         ></textarea>
     );
 }

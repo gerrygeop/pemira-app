@@ -29,14 +29,14 @@ export function PlayButton({
     ...props
 }) {
     const theme = {
-        publish:
+        aktifkan:
             "text-white bg-indigo-600 hover:bg-indigo-500 focus:bg-indigo-500 active:bg-indigo-700",
         tutup: "text-white bg-red-600 hover:bg-red-500 focus:bg-red-500 active:bg-red-700",
         tunda: "text-black bg-slate-600/20 hover:bg-slate-500/50 focus:bg-slate-600/30",
     }[status];
 
     const icons = {
-        publish: <IconCheck className="w-5 h-5 -ml-0.5 mr-1.5" />,
+        aktifkan: <IconCheck className="w-5 h-5 -ml-0.5 mr-1.5" />,
         tutup: <IconX className="w-5 h-5 -ml-0.5 mr-1.5" />,
         tunda: <IconPlayerPause className="w-5 h-5 -ml-0.5 mr-1.5" />,
     }[status];
@@ -51,7 +51,7 @@ export function PlayButton({
             }
             disabled={disabled}
         >
-            {icons}
+            {icons ?? ""}
             {children}
         </button>
     );
