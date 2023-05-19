@@ -3,24 +3,31 @@ import { router } from "@inertiajs/react";
 import { IconPlus } from "@tabler/icons-react";
 import PrimaryButton from "@/Components/PrimaryButton";
 
-export default function TablePaslon({ pemira }) {
+export default function TablePaslon({ pemira, can }) {
     const handleOnCreate = (e) => {
         e.preventDefault();
         router.visit(route("d.pemira.paslon.create", pemira.id));
     };
 
     const handleOnShow = (paslonId) => {
-        router.visit(route("d.pemira.paslon.show", paslonId));
+        if (can.read_paslon) {
+            router.visit(route("d.pemira.paslon.show", paslonId));
+        }
     };
 
     return (
         <>
-            <div className="flex items-center justify-end">
-                <PrimaryButton type="button" onClick={(e) => handleOnCreate(e)}>
-                    <IconPlus className="w-5 h-5 -ml-0.5 mr-2" />
-                    Paslon
-                </PrimaryButton>
-            </div>
+            {pemira?.status !== "finished" && can.update_pemira && (
+                <div className="flex items-center justify-end">
+                    <PrimaryButton
+                        type="button"
+                        onClick={(e) => handleOnCreate(e)}
+                    >
+                        <IconPlus className="w-5 h-5 -ml-0.5 mr-2" />
+                        Paslon
+                    </PrimaryButton>
+                </div>
+            )}
             <Table>
                 <Table.Thead>
                     <tr>

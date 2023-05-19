@@ -12,11 +12,13 @@ import { toast } from "react-toastify";
 import Badge from "@/Components/Badge";
 import DateTime from "@/Components/DateTime";
 
-export default function Index({ pemiraList, flash }) {
+export default function Index({ pemiraList, can, flash }) {
     const [isShowingForm, setIsShowingForm] = useState(false);
 
     const handleRowClickOpenModal = (pemira) => {
-        router.visit(route("d.pemira.show", pemira.id));
+        if (can.read_pemira) {
+            router.visit(route("d.pemira.show", pemira.id));
+        }
     };
 
     useEffect(() => {
@@ -35,15 +37,17 @@ export default function Index({ pemiraList, flash }) {
             <Container>
                 <Board>
                     <Section>
-                        <div className="flex items-center justify-end">
-                            <PrimaryButton
-                                type="button"
-                                onClick={() => setIsShowingForm(true)}
-                            >
-                                <IconPlus className="w-5 h-5 -ml-0.5 mr-1.5" />
-                                Pemira baru
-                            </PrimaryButton>
-                        </div>
+                        {can.create_pemira && (
+                            <div className="flex items-center justify-end mb-4">
+                                <PrimaryButton
+                                    type="button"
+                                    onClick={() => setIsShowingForm(true)}
+                                >
+                                    <IconPlus className="w-5 h-5 -ml-0.5 mr-1.5" />
+                                    Pemira baru
+                                </PrimaryButton>
+                            </div>
+                        )}
                         <Table>
                             <Table.Thead>
                                 <tr>

@@ -25,6 +25,10 @@ class PemiraController extends Controller
         // return dd(Auth::guard('admin')->user()->pemira);
         return Inertia::render('Dapur/Pemira/Index', [
             'pemiraList' => Pemira::all(),
+            'can' => [
+                'create_pemira' => Auth::guard('admin')->user()->can('create_pemira'),
+                'read_pemira' => Auth::guard('admin')->user()->can('read_pemira'),
+            ]
         ]);
     }
 
@@ -32,8 +36,16 @@ class PemiraController extends Controller
     {
         return Inertia::render('Dapur/Pemira/Show', [
             'pemira' => $pemira->load('paslon'),
-            'utility' => [
-                'title' => $pemira->statusTitle()
+            'utils' => [
+                'title' => $pemira->statusTitle(),
+                'can' => [
+                    'update_pemira' => Auth::guard('admin')->user()->can('update_pemira'),
+                    'delete_pemira' => Auth::guard('admin')->user()->can('delete_pemira'),
+                    'create_paslon' => Auth::guard('admin')->user()->can('create_paslon'),
+                    'read_paslon' => Auth::guard('admin')->user()->can('read_paslon'),
+                    'create_admin' => Auth::guard('admin')->user()->can('create_admin'),
+                    'read_admin' => Auth::guard('admin')->user()->can('read_admin'),
+                ]
             ],
         ]);
     }

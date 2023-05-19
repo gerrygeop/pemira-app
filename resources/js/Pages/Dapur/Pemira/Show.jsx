@@ -2,7 +2,7 @@ import Modal from "@/Components/Modal";
 import DapurLayout from "@/Layouts/DapurLayout";
 import { Head, useForm } from "@inertiajs/react";
 import { useEffect, useState } from "react";
-import { IconAlertOctagonFilled } from "@tabler/icons-react";
+import { IconAlertOctagon, IconAlertOctagonFilled } from "@tabler/icons-react";
 import { toast } from "react-toastify";
 import FormPemira from "./FormPemira";
 import { PlayButton } from "@/Components/PrimaryButton";
@@ -13,7 +13,7 @@ import Badge from "@/Components/Badge";
 import TablePaslon from "../Paslon/TablePaslon";
 import DateTime from "@/Components/DateTime";
 
-export default function Show({ pemira, utility, flash }) {
+export default function Show({ pemira, utils, flash }) {
     const [isShowingModal, setIsShowingModal] = useState(false);
     const [editing, setEditing] = useState(false);
     const [confirmingDeletion, setConfirmingDeletion] = useState(false);
@@ -60,8 +60,6 @@ export default function Show({ pemira, utility, flash }) {
 
     return (
         <DapurLayout header="Pemira">
-            <Head title={pemira.nama_pemira} />
-
             <Container>
                 <Board>
                     <div className="py-4 px-4 sm:px-6 flex items-center justify-between">
@@ -72,15 +70,22 @@ export default function Show({ pemira, utility, flash }) {
                             <Badge status={pemira.status} />
                         </div>
 
-                        {pemira?.status !== "finished" && (
-                            <PlayButton
-                                type="button"
-                                onClick={(e) => onSwitchStatus(e)}
-                                status={utility.title}
-                                disabled={processing}
-                            >
-                                {utility.title}
-                            </PlayButton>
+                        {pemira?.status !== "finished" ? (
+                            utils.can.update_pemira && (
+                                <PlayButton
+                                    type="button"
+                                    onClick={(e) => onSwitchStatus(e)}
+                                    status={utils.title}
+                                    disabled={processing}
+                                >
+                                    {utils.title}
+                                </PlayButton>
+                            )
+                        ) : (
+                            <p className="font-medium flex items-center gap-x-2">
+                                <IconAlertOctagon />
+                                Pemira telah selesai
+                            </p>
                         )}
                     </div>
 
@@ -116,35 +121,39 @@ export default function Show({ pemira, utility, flash }) {
 
                     <div className="py-4 px-4 sm:px-6">
                         <div className="flex items-center justify-end gap-x-2">
-                            <SecondaryButton
-                                type="button"
-                                className="text-red-600"
-                                onClick={() => {
-                                    setIsShowingModal(true);
-                                    setConfirmingDeletion(true);
-                                    setEditing(false);
-                                }}
-                            >
-                                Hapus
-                            </SecondaryButton>
-                            <SecondaryButton
-                                type="button"
-                                className="text-gray-800"
-                                onClick={() => {
-                                    setIsShowingModal(true);
-                                    setEditing(true);
-                                    setConfirmingDeletion(false);
-                                }}
-                            >
-                                Edit
-                            </SecondaryButton>
+                            {utils.can.delete_pemira && (
+                                <SecondaryButton
+                                    type="button"
+                                    className="text-red-600"
+                                    onClick={() => {
+                                        setIsShowingModal(true);
+                                        setConfirmingDeletion(true);
+                                        setEditing(false);
+                                    }}
+                                >
+                                    Hapus
+                                </SecondaryButton>
+                            )}
+                            {utils.can.update_pemira && (
+                                <SecondaryButton
+                                    type="button"
+                                    className="text-gray-800"
+                                    onClick={() => {
+                                        setIsShowingModal(true);
+                                        setEditing(true);
+                                        setConfirmingDeletion(false);
+                                    }}
+                                >
+                                    Edit
+                                </SecondaryButton>
+                            )}
                         </div>
                     </div>
                 </Board>
 
                 <Board className="mt-8">
                     <Section>
-                        <TablePaslon pemira={pemira} />
+                        <TablePaslon pemira={pemira} can={utils.can} />
                     </Section>
                 </Board>
             </Container>
