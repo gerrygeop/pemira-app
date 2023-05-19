@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('creator_id');
             $table->string('nama_pemira');
             $table->string('slug');
-            $table->enum('status', ['inactive', 'active', 'pending'])->default('inactive');
+            $table->enum('status', ['inactive', 'active', 'pending', 'finished'])->default('inactive');
             $table->text('keterangan')->nullable();
             $table->dateTime('activated_at');
             $table->dateTime('finished_at');

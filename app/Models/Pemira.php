@@ -15,6 +15,7 @@ class Pemira extends Model
     protected $PEMIRA_ACTIVE = 'active';
     protected $PEMIRA_INACTIVE = 'inactive';
     protected $PEMIRA_PENDING = 'pending';
+    protected $PEMIRA_FINISHED = 'finished';
 
     protected $guarded = ['id'];
     protected $table = 'pemira';
