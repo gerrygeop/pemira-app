@@ -25,6 +25,7 @@ class PaslonRequest extends FormRequest
             'no_urut' => ['required', 'numeric'],
             'items.visi' => ['required', 'string'],
             'items.misi' => ['required', 'string'],
+            'photo_path' => ['file', 'max:5000', 'mimes:jpg,jepg,png'],
 
             'candidate.name' => ['required', 'string', 'max:200'],
             'candidate.profile.angkatan' => ['required', 'numeric'],

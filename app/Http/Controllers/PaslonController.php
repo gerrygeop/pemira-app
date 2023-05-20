@@ -6,7 +6,8 @@ use App\Http\Requests\PaslonRequest;
 use App\Models\Candidate;
 use App\Models\Paslon;
 use App\Models\Pemira;
-use Illuminate\Http\Request;
+use App\Validators\PaslonValidator;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
@@ -50,12 +51,19 @@ class PaslonController extends Controller
                 $new[$value] = $candidate->id;
             }
 
+            if (request()->hasFile('photo_path')) {
+                $url = $validated['photo_path']->hashName();
+                $validated['photo_path'] = $url;
+                request()->file('photo_path')->storeAs('foto-paslon/', $url);
+            }
+
             Paslon::create([
                 'pemira_id' => $validated['pemira_id'],
                 'candidate_id' => $new['candidate'],
                 'partner_id' => $new['partner'],
                 'no_urut' => $validated['no_urut'],
                 'items' => json_encode($validated['items']),
+                'photo_path' => $validated['photo_path'],
             ]);
         });
 
@@ -79,11 +87,21 @@ class PaslonController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(PaslonRequest $request, Paslon $paslon)
+    public function update(Paslon $paslon)
     {
-        $validated = $request->validated();
+        $extractData = request()->only('data');
+        $extractData = $extractData['data'];
+        $validated = (new PaslonValidator())->validate($paslon, $extractData);
 
         DB::transaction(function () use ($validated, $paslon) {
+            if (request()->hasFile('data.photo_path')) {
+                $url = $validated['photo_path']->hashName();
+                $validated['photo_path'] = $url;
+                request()->file('data.photo_path')->storeAs('foto-paslon/', $url);
+                $paslon->update([
+                    'photo_path' => $validated['photo_path'],
+                ]);
+            }
             Candidate::where('id', $paslon->candidate_id)->update([
                 'name' => $validated['candidate']['name'],
                 'profile' => json_encode($validated['candidate']['profile']),

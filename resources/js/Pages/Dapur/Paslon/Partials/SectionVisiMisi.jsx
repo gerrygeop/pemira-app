@@ -3,8 +3,17 @@ import InputError from "@/Components/InputError";
 import InputLabel from "@/Components/InputLabel";
 import TextArea from "@/Components/TextArea";
 import TextInput from "@/Components/TextInput";
+import { useState } from "react";
 
-export default function SectionVisiMisi({ data, handleChange, errors }) {
+export default function SectionVisiMisi({ data, handleChange, errors, photo }) {
+    const [file, setFile] = useState(
+        photo ? "/storage/foto-paslon/" + photo : ""
+    );
+
+    const previewImage = (e) => {
+        setFile(URL.createObjectURL(e.target.files[0]));
+        handleChange(e, true);
+    };
     return (
         <SectionTitle title="Visi & Misi">
             <div>
@@ -19,7 +28,6 @@ export default function SectionVisiMisi({ data, handleChange, errors }) {
                 />
                 <InputError message={errors.items} className="mt-2" />
             </div>
-
             <div>
                 <InputLabel htmlFor="misi" value="Misi" />
                 <TextArea
@@ -32,7 +40,6 @@ export default function SectionVisiMisi({ data, handleChange, errors }) {
                 />
                 <InputError message={errors.items} className="mt-2" />
             </div>
-
             <div>
                 <InputLabel htmlFor="no_urut" value="No Urut" />
                 <TextInput
@@ -46,6 +53,26 @@ export default function SectionVisiMisi({ data, handleChange, errors }) {
                 />
                 <InputError message={errors.no_urut} className="mt-2" />
             </div>
+            <div>
+                <InputLabel htmlFor="photo_path" value="Foto Paslon" />
+                <input
+                    type="file"
+                    id="photo_path"
+                    name="photo_path"
+                    onChange={(e) => previewImage(e)}
+                    className="mt-2 w-full text-sm text-slate-500 bg-slate-100 p-2 border rounded-md file:font-firasans file:mr-4 file:py-1.5 file:px-3 file:rounded file:border-0 file:text-sm file:font-medium file:tracking-wider file:bg-gray-700 file:text-gray-50 hover:file:bg-gray-800 focus:outline-none"
+                />
+                <InputError message={errors.photo_path} className="mt-2" />
+            </div>
+
+            {file && (
+                <div>
+                    <img
+                        src={file}
+                        className="max-h-52 w-auto shadow-sm border"
+                    />
+                </div>
+            )}
         </SectionTitle>
     );
 }

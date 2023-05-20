@@ -3,7 +3,6 @@ import PrimaryButton from "@/Components/PrimaryButton";
 import SecondaryButton from "@/Components/SecondaryButton";
 import DapurLayout from "@/Layouts/DapurLayout";
 import { Head, router, useForm } from "@inertiajs/react";
-import React from "react";
 import SectionVisiMisi from "./Partials/SectionVisiMisi";
 import SectionCandidate from "./Partials/SectionCandidate";
 import SectionPartner from "./Partials/SectionPartner";
@@ -13,7 +12,7 @@ export default function FormPaslon({ paslon = "", pemira = "", can }) {
         data,
         setData,
         post,
-        patch,
+        put,
         delete: destroy,
         processing,
         reset,
@@ -24,7 +23,7 @@ export default function FormPaslon({ paslon = "", pemira = "", can }) {
             visi: paslon.id ? JSON.parse(paslon?.items)?.visi : "",
             misi: paslon.id ? JSON.parse(paslon?.items)?.misi : "",
         },
-        photo_path: paslon.photo_path || "",
+        photo_path: "",
         candidate: {
             name: paslon.candidate?.name || "",
             profile: {
@@ -69,8 +68,10 @@ export default function FormPaslon({ paslon = "", pemira = "", can }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (paslon) {
-            patch(route("d.pemira.paslon.update", paslon.id), {
+        if (paslon.id) {
+            router.post(route("d.pemira.paslon.update", paslon.id), {
+                _method: "put",
+                data: data,
                 onSuccess: () => reset(),
             });
         } else {
@@ -85,7 +86,7 @@ export default function FormPaslon({ paslon = "", pemira = "", can }) {
         destroy(route("d.pemira.paslon.destroy", paslon.id));
     };
 
-    const handleChange = (e) => {
+    const handleChange = (e, file = false) => {
         const { name, value } = e.target;
         const keys = name.split(".");
 
@@ -97,7 +98,11 @@ export default function FormPaslon({ paslon = "", pemira = "", can }) {
                 const key = keys[i];
 
                 if (i === keys.length - 1) {
-                    currentObj[key] = value;
+                    if (file) {
+                        currentObj[key] = e.target.files[0];
+                    } else {
+                        currentObj[key] = value;
+                    }
                 } else {
                     if (!currentObj[key]) {
                         currentObj[key] = {};
@@ -145,6 +150,7 @@ export default function FormPaslon({ paslon = "", pemira = "", can }) {
                                 data={data}
                                 handleChange={handleChange}
                                 errors={errors}
+                                photo={paslon?.photo_path || ""}
                             />
                         </Section>
 

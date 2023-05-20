@@ -57,7 +57,12 @@ export default function TablePaslon({ pemira, can }) {
                                             <img
                                                 className="h-auto w-32 rounded"
                                                 loading="lazy"
-                                                src="https://i.ibb.co/n1kN7qv/default-paslon-photo.jpg"
+                                                src={
+                                                    paslon?.photo_path
+                                                        ? "/storage/foto-paslon/" +
+                                                          paslon.photo_path
+                                                        : "https://i.ibb.co/n1kN7qv/default-paslon-photo.jpg"
+                                                }
                                                 alt={paslon.no_urut}
                                             />
                                         </div>
