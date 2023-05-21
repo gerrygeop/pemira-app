@@ -53,7 +53,7 @@ export default function Navbar({ header }) {
                                 <Dropdown.Content>
                                     {guard === "admin" && (
                                         <Dropdown.Link
-                                            href={route("profile.edit")}
+                                            href={route("d.profile.edit")}
                                         >
                                             Profile
                                         </Dropdown.Link>
@@ -136,7 +136,7 @@ export default function Navbar({ header }) {
 
                     <div className="mt-3 space-y-1">
                         {guard === "admin" && (
-                            <ResponsiveNavLink href={route("profile.edit")}>
+                            <ResponsiveNavLink href={route("d.profile.edit")}>
                                 Profile
                             </ResponsiveNavLink>
                         )}

@@ -17,7 +17,7 @@ export default function UpdateProfileInformation({ className = "" }) {
     const submit = (e) => {
         e.preventDefault();
 
-        patch(route("profile.update"));
+        patch(route("d.profile.update"));
     };
 
     return (

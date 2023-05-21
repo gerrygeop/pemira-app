@@ -1,10 +1,12 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Dapur\Auth\AdminPasswordController;
 use App\Http\Controllers\Dapur\Auth\AdminAuthenticatedSessionController;
 use App\Http\Controllers\Dapur\Auth\RegisteredAdminController;
 use App\Http\Controllers\PaslonController;
 use App\Http\Controllers\PemiraController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -38,11 +40,17 @@ Route::prefix('d')->name('d.')->group(function () {
             Route::resource('paslon', PaslonController::class)->except('create', 'store', 'index');
         });
 
+        // Panitia
+        Route::resource('panitia', AdminController::class);
+
         // Roles & Permissions
         Route::resource('roles', RoleController::class)->except(['show', 'create', 'edit']);
 
+        Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+        Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+        Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
         // User update|profile|password|logout
-        Route::get('register', [RegisteredAdminController::class, 'create'])->name('register');
         Route::post('register', [RegisteredAdminController::class, 'store'])->name('register.store');
         Route::put('password', [AdminPasswordController::class, 'update'])->name('password.update');
         Route::post('logout', [AdminAuthenticatedSessionController::class, 'destroy'])->name('logout');
