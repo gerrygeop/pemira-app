@@ -136,11 +136,7 @@ export default function FormRole({ closeModal, permissions, role }) {
                 <InputError message={errors.permissions} className="mt-2" />
             </div>
 
-            <div
-                className={`mt-8 flex items-center ${
-                    role ? "justify-between" : "justify-end"
-                }`}
-            >
+            <div className="mt-8 flex items-center justify-between">
                 {role && (
                     <button
                         type="button"
