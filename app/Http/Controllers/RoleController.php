@@ -13,7 +13,7 @@ class RoleController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('can:all_access');
+        $this->middleware('can:cooking');
     }
 
     /**

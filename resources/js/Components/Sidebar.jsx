@@ -6,7 +6,7 @@ import {
     IconBuildingBank,
 } from "@tabler/icons-react";
 
-export default function Sidebar() {
+export default function Sidebar({ can }) {
     return (
         <div className="fixed hidden lg:block lg:w-64">
             <div className="flex flex-col md:h-screen bg-gray-700 py-6 px-2">
@@ -27,23 +27,27 @@ export default function Sidebar() {
                         <span className="tracking-wide">Dashboard</span>
                     </SideLink>
 
-                    <SideLink
-                        href={route("d.pemira.index")}
-                        active={route().current("d.pemira.*")}
-                    >
-                        <IconBuildingBank />
-                        <span className="tracking-wide">Pemira</span>
-                    </SideLink>
+                    {can.read_pemira && (
+                        <SideLink
+                            href={route("d.pemira.index")}
+                            active={route().current("d.pemira.*")}
+                        >
+                            <IconBuildingBank />
+                            <span className="tracking-wide">Pemira</span>
+                        </SideLink>
+                    )}
 
-                    <SideLink
-                        href={route("d.roles.index")}
-                        active={route().current("d.roles.*")}
-                    >
-                        <IconShieldLock />
-                        <span className="tracking-wide">
-                            Roles & Permissions
-                        </span>
-                    </SideLink>
+                    {can.cooking && (
+                        <SideLink
+                            href={route("d.roles.index")}
+                            active={route().current("d.roles.*")}
+                        >
+                            <IconShieldLock />
+                            <span className="tracking-wide">
+                                Roles & Permissions
+                            </span>
+                        </SideLink>
+                    )}
                 </nav>
             </div>
         </div>

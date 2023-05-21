@@ -19,7 +19,7 @@ class RoleSeeder extends Seeder
         ]);
 
         DB::table('permissions')->insert([
-            ['name' => 'all_access'],
+            ['name' => 'cooking'],
 
             ['name' => 'create_pemira'],
             ['name' => 'read_pemira'],
