@@ -27,7 +27,7 @@ export default function Sidebar({ can }) {
                         <span className="tracking-wide">Dashboard</span>
                     </SideLink>
 
-                    {can.read_pemira && (
+                    {can.includes("read_pemira") && (
                         <SideLink
                             href={route("d.pemira.index")}
                             active={route().current("d.pemira.*")}
@@ -37,7 +37,7 @@ export default function Sidebar({ can }) {
                         </SideLink>
                     )}
 
-                    {can.cooking && (
+                    {can.includes("cooking") && (
                         <SideLink
                             href={route("d.roles.index")}
                             active={route().current("d.roles.*")}

@@ -7,7 +7,6 @@ import "react-toastify/dist/ReactToastify.css";
 export default function DapurLayout({ header, children }) {
     const { auth } = usePage().props;
 
-    console.log(auth?.user?.permisison);
     return (
         <div className="min-h-screen bg-[#f0f2f5] flex flex-col lg:flex-row">
             <Sidebar can={auth.user?.permission} />
