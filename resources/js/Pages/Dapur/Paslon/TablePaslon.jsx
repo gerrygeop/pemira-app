@@ -10,14 +10,14 @@ export default function TablePaslon({ pemira, can }) {
     };
 
     const handleOnShow = (paslonId) => {
-        if (can.read_paslon) {
+        if (can?.read_paslon) {
             router.visit(route("d.pemira.paslon.edit", paslonId));
         }
     };
 
     return (
         <>
-            {pemira?.status !== "finished" && can.update_pemira && (
+            {pemira?.status !== "finished" && can?.update_pemira && (
                 <div className="flex items-center justify-end">
                     <PrimaryButton
                         type="button"
@@ -34,7 +34,9 @@ export default function TablePaslon({ pemira, can }) {
                         <Table.Th scope="col" className="w-10 md:w-32">
                             No
                         </Table.Th>
-                        <Table.Th scope="col">Calon</Table.Th>
+                        <Table.Th scope="col" colSpan="2">
+                            Calon
+                        </Table.Th>
                     </tr>
                 </Table.Thead>
                 <Table.Tbody>
@@ -51,28 +53,28 @@ export default function TablePaslon({ pemira, can }) {
                                         {paslon.no_urut}
                                     </span>
                                 </Table.Td>
+                                <Table.Td className="w-40">
+                                    <div className="flex-shrink-0">
+                                        <img
+                                            className="h-20 max-w-[150px] mx-auto rounded border"
+                                            loading="lazy"
+                                            src={
+                                                paslon?.photo_path
+                                                    ? "/storage/foto-paslon/" +
+                                                      paslon.photo_path
+                                                    : "https://i.ibb.co/n1kN7qv/default-paslon-photo.jpg"
+                                            }
+                                            alt={paslon.no_urut}
+                                        />
+                                    </div>
+                                </Table.Td>
                                 <Table.Td>
-                                    <div className="flex items-center gap-x-4">
-                                        <div className="flex-shrink-0">
-                                            <img
-                                                className="h-auto w-32 rounded"
-                                                loading="lazy"
-                                                src={
-                                                    paslon?.photo_path
-                                                        ? "/storage/foto-paslon/" +
-                                                          paslon.photo_path
-                                                        : "https://i.ibb.co/n1kN7qv/default-paslon-photo.jpg"
-                                                }
-                                                alt={paslon.no_urut}
-                                            />
-                                        </div>
-                                        <div className="flex items-center text-lg font-semibold">
-                                            {paslon.candidate?.name}
-                                            <span className="mx-2 text-base font-normal">
-                                                &
-                                            </span>
-                                            {paslon.partner?.name}
-                                        </div>
+                                    <div className="flex items-center text-lg font-semibold">
+                                        {paslon.candidate?.name}
+                                        <span className="mx-2 text-base font-normal">
+                                            &
+                                        </span>
+                                        {paslon.partner?.name}
                                     </div>
                                 </Table.Td>
                             </tr>
