@@ -30,36 +30,16 @@ export default function Show({ pemira, utils, flash }) {
         destroy(route("d.pemira.destroy", pemira.id));
     };
 
-    const toastMessage = (message, type = "success") => {
-        if (type === "danger") {
-            toast.error(message, {
-                autoClose: 3000,
-                pauseOnHover: false,
-            });
-        } else {
-            toast.success(message, {
-                autoClose: 3000,
-                pauseOnHover: false,
-            });
-        }
+    const toastMessage = (message) => {
+        toast.success(message, {
+            autoClose: 3000,
+            pauseOnHover: false,
+        });
     };
 
     useEffect(() => {
-        if (flash.status === "New Pemira") {
-            toastMessage("Pemira berhasil dibuat");
-        } else if (flash.status === "active") {
-            toastMessage("Pemira diaktifkan");
-        } else if (flash.status === "inactive") {
-            toastMessage("Pemira dinonaktifkan");
-        } else if (flash.status === "pending") {
-            toastMessage("Pemira ditunda");
-        } else if (flash.status === "New Paslon") {
-            toastMessage("Paslon berhasil ditambahkan");
-        } else if (flash.status === "Update Paslon") {
-            toastMessage("Paslon berhasil diperbarui");
-        } else if (flash.status === "Delete Paslon") {
-            toastMessage("Paslon berhasil dihapus");
-        }
+        toastMessage(flash.status?.message);
+        console.log(flash.status);
     }, [flash.status]);
 
     return (
@@ -75,7 +55,7 @@ export default function Show({ pemira, utils, flash }) {
                         </div>
 
                         {pemira?.status !== "finished" ? (
-                            utils.can.update_pemira && (
+                            utils?.can?.update_pemira && (
                                 <PlayButton
                                     type="button"
                                     onClick={(e) => onSwitchStatus(e)}
@@ -125,7 +105,7 @@ export default function Show({ pemira, utils, flash }) {
 
                     <div className="py-4 px-4 sm:px-6">
                         <div className="flex items-center justify-end gap-x-2">
-                            {utils.can.delete_pemira && (
+                            {utils?.can?.delete_pemira && (
                                 <SecondaryButton
                                     type="button"
                                     className="text-red-600"
@@ -138,7 +118,7 @@ export default function Show({ pemira, utils, flash }) {
                                     Hapus
                                 </SecondaryButton>
                             )}
-                            {utils.can.update_pemira && (
+                            {utils?.can?.update_pemira && (
                                 <SecondaryButton
                                     type="button"
                                     className="text-gray-800"

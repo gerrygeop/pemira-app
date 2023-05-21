@@ -42,7 +42,7 @@ class PaslonController extends Controller
         $validated = $request->validated();
         $validated['pemira_id'] = $pemira;
 
-        DB::transaction(function () use ($validated) {
+        $paslon = DB::transaction(function () use ($validated) {
             $new = [];
             foreach (['candidate', 'partner'] as $value) {
                 $candidate = Candidate::create([
@@ -58,7 +58,7 @@ class PaslonController extends Controller
                 request()->file('photo_path')->storeAs('foto-paslon/', $url);
             }
 
-            Paslon::create([
+            $paslon = Paslon::create([
                 'pemira_id' => $validated['pemira_id'],
                 'candidate_id' => $new['candidate'],
                 'partner_id' => $new['partner'],
@@ -66,9 +66,14 @@ class PaslonController extends Controller
                 'items' => json_encode($validated['items']),
                 'photo_path' => $validated['photo_path'],
             ]);
+
+            return $paslon;
         });
 
-        return to_route('d.pemira.show', $pemira)->with('status', 'New Paslon');
+        return to_route('d.pemira.show', $pemira)
+            ->with('status', [
+                'message' => 'Paslon No ' . $paslon->no_urut . ' berhasil dibuat'
+            ]);
     }
 
     /**
@@ -105,6 +110,10 @@ class PaslonController extends Controller
             ]);
 
             if (request()->hasFile('data.photo_path')) {
+                if (Storage::disk('public')->exists('foto-paslon/' . $paslon->photo_path)) {
+                    Storage::disk('public')->delete('foto-paslon/' . $paslon->photo_path);
+                }
+
                 $url = $validated['photo_path']->hashName();
                 $validated['photo_path'] = $url;
                 request()->file('data.photo_path')->storeAs('foto-paslon/', $url);
@@ -122,7 +131,10 @@ class PaslonController extends Controller
             }
         });
 
-        return to_route('d.pemira.show', $paslon->pemira_id)->with('status', 'Update Paslon');
+        return to_route('d.pemira.show', $paslon->pemira_id)
+            ->with('status', [
+                'message' => 'Paslon No ' . $paslon->no_urut . ' berhasil diperbarui'
+            ]);
     }
 
     /**
@@ -134,8 +146,12 @@ class PaslonController extends Controller
             Storage::disk('public')->delete('foto-paslon/' . $paslon->photo_path);
         }
 
-        $pemira_id = $paslon->pemira_id;
+        $temp = $paslon;
         $paslon->delete();
-        return to_route('d.pemira.show', $pemira_id)->with('status', 'Delete Paslon');
+
+        return to_route('d.pemira.show', $temp->pemira_id)
+            ->with('status', [
+                'message' => 'Paslon No ' . $temp->no_urut . ' berhasil dihapus'
+            ]);
     }
 }

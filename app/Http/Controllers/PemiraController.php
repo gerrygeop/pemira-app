@@ -70,7 +70,7 @@ class PemiraController extends Controller
             return $pemira;
         });
 
-        return to_route('d.pemira.show', $pemira)->with('status', 'New Pemira');
+        return to_route('d.pemira.show', $pemira)->with('status', ['message' => $pemira->nama_pemira . ' berhasil dibuat']);
     }
 
     /**
@@ -90,7 +90,7 @@ class PemiraController extends Controller
             $pemira->update($validated);
         });
 
-        return to_route('d.pemira.show', $pemira);
+        return to_route('d.pemira.show', ['message' => $pemira->nama_pemira . ' berhasil diperbarui']);
     }
 
     /**
@@ -98,8 +98,9 @@ class PemiraController extends Controller
      */
     public function destroy(Pemira $pemira)
     {
+        $pemira_name = $pemira->nama_pemira;
         $pemira->delete();
-        return to_route('d.pemira.index')->with('status', 'Delete');
+        return to_route('d.pemira.index')->with('status', ['message' => $pemira_name . ' dihapus']);
     }
 
     /**
@@ -108,6 +109,6 @@ class PemiraController extends Controller
     public function switchable(Pemira $pemira)
     {
         $pemira->toggleStatus();
-        return back()->with('status', $pemira->status);
+        return back()->with('status', ['message' => str()->title($pemira->status)]);
     }
 }
