@@ -6,13 +6,16 @@ import { Head, router, useForm } from "@inertiajs/react";
 import SectionVisiMisi from "./Partials/SectionVisiMisi";
 import SectionCandidate from "./Partials/SectionCandidate";
 import SectionPartner from "./Partials/SectionPartner";
+import { useState } from "react";
+import Modal from "@/Components/Modal";
+import { IconAlertOctagonFilled } from "@tabler/icons-react";
+import DangerButton from "@/Components/DangerButton";
 
 export default function FormPaslon({ paslon = "", pemira = "", can }) {
     const {
         data,
         setData,
         post,
-        put,
         delete: destroy,
         processing,
         reset,
@@ -65,6 +68,8 @@ export default function FormPaslon({ paslon = "", pemira = "", can }) {
             },
         },
     });
+
+    const [confirmingDeletion, setConfirmingDeletion] = useState(false);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -160,7 +165,9 @@ export default function FormPaslon({ paslon = "", pemira = "", can }) {
                                     <SecondaryButton
                                         type="button"
                                         className="text-red-600"
-                                        onClick={(e) => onDelete(e)}
+                                        onClick={() =>
+                                            setConfirmingDeletion(true)
+                                        }
                                     >
                                         Hapus
                                     </SecondaryButton>
@@ -182,6 +189,38 @@ export default function FormPaslon({ paslon = "", pemira = "", can }) {
                     </Board>
                 </form>
             </Container>
+
+            <Modal
+                show={confirmingDeletion}
+                onClose={() => setConfirmingDeletion(false)}
+                maxWidth="2xl"
+            >
+                <div className="p-6 flex items-center">
+                    <IconAlertOctagonFilled
+                        className="text-red-600 mr-3 animate-pulse"
+                        size={32}
+                    />
+                    <p className="text-gray-700 text-lg font-medium">
+                        Yakin ingin menghapus Paslon {paslon.candidate?.name}{" "}
+                        {paslon?.partner?.name && " & " + paslon.partner.name}
+                    </p>
+                </div>
+                <div className="flex items-center justify-end gap-x-4 bg-gray-100 px-6 py-4">
+                    <SecondaryButton
+                        type="button"
+                        onClick={() => setConfirmingDeletion(false)}
+                    >
+                        Batal
+                    </SecondaryButton>
+                    <DangerButton
+                        type="button"
+                        onClick={(e) => onDelete(e)}
+                        disabled={processing}
+                    >
+                        Hapus
+                    </DangerButton>
+                </div>
+            </Modal>
         </DapurLayout>
     );
 }

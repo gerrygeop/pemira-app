@@ -10,6 +10,7 @@ use App\Validators\PaslonValidator;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -94,14 +95,6 @@ class PaslonController extends Controller
         $validated = (new PaslonValidator())->validate($paslon, $extractData);
 
         DB::transaction(function () use ($validated, $paslon) {
-            if (request()->hasFile('data.photo_path')) {
-                $url = $validated['photo_path']->hashName();
-                $validated['photo_path'] = $url;
-                request()->file('data.photo_path')->storeAs('foto-paslon/', $url);
-                $paslon->update([
-                    'photo_path' => $validated['photo_path'],
-                ]);
-            }
             Candidate::where('id', $paslon->candidate_id)->update([
                 'name' => $validated['candidate']['name'],
                 'profile' => json_encode($validated['candidate']['profile']),
@@ -111,10 +104,22 @@ class PaslonController extends Controller
                 'profile' => json_encode($validated['partner']['profile']),
             ]);
 
-            $paslon->update([
-                'no_urut' => $validated['no_urut'],
-                'items' => json_encode($validated['items']),
-            ]);
+            if (request()->hasFile('data.photo_path')) {
+                $url = $validated['photo_path']->hashName();
+                $validated['photo_path'] = $url;
+                request()->file('data.photo_path')->storeAs('foto-paslon/', $url);
+
+                $paslon->update([
+                    'no_urut' => $validated['no_urut'],
+                    'items' => json_encode($validated['items']),
+                    'photo_path' => $validated['photo_path'],
+                ]);
+            } else {
+                $paslon->update([
+                    'no_urut' => $validated['no_urut'],
+                    'items' => json_encode($validated['items']),
+                ]);
+            }
         });
 
         return to_route('d.pemira.show', $paslon->pemira_id)->with('status', 'Update Paslon');
@@ -125,6 +130,12 @@ class PaslonController extends Controller
      */
     public function destroy(Paslon $paslon)
     {
-        //
+        if (Storage::disk('public')->exists('foto-paslon/' . $paslon->photo_path)) {
+            Storage::disk('public')->delete('foto-paslon/' . $paslon->photo_path);
+        }
+
+        $pemira_id = $paslon->pemira_id;
+        $paslon->delete();
+        return to_route('d.pemira.show', $pemira_id)->with('status', 'Delete Paslon');
     }
 }
