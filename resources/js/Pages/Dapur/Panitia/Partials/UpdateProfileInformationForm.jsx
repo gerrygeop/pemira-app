@@ -23,7 +23,6 @@ export default function UpdateProfileInformation({
         patch(route("d.panitia.update-information", user));
     };
 
-    console.log(user);
     return (
         <section className={className}>
             <header>

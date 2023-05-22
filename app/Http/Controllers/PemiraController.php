@@ -109,6 +109,6 @@ class PemiraController extends Controller
     public function switchable(Pemira $pemira)
     {
         $pemira->toggleStatus();
-        return back()->with('status', ['message' => str()->title($pemira->status)]);
+        return back()->with('status', ['message' => 'Pemira ' . str()->title($pemira->status)]);
     }
 }

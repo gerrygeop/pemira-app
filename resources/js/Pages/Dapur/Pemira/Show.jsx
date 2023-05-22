@@ -39,7 +39,6 @@ export default function Show({ pemira, utils, flash }) {
 
     useEffect(() => {
         toastMessage(flash.status?.message);
-        console.log(flash.status);
     }, [flash.status]);
 
     return (
