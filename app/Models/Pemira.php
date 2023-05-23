@@ -66,18 +66,4 @@ class Pemira extends Model
         $this->status = $status;
         $this->save();
     }
-
-    public function statusTitle()
-    {
-        if ($this->status !== $this->PEMIRA_ACTIVE) {
-            return 'aktifkan';
-        }
-        if ($this->status !== $this->PEMIRA_INACTIVE) {
-            return 'tutup';
-        }
-        if ($this->status !== $this->PEMIRA_PENDING) {
-            return 'tunda';
-        }
-        return 'selesai';
-    }
 }

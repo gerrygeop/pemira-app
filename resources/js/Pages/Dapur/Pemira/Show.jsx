@@ -58,11 +58,10 @@ export default function Show({ pemira, utils, flash }) {
                                 <PlayButton
                                     type="button"
                                     onClick={(e) => onSwitchStatus(e)}
-                                    status={utils.title}
+                                    status={pemira.status}
+                                    activatedAt={pemira.activated_at}
                                     disabled={processing}
-                                >
-                                    {utils.title}
-                                </PlayButton>
+                                />
                             )
                         ) : (
                             <p className="font-medium flex items-center gap-x-2">

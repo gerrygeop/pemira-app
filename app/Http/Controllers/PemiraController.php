@@ -37,7 +37,6 @@ class PemiraController extends Controller
         return Inertia::render('Dapur/Pemira/Show', [
             'pemira' => $pemira->load('paslon', 'admins'),
             'utils' => [
-                'title' => $pemira->statusTitle(),
                 'can' => [
                     'update_pemira' => Auth::guard('admin')->user()->can('update_pemira'),
                     'delete_pemira' => Auth::guard('admin')->user()->can('delete_pemira'),
@@ -90,7 +89,7 @@ class PemiraController extends Controller
             $pemira->update($validated);
         });
 
-        return to_route('d.pemira.show', ['message' => $pemira->nama_pemira . ' berhasil diperbarui']);
+        return to_route('d.pemira.show', $pemira)->with(['message' => $pemira->nama_pemira . ' berhasil diperbarui']);
     }
 
     /**
