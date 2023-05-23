@@ -1,6 +1,6 @@
 import Modal from "@/Components/Modal";
 import DapurLayout from "@/Layouts/DapurLayout";
-import { Head, useForm } from "@inertiajs/react";
+import { useForm, usePage } from "@inertiajs/react";
 import { useEffect, useState } from "react";
 import { IconAlertOctagon, IconAlertOctagonFilled } from "@tabler/icons-react";
 import { toast } from "react-toastify";
@@ -12,8 +12,12 @@ import SecondaryButton from "@/Components/SecondaryButton";
 import Badge from "@/Components/Badge";
 import TablePaslon from "../Paslon/TablePaslon";
 import DateTime from "@/Components/DateTime";
+import TablePanitia from "../Panitia/TablePanitia";
 
-export default function Show({ pemira, utils, flash }) {
+export default function Show({ pemira, roles, flash }) {
+    const { auth } = usePage().props;
+    const permissions = auth.user?.permission;
+
     const [isShowingModal, setIsShowingModal] = useState(false);
     const [editing, setEditing] = useState(false);
     const [confirmingDeletion, setConfirmingDeletion] = useState(false);
@@ -54,7 +58,7 @@ export default function Show({ pemira, utils, flash }) {
                         </div>
 
                         {pemira?.status !== "finished" ? (
-                            utils?.can?.update_pemira && (
+                            permissions.includes("update_pemira") && (
                                 <PlayButton
                                     type="button"
                                     onClick={(e) => onSwitchStatus(e)}
@@ -103,7 +107,7 @@ export default function Show({ pemira, utils, flash }) {
 
                     <div className="py-4 px-4 sm:px-6">
                         <div className="flex items-center justify-end gap-x-2">
-                            {utils?.can?.delete_pemira && (
+                            {permissions.includes("delete_pemira") && (
                                 <SecondaryButton
                                     type="button"
                                     className="text-red-600"
@@ -116,7 +120,7 @@ export default function Show({ pemira, utils, flash }) {
                                     Hapus
                                 </SecondaryButton>
                             )}
-                            {utils?.can?.update_pemira && (
+                            {permissions.includes("update_pemira") && (
                                 <SecondaryButton
                                     type="button"
                                     className="text-gray-800"
@@ -133,11 +137,13 @@ export default function Show({ pemira, utils, flash }) {
                     </div>
                 </Board>
 
-                <Board className="mt-8">
-                    <Section>
-                        <TablePaslon pemira={pemira} can={utils.can} />
-                    </Section>
-                </Board>
+                <div className="mt-8">
+                    <TablePaslon pemira={pemira} />
+                </div>
+
+                <div className="mt-8">
+                    <TablePanitia pemira={pemira} roles={roles} />
+                </div>
             </Container>
 
             <Modal

@@ -20,7 +20,7 @@ export default function UpdateProfileInformation({
 
     const submit = (e) => {
         e.preventDefault();
-        patch(route("d.panitia.update-information", user));
+        patch(route("d.pemira.panitia.update-information", user));
     };
 
     return (

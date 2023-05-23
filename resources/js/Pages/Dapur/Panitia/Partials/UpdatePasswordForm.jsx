@@ -19,7 +19,7 @@ export default function UpdatePasswordForm({ user, className = "", status }) {
     const updatePassword = (e) => {
         e.preventDefault();
 
-        patch(route("d.panitia.update-password", user), {
+        patch(route("d.pemira.panitia.update-password", user), {
             preserveScroll: true,
             onSuccess: () => reset(),
             onError: (errors) => {

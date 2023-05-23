@@ -7,7 +7,7 @@ import { useForm } from "@inertiajs/react";
 import SecondaryButton from "@/Components/SecondaryButton";
 import Select from "@/Components/Select";
 
-export default function Register({ roles, ...props }) {
+export default function Register({ pemira, roles, ...props }) {
     const { data, setData, post, processing, errors, reset } = useForm({
         name: "",
         username: "",
@@ -24,7 +24,7 @@ export default function Register({ roles, ...props }) {
 
     const submit = (e) => {
         e.preventDefault();
-        post(route("d.panitia.store"), {
+        post(route("d.pemira.panitia.store", pemira), {
             onSuccess: () => handleCloseForm(),
         });
     };
@@ -117,16 +117,13 @@ export default function Register({ roles, ...props }) {
 
                 <Select
                     id="role"
+                    defaultValue={data?.role}
                     onChange={(e) => setData("role", e.target.value)}
                     className="mt-1 block w-full uppercase"
                 >
                     {roles.length > 0 ? (
                         roles.map((role) => (
-                            <option
-                                key={role.id}
-                                value={role.id}
-                                selected={role.id === data?.role}
-                            >
+                            <option key={role.id} value={role.id}>
                                 {role.name}
                             </option>
                         ))

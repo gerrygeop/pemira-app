@@ -8,7 +8,12 @@ import TextInput from "@/Components/TextInput";
 import { useForm } from "@inertiajs/react";
 import { Transition } from "@headlessui/react";
 
-export default function DeleteUserForm({ user, className = "", status }) {
+export default function DeleteUserForm({
+    user,
+    pemira,
+    className = "",
+    status,
+}) {
     const [confirmingUserDeletion, setConfirmingUserDeletion] = useState(false);
     const passwordInput = useRef();
 
@@ -30,7 +35,7 @@ export default function DeleteUserForm({ user, className = "", status }) {
     const deleteUser = (e) => {
         e.preventDefault();
 
-        destroy(route("d.panitia.destroy", user), {
+        destroy(route("d.pemira.panitia.destroy", [pemira, user]), {
             preserveScroll: true,
             onSuccess: () => closeModal(),
             onError: () => passwordInput.current.focus(),
