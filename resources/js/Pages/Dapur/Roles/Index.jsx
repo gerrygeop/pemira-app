@@ -3,12 +3,13 @@ import Modal from "@/Components/Modal";
 import Table from "@/Components/Table";
 import DapurLayout from "@/Layouts/DapurLayout";
 import { Head } from "@inertiajs/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IconPlus } from "@tabler/icons-react";
 import FormRole from "./FormRole";
 import PrimaryButton from "@/Components/PrimaryButton";
+import { toast } from "react-toastify";
 
-export default function Index({ roles, permissions }) {
+export default function Index({ roles, permissions, flash }) {
     const [role, setRole] = useState(null);
     const [isShowingForm, setIsShowingForm] = useState(false);
 
@@ -25,6 +26,17 @@ export default function Index({ roles, permissions }) {
         setIsShowingForm(false);
         setRole(null);
     };
+
+    const toastMessage = (message) => {
+        toast.success(message, {
+            autoClose: 3000,
+            pauseOnHover: false,
+        });
+    };
+
+    useEffect(() => {
+        toastMessage(flash.status?.message);
+    }, [flash.status]);
 
     return (
         <DapurLayout header="Roles & Permissions">
@@ -66,16 +78,14 @@ export default function Index({ roles, permissions }) {
                                         <Table.Td>
                                             {role.permissions
                                                 .slice(0, 3)
-                                                .map(
-                                                    (permission, iteration) => (
-                                                        <span
-                                                            key={permission.id}
-                                                            className="px-1 mr-1.5 bg-yellow-50 text-yellow-800 ring-1 ring-yellow-600/20 rounded"
-                                                        >
-                                                            {permission.name}
-                                                        </span>
-                                                    )
-                                                )}
+                                                .map((permission) => (
+                                                    <span
+                                                        key={permission.id}
+                                                        className="px-1 mr-1.5 bg-yellow-50 text-yellow-800 ring-1 ring-yellow-600/20 rounded"
+                                                    >
+                                                        {permission.name}
+                                                    </span>
+                                                ))}
                                             {role.permissions.length > 3 &&
                                                 " ..."}
                                         </Table.Td>

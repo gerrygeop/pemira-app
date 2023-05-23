@@ -43,7 +43,7 @@ class RoleController extends Controller
             return $role;
         });
 
-        return to_route('d.roles.index')->with('status', $role->name . ' berhasil dibuat');
+        return to_route('d.roles.index')->with('status', ['message' => $role->name . ' berhasil dibuat']);
     }
 
     /**
@@ -61,7 +61,7 @@ class RoleController extends Controller
             $role->allowTo($validated['permissions']);
         });
 
-        return to_route('d.roles.index')->with('status', $role->name . ' berhasil diupdate');
+        return to_route('d.roles.index')->with('status', ['message' => $role->name . ' berhasil diupdate']);
     }
 
     /**
@@ -69,8 +69,8 @@ class RoleController extends Controller
      */
     public function destroy(Role $role)
     {
-        $roleName = $role->name;
+        $name = $role->name;
         $role->delete();
-        return back()->with('status', $roleName . ' berhasil dihapus');
+        return to_route('d.roles.index')->with('status', ['message' => $name . ' berhasil dihapus']);
     }
 }
