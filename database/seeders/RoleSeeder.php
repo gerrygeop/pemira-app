@@ -35,6 +35,11 @@ class RoleSeeder extends Seeder
             ['name' => 'read_voting'],
             ['name' => 'update_voting'],
             ['name' => 'delete_voting'],
+
+            ['name' => 'create_admin'],
+            ['name' => 'read_admin'],
+            ['name' => 'update_admin'],
+            ['name' => 'delete_admin'],
         ]);
 
         DB::table('permission_role')->insert([
