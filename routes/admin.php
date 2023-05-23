@@ -32,20 +32,21 @@ Route::prefix('d')->name('d.')->group(function () {
         Route::resource('pemira', PemiraController::class);
         Route::patch('pemira/switchable/{pemira}', [PemiraController::class, 'switchable'])->name('pemira.switchable');
 
-        // Paslon
+        // Paslon & Panitia
         Route::prefix('pemira')->name('pemira.')->group(function () {
+            // Paslon
             Route::get('paslon/create/{pemira}', [PaslonController::class, 'create'])->name('paslon.create');
             Route::post('paslon/{pemira}', [PaslonController::class, 'store'])->name('paslon.store');
             Route::resource('paslon', PaslonController::class)->except('create', 'store', 'index');
+
+            // Panitia
+            Route::get('{pemira}/panitia/{panitia}/edit', [PanitiaController::class, 'edit'])->name('panitia.edit');
+            Route::post('{pemira}/panitia', [PanitiaController::class, 'store'])->name('panitia.store');
+            Route::patch('/panitia/{panitia}', [PanitiaController::class, 'updateInformation'])->name('panitia.update-information');
+            Route::patch('/panitia/{panitia}/password', [PanitiaController::class, 'updatePassword'])->name('panitia.update-password');
+            Route::delete('{pemira}/panitia/{panitia}', [PanitiaController::class, 'destroy'])->name('panitia.destroy');
         });
 
-        // Panitia
-        Route::resource('panitia', PanitiaController::class)->parameters([
-            'panitia' => 'panitia'
-        ])->except(['show', 'create', 'update']);
-
-        Route::patch('/panitia/{panitia}', [PanitiaController::class, 'updateInformation'])->name('panitia.update-information');
-        Route::patch('/panitia/{panitia}/password', [PanitiaController::class, 'updatePassword'])->name('panitia.update-password');
 
         // Roles & Permissions
         Route::resource('roles', RoleController::class)->except(['show', 'create', 'edit']);
