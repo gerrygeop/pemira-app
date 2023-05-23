@@ -42,4 +42,9 @@ class Admin extends Authenticatable
     {
         return $this->belongsToMany(Pemira::class);
     }
+
+    public function assignPemira($pemira)
+    {
+        $this->pemira()->toggle($pemira);
+    }
 }

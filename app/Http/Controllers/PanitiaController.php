@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Admin;
+use App\Models\Pemira;
 use App\Models\Role;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -18,21 +18,12 @@ class PanitiaController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('can:cooking');
+        $this->middleware('can:create_admin')->only('store');
+        $this->middleware('can:update_admin')->only('edit', 'updateInformation', 'updatePassword');
+        $this->middleware('can:update_admin')->only('destroy');
     }
 
-    /**
-     * Display a listing of the resource.
-     */
-    public function index(): Response
-    {
-        return Inertia::render('Dapur/Panitia/Index', [
-            'panitiaList' => Admin::whereNotIn('id', [Auth::guard('admin')->id()])->with('roles')->get(),
-            'roles' => Role::all()
-        ]);
-    }
-
-    public function store(Request $request)
+    public function store(Request $request, Pemira $pemira)
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
@@ -40,6 +31,7 @@ class PanitiaController extends Controller
             'password' => ['required', 'confirmed', Password::defaults()],
             'role' => ['exists:roles,id'],
         ]);
+        $validated['pemira_id'] = $pemira->id;
 
         $panitia = DB::transaction(function () use ($validated) {
             $validated['password'] = Hash::make($validated['password']);
@@ -51,17 +43,19 @@ class PanitiaController extends Controller
             ]);
 
             $panitia->assignRole($validated['role']);
+            $panitia->assignPemira($validated['pemira_id']);
 
             return $panitia;
         });
 
-        return to_route('d.panitia.index')->with('status', $panitia->name . ' berhasil dibuat');
+        return back()->with('status', ['message' => $panitia->name . ' berhasil dibuat']);
     }
 
-    public function edit(Admin $panitia): Response
+    public function edit(Pemira $pemira, Admin $panitia): Response
     {
         return Inertia::render('Dapur/Panitia/Edit', [
             'panitia' => $panitia,
+            'pemira' => $pemira->id,
             'roles' => Role::all()
         ]);
     }
@@ -113,7 +107,7 @@ class PanitiaController extends Controller
     /**
      * Delete the user's account.
      */
-    public function destroy(Request $request, Admin $panitia)
+    public function destroy(Request $request, Pemira $pemira, Admin $panitia)
     {
         $validated = $request->validate([
             'password' => ['required'],
@@ -124,7 +118,7 @@ class PanitiaController extends Controller
         if (Hash::check($validated['password'], $panitia->password)) {
             $panitia->delete();
 
-            return to_route('d.panitia.index')->with('status', $deletedPanitia . ' berhasil dihapus');
+            return to_route('d.pemira.show', $pemira)->with('status', ['message' => 'Panitia ' . $deletedPanitia . ' berhasil dihapus']);
         } else {
             return back()->with('status', ['deletion_error' => 'Password ' . $panitia->name . ' salah']);
         }
