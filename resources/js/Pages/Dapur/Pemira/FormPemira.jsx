@@ -49,10 +49,7 @@ export default function FormPemira({ onCancel = () => {}, pemira = "" }) {
     const onUpdate = (e) => {
         e.preventDefault();
         patch(route("d.pemira.update", pemira.id), {
-            onSuccess: () => {
-                handleCloseForm();
-                toastMessage(`${pemira.nama_pemira} berhasil diperbarui`);
-            },
+            onSuccess: () => handleCloseForm(),
         });
     };
 
