@@ -39,16 +39,6 @@ export default function Sidebar({ can }) {
 
                     {can.includes("cooking") && (
                         <SideLink
-                            href={route("d.panitia.index")}
-                            active={route().current("d.panitia.*")}
-                        >
-                            <IconBuildingBank />
-                            <span className="tracking-wide">Panitia</span>
-                        </SideLink>
-                    )}
-
-                    {can.includes("cooking") && (
-                        <SideLink
                             href={route("d.roles.index")}
                             active={route().current("d.roles.*")}
                         >
