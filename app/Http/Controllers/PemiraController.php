@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pemira;
+use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -36,16 +37,7 @@ class PemiraController extends Controller
     {
         return Inertia::render('Dapur/Pemira/Show', [
             'pemira' => $pemira->load('paslon', 'admins'),
-            'utils' => [
-                'can' => [
-                    'update_pemira' => Auth::guard('admin')->user()->can('update_pemira'),
-                    'delete_pemira' => Auth::guard('admin')->user()->can('delete_pemira'),
-                    'create_paslon' => Auth::guard('admin')->user()->can('create_paslon'),
-                    'read_paslon' => Auth::guard('admin')->user()->can('read_paslon'),
-                    'create_admin' => Auth::guard('admin')->user()->can('create_admin'),
-                    'read_admin' => Auth::guard('admin')->user()->can('read_admin'),
-                ]
-            ],
+            'roles' => Role::all()
         ]);
     }
 
@@ -84,12 +76,13 @@ class PemiraController extends Controller
             'finished_at' => ['required', 'date'],
         ]);
 
-        DB::transaction(function () use ($validated, $pemira) {
+        $updatedPemira = DB::transaction(function () use ($validated, $pemira) {
             $validated['slug'] = Str::slug($validated['nama_pemira']);
             $pemira->update($validated);
+            return $pemira;
         });
 
-        return to_route('d.pemira.show', $pemira)->with(['message' => $pemira->nama_pemira . ' berhasil diperbarui']);
+        return to_route('d.pemira.show', $pemira)->with('status', ['message' => $updatedPemira->nama_pemira . ' berhasil diperbarui']);
     }
 
     /**
