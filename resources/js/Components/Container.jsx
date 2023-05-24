@@ -30,16 +30,14 @@ export const Section = ({ children, className }) => {
 
 export const SectionTitle = ({ children, title, description }) => {
     return (
-        <div className="grid grid-cols-8 gap-y-3 lg:gap-y-0">
-            <header className="col-span-full lg:col-span-2">
-                <h2 className="font-semibold text-xl text-gray-700">{title}</h2>
+        <div className="grid grid-cols-8 gap-y-4">
+            <header className="col-span-full">
+                <h2 className="font-medium text-lg text-gray-900">{title}</h2>
                 {description && (
                     <p className="mt-1 text-sm text-gray-600">{description}</p>
                 )}
             </header>
-            <div className="col-span-full lg:col-span-4 space-y-6">
-                {children}
-            </div>
+            <div className="col-span-full max-w-3xl space-y-6">{children}</div>
         </div>
     );
 };

@@ -2,7 +2,7 @@ import Container, { Board, Section } from "@/Components/Container";
 import PrimaryButton from "@/Components/PrimaryButton";
 import SecondaryButton from "@/Components/SecondaryButton";
 import DapurLayout from "@/Layouts/DapurLayout";
-import { Head, router, useForm } from "@inertiajs/react";
+import { Head, Link, router, useForm, usePage } from "@inertiajs/react";
 import SectionVisiMisi from "./Partials/SectionVisiMisi";
 import SectionCandidate from "./Partials/SectionCandidate";
 import SectionPartner from "./Partials/SectionPartner";
@@ -11,7 +11,7 @@ import Modal from "@/Components/Modal";
 import { IconAlertOctagonFilled } from "@tabler/icons-react";
 import DangerButton from "@/Components/DangerButton";
 
-export default function FormPaslon({ paslon = "", pemira = "", can }) {
+export default function FormPaslon({ auth, paslon = "", pemira = "" }) {
     const {
         data,
         setData,
@@ -68,6 +68,8 @@ export default function FormPaslon({ paslon = "", pemira = "", can }) {
             },
         },
     });
+
+    const permissions = auth.user?.permission;
 
     const [confirmingDeletion, setConfirmingDeletion] = useState(false);
 
@@ -134,34 +136,35 @@ export default function FormPaslon({ paslon = "", pemira = "", can }) {
             <Container>
                 <form onSubmit={handleSubmit}>
                     <Board>
-                        <Section>
+                        <div className="p-6 md:p-8">
                             <SectionCandidate
                                 data={data}
                                 handleChange={handleChange}
                                 errors={errors}
                             />
-                        </Section>
+                        </div>
 
-                        <Section>
+                        <div className="p-6 md:p-8">
                             <SectionPartner
                                 data={data}
                                 handleChange={handleChange}
                                 errors={errors}
                             />
-                        </Section>
+                        </div>
 
-                        <Section>
+                        <div className="p-6 md:p-8">
                             <SectionVisiMisi
                                 data={data}
                                 handleChange={handleChange}
                                 errors={errors}
                                 photo={paslon?.photo_path || ""}
+                                permissions={permissions}
                             />
-                        </Section>
+                        </div>
 
-                        <Section className="mt-8 bg-slate-50">
+                        <div className="p-6 md:p-8 mt-8 bg-slate-50">
                             <div className="flex items-center justify-between">
-                                {can?.delete_paslon && (
+                                {permissions.includes("delete_paslon") && (
                                     <SecondaryButton
                                         type="button"
                                         className="text-red-600"
@@ -172,20 +175,35 @@ export default function FormPaslon({ paslon = "", pemira = "", can }) {
                                         Hapus
                                     </SecondaryButton>
                                 )}
-                                <div className="flex w-full justify-end">
-                                    <SecondaryButton onClick={handleCloseForm}>
-                                        Batal
-                                    </SecondaryButton>
+                                {permissions.includes("update_paslon") ? (
+                                    <div className="flex w-full justify-end">
+                                        <SecondaryButton
+                                            onClick={handleCloseForm}
+                                        >
+                                            Batal
+                                        </SecondaryButton>
 
-                                    <PrimaryButton
-                                        className="ml-3"
-                                        disabled={processing}
+                                        <PrimaryButton
+                                            className="ml-3"
+                                            disabled={processing}
+                                        >
+                                            Simpan
+                                        </PrimaryButton>
+                                    </div>
+                                ) : (
+                                    <Link
+                                        href={route(
+                                            "d.pemira.show",
+                                            pemira || paslon.pemira_id
+                                        )}
                                     >
-                                        Simpan
-                                    </PrimaryButton>
-                                </div>
+                                        <SecondaryButton>
+                                            Kembali
+                                        </SecondaryButton>
+                                    </Link>
+                                )}
                             </div>
-                        </Section>
+                        </div>
                     </Board>
                 </form>
             </Container>

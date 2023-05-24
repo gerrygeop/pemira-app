@@ -7,8 +7,6 @@ use App\Models\Candidate;
 use App\Models\Paslon;
 use App\Models\Pemira;
 use App\Validators\PaslonValidator;
-use Illuminate\Support\Facades\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
@@ -18,9 +16,9 @@ class PaslonController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('can:read_paslon')->only('show');
+        $this->middleware('can:read_paslon')->only('edit');
         $this->middleware('can:create_paslon')->only('create', 'store');
-        $this->middleware('can:update_paslon')->only('edit', 'update');
+        $this->middleware('can:update_paslon')->only('update');
         $this->middleware('can:delete_paslon')->only('destroy');
     }
 
@@ -83,10 +81,6 @@ class PaslonController extends Controller
     {
         return Inertia::render('Dapur/Paslon/FormPaslon', [
             'paslon' => $paslon,
-            'can' => [
-                'update_paslon' => Auth::guard('admin')->user()->can('update_paslon'),
-                'delete_paslon' => Auth::guard('admin')->user()->can('delete_paslon'),
-            ]
         ]);
     }
 

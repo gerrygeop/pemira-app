@@ -37,7 +37,7 @@ Route::prefix('d')->name('d.')->group(function () {
             // Paslon
             Route::get('paslon/create/{pemira}', [PaslonController::class, 'create'])->name('paslon.create');
             Route::post('paslon/{pemira}', [PaslonController::class, 'store'])->name('paslon.store');
-            Route::resource('paslon', PaslonController::class)->except('create', 'store', 'index');
+            Route::resource('paslon', PaslonController::class)->only('edit', 'update', 'destroy');
 
             // Panitia
             Route::get('{pemira}/panitia/{panitia}/edit', [PanitiaController::class, 'edit'])->name('panitia.edit');
