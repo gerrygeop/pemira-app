@@ -34,7 +34,7 @@ const Th = ({ children, className, ...props }) => {
     return (
         <th
             {...props}
-            className={`px-4 py-3 text-gray-900 text-left text-xs font-bold uppercase tracking-wider ${className}`}
+            className={`px-4 py-3 text-gray-900 text-left text-xs font-semibold uppercase tracking-wider ${className}`}
         >
             {children}
         </th>
@@ -44,7 +44,7 @@ const Td = ({ children, className, ...props }) => {
     return (
         <td
             {...props}
-            className={`px-4 py-4 whitespace-nowrap font-medium text-gray-600 ${className}`}
+            className={`px-4 py-4 whitespace-nowrap text-gray-600 ${className}`}
         >
             {children}
         </td>

@@ -71,7 +71,7 @@ export default function Index({ roles, permissions, flash }) {
                                         className="cursor-pointer hover:bg-slate-50"
                                     >
                                         <Table.Td>
-                                            <span className="uppercase text-sm font-semibold text-gray-800">
+                                            <span className="uppercase text-sm font-medium text-gray-800">
                                                 {role.name}
                                             </span>
                                         </Table.Td>

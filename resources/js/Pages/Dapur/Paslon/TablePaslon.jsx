@@ -23,7 +23,7 @@ export default function TablePaslon({ pemira }) {
         <Board>
             <Section>
                 <div className="flex items-center justify-between mb-4">
-                    <h2 className="text-xl text-gray-800 font-semibold">
+                    <h2 className="text-xl text-gray-800 font-medium">
                         Daftar Paslon
                     </h2>
                     {pemira?.status !== "finished" &&
@@ -78,7 +78,7 @@ export default function TablePaslon({ pemira }) {
                                         </div>
                                     </Table.Td>
                                     <Table.Td>
-                                        <div className="flex items-center text-lg font-semibold">
+                                        <div className="flex items-center text-lg font-medium">
                                             {paslon.candidate?.name}
                                             <span className="mx-2 text-base font-normal">
                                                 &

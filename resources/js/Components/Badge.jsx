@@ -16,7 +16,7 @@ export default function Badge({ status }) {
 
     return (
         <span
-            className={`inline-flex items-center rounded-md px-2 py-1 font-medium capitalize text-sm ring-1 ring-inset ${colors}`}
+            className={`inline-flex items-center rounded-md px-2 py-1 capitalize text-sm ring-1 ring-inset ${colors}`}
         >
             {text}
         </span>

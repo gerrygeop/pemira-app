@@ -28,7 +28,7 @@ export default function TablePanitia({ pemira, roles }) {
             <Board>
                 <Section>
                     <div className="flex items-center justify-between mb-4">
-                        <h2 className="text-xl text-gray-800 font-semibold">
+                        <h2 className="text-xl text-gray-800 font-medium">
                             Daftar Panitia
                         </h2>
                         {pemira?.status !== "finished" &&
@@ -59,7 +59,7 @@ export default function TablePanitia({ pemira, roles }) {
                                         onClick={() => handleRowClick(panitia)}
                                         className="cursor-pointer hover:bg-slate-50"
                                     >
-                                        <Table.Td className="capitalize font-semibold text-gray-800">
+                                        <Table.Td className="capitalize font-medium text-gray-800">
                                             {panitia.name}
                                         </Table.Td>
                                         <Table.Td>{panitia.username}</Table.Td>

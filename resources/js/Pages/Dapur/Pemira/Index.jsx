@@ -69,7 +69,7 @@ export default function Index({ pemiraList, can, flash }) {
                                             className="cursor-pointer hover:bg-slate-50"
                                         >
                                             <Table.Td className="uppercase">
-                                                <span className="uppercase font-semibold text-gray-800">
+                                                <span className="uppercase font-medium text-gray-800">
                                                     {pemira.nama_pemira}
                                                 </span>
                                             </Table.Td>

@@ -77,7 +77,7 @@ export default function Show({ pemira, roles, flash }) {
 
                     <Section>
                         <div className="mb-4">
-                            <h1 className="font-semibold uppercase text-2xl lg:text-3xl text-gray-800">
+                            <h1 className="font-medium uppercase text-2xl lg:text-3xl text-gray-800">
                                 {pemira.nama_pemira}
                             </h1>
                             <p className="text-gray-600">
@@ -89,7 +89,7 @@ export default function Show({ pemira, roles, flash }) {
                                 <span className="text-sm text-gray-600">
                                     Mulai:
                                 </span>
-                                <h5 className="text-lg text-gray-800 font-semibold">
+                                <h5 className="text-lg text-gray-800 font-medium">
                                     <DateTime datetime={pemira?.activated_at} />
                                 </h5>
                             </div>
@@ -98,7 +98,7 @@ export default function Show({ pemira, roles, flash }) {
                                 <span className="text-sm text-gray-600">
                                     Selesai:
                                 </span>
-                                <h5 className="text-lg text-gray-800 font-semibold">
+                                <h5 className="text-lg text-gray-800 font-medium">
                                     <DateTime datetime={pemira?.finished_at} />
                                 </h5>
                             </div>
