@@ -12,11 +12,6 @@ class Pemira extends Model
 {
     use HasFactory;
 
-    protected $PEMIRA_ACTIVE = 'active';
-    protected $PEMIRA_INACTIVE = 'inactive';
-    protected $PEMIRA_PENDING = 'pending';
-    protected $PEMIRA_FINISHED = 'finished';
-
     protected $guarded = ['id'];
     protected $table = 'pemira';
 
@@ -32,26 +27,26 @@ class Pemira extends Model
 
     public function validateActivation()
     {
-        if ($this->less_than_now($this->activated_at) && $this->status !== $this->PEMIRA_PENDING) {
-            $this->update_status($this->PEMIRA_ACTIVE);
+        if ($this->less_than_now($this->activated_at) && $this->status !== 'pending') {
+            $this->update_status('active');
         }
         if ($this->less_than_now($this->finished_at)) {
-            $this->update_status($this->PEMIRA_INACTIVE);
+            $this->update_status('inactive');
         }
     }
 
     public function toggleStatus()
     {
         if ($this->less_than_now($this->finished_at)) {
-            return $this->update_status($this->PEMIRA_FINISHED);
-        } else if ($this->status === $this->PEMIRA_INACTIVE && !$this->less_than_now($this->activated_at)) {
-            return $this->update_status($this->PEMIRA_ACTIVE);
-        } else if ($this->status === $this->PEMIRA_ACTIVE && !$this->less_than_now($this->activated_at)) {
-            return $this->update_status($this->PEMIRA_INACTIVE);
-        } else if ($this->status !== $this->PEMIRA_PENDING && $this->less_than_now($this->activated_at)) {
-            return $this->update_status($this->PEMIRA_PENDING);
-        } else if ($this->status === $this->PEMIRA_PENDING) {
-            return $this->update_status($this->PEMIRA_ACTIVE);
+            return $this->update_status('finished');
+        } else if ($this->status === 'inactive' && !$this->less_than_now($this->activated_at)) {
+            return $this->update_status('active');
+        } else if ($this->status === 'active' && !$this->less_than_now($this->activated_at)) {
+            return $this->update_status('inactive');
+        } else if ($this->status !== 'pending' && $this->less_than_now($this->activated_at)) {
+            return $this->update_status('pending');
+        } else if ($this->status === 'pending') {
+            return $this->update_status('active');
         }
     }
 

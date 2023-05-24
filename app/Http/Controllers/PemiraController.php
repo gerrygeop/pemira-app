@@ -23,9 +23,11 @@ class PemiraController extends Controller
 
     public function index(): Response
     {
-        // return dd(Auth::guard('admin')->user()->pemira);
+        $admin = Auth::guard('admin')->id();
+        $pemira = Pemira::where('creator_id', $admin)->orWhereRelation('admins', 'admin_id', $admin)->get();
+
         return Inertia::render('Dapur/Pemira/Index', [
-            'pemiraList' => Pemira::all(),
+            'pemiraList' => $pemira,
             'can' => [
                 'create_pemira' => Auth::guard('admin')->user()->can('create_pemira'),
                 'read_pemira' => Auth::guard('admin')->user()->can('read_pemira'),
