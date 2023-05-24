@@ -63,7 +63,7 @@ export default function Show({ pemira, roles, flash }) {
                                     type="button"
                                     onClick={(e) => onSwitchStatus(e)}
                                     status={pemira.status}
-                                    activatedAt={pemira.activated_at}
+                                    activatedat={pemira.activated_at}
                                     disabled={processing}
                                 />
                             )
@@ -105,36 +105,41 @@ export default function Show({ pemira, roles, flash }) {
                         </div>
                     </Section>
 
-                    <div className="py-4 px-4 sm:px-6">
-                        <div className="flex items-center justify-end gap-x-2">
-                            {permissions.includes("delete_pemira") && (
-                                <SecondaryButton
-                                    type="button"
-                                    className="text-red-600"
-                                    onClick={() => {
-                                        setIsShowingModal(true);
-                                        setConfirmingDeletion(true);
-                                        setEditing(false);
-                                    }}
-                                >
-                                    Hapus
-                                </SecondaryButton>
-                            )}
-                            {permissions.includes("update_pemira") && (
-                                <SecondaryButton
-                                    type="button"
-                                    className="text-gray-800"
-                                    onClick={() => {
-                                        setIsShowingModal(true);
-                                        setEditing(true);
-                                        setConfirmingDeletion(false);
-                                    }}
-                                >
-                                    Edit
-                                </SecondaryButton>
-                            )}
+                    {permissions.includes("delete_pemira") ||
+                    permissions.includes("update_pemira") ? (
+                        <div className="py-4 px-4 sm:px-6">
+                            <div className="flex items-center justify-end gap-x-2">
+                                {permissions.includes("delete_pemira") && (
+                                    <SecondaryButton
+                                        type="button"
+                                        className="text-red-600"
+                                        onClick={() => {
+                                            setIsShowingModal(true);
+                                            setConfirmingDeletion(true);
+                                            setEditing(false);
+                                        }}
+                                    >
+                                        Hapus
+                                    </SecondaryButton>
+                                )}
+                                {permissions.includes("update_pemira") && (
+                                    <SecondaryButton
+                                        type="button"
+                                        className="text-gray-800"
+                                        onClick={() => {
+                                            setIsShowingModal(true);
+                                            setEditing(true);
+                                            setConfirmingDeletion(false);
+                                        }}
+                                    >
+                                        Edit
+                                    </SecondaryButton>
+                                )}
+                            </div>
                         </div>
-                    </div>
+                    ) : (
+                        ""
+                    )}
                 </Board>
 
                 <div className="mt-8">

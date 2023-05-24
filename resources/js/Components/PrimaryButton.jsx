@@ -23,7 +23,7 @@ export default function PrimaryButton({
 }
 
 export function PlayButton({ className = "", disabled, ...props }) {
-    const status = toggleStatus(props.status, props.activatedAt);
+    const status = toggleStatus(props.status, props.activatedat);
     const theme = {
         indigo: {
             title: "Aktifkan",
