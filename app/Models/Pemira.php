@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\PemiraStatus;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -15,6 +16,10 @@ class Pemira extends Model
 
     protected $guarded = ['id'];
     protected $table = 'pemira';
+
+    protected $casts = [
+        'status' => PemiraStatus::class,
+    ];
 
     public function admins(): BelongsToMany
     {
@@ -33,26 +38,26 @@ class Pemira extends Model
 
     public function validateActivation()
     {
-        if ($this->less_than_now($this->activated_at) && $this->status !== 'pending') {
-            $this->update_status('active');
+        if ($this->less_than_now($this->activated_at) && !$this->status->isPending()) {
+            $this->update_status(PemiraStatus::ACTIVE);
         }
         if ($this->less_than_now($this->finished_at)) {
-            $this->update_status('inactive');
+            $this->update_status(PemiraStatus::FINISHED);
         }
     }
 
     public function toggleStatus()
     {
         if ($this->less_than_now($this->finished_at)) {
-            return $this->update_status('finished');
-        } else if ($this->status === 'inactive' && !$this->less_than_now($this->activated_at)) {
-            return $this->update_status('active');
-        } else if ($this->status === 'active' && !$this->less_than_now($this->activated_at)) {
-            return $this->update_status('inactive');
-        } else if ($this->status !== 'pending' && $this->less_than_now($this->activated_at)) {
-            return $this->update_status('pending');
-        } else if ($this->status === 'pending') {
-            return $this->update_status('active');
+            return $this->update_status(PemiraStatus::FINISHED);
+        } else if ($this->status->isNotActive() && !$this->less_than_now($this->activated_at)) {
+            return $this->update_status(PemiraStatus::ACTIVE);
+        } else if ($this->status->isActive() && !$this->less_than_now($this->activated_at)) {
+            return $this->update_status(PemiraStatus::INACTIVE);
+        } else if (!$this->status->isPending() && $this->less_than_now($this->activated_at)) {
+            return $this->update_status(PemiraStatus::PENDING);
+        } else if ($this->status->isPending()) {
+            return $this->update_status(PemiraStatus::ACTIVE);
         }
     }
 
@@ -64,7 +69,7 @@ class Pemira extends Model
 
     private function update_status($status)
     {
-        $this->status = $status;
+        $this->status = $status->value;
         $this->save();
     }
 }

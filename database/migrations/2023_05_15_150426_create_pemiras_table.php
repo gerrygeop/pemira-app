@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\PemiraStatus;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -16,7 +17,7 @@ return new class extends Migration
             $table->foreignId('creator_id');
             $table->string('nama_pemira');
             $table->string('slug');
-            $table->enum('status', ['inactive', 'active', 'pending', 'finished'])->default('inactive');
+            $table->string('status')->default(PemiraStatus::INACTIVE->value);
             $table->text('keterangan')->nullable();
             $table->dateTime('activated_at');
             $table->dateTime('finished_at');

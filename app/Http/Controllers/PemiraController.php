@@ -28,10 +28,6 @@ class PemiraController extends Controller
 
         return Inertia::render('Dapur/Pemira/Index', [
             'pemiraList' => $pemira,
-            'can' => [
-                'create_pemira' => Auth::guard('admin')->user()->can('create_pemira'),
-                'read_pemira' => Auth::guard('admin')->user()->can('read_pemira'),
-            ]
         ]);
     }
 
@@ -97,12 +93,9 @@ class PemiraController extends Controller
         return to_route('d.pemira.index')->with('status', ['message' => $pemira_name . ' dihapus']);
     }
 
-    /**
-     * Change Pemira status to Active
-     */
     public function switchable(Pemira $pemira)
     {
         $pemira->toggleStatus();
-        return back()->with('status', ['message' => 'Pemira ' . str()->title($pemira->status)]);
+        return back()->with('status', ['message' => 'Pemira ' . str()->title($pemira->status->value)]);
     }
 }
