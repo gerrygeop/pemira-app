@@ -12,11 +12,12 @@ import { toast } from "react-toastify";
 import Badge from "@/Components/Badge";
 import DateTime from "@/Components/DateTime";
 
-export default function Index({ pemiraList, can, flash }) {
+export default function Index({ auth, pemiraList, flash }) {
+    const permissions = auth.user?.permission;
     const [isShowingForm, setIsShowingForm] = useState(false);
 
     const handleRowClickOpenModal = (pemira) => {
-        if (can.read_pemira) {
+        if (permissions.includes("read_pemira")) {
             router.visit(route("d.pemira.show", pemira.id));
         }
     };
@@ -37,7 +38,7 @@ export default function Index({ pemiraList, can, flash }) {
             <Container>
                 <Board>
                     <Section>
-                        {can.create_pemira && (
+                        {permissions.includes("create_pemira") && (
                             <div className="flex items-center justify-end mb-4">
                                 <PrimaryButton
                                     type="button"

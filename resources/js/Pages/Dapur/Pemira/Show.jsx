@@ -1,6 +1,6 @@
 import Modal from "@/Components/Modal";
 import DapurLayout from "@/Layouts/DapurLayout";
-import { useForm, usePage } from "@inertiajs/react";
+import { useForm } from "@inertiajs/react";
 import { useEffect, useState } from "react";
 import { IconAlertOctagon, IconAlertOctagonFilled } from "@tabler/icons-react";
 import { toast } from "react-toastify";
@@ -14,8 +14,7 @@ import TablePaslon from "../Paslon/TablePaslon";
 import DateTime from "@/Components/DateTime";
 import TablePanitia from "../Panitia/TablePanitia";
 
-export default function Show({ pemira, roles, flash }) {
-    const { auth } = usePage().props;
+export default function Show({ auth, pemira, roles, flash }) {
     const permissions = auth.user?.permission;
 
     const [isShowingModal, setIsShowingModal] = useState(false);
