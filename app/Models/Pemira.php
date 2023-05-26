@@ -21,6 +21,11 @@ class Pemira extends Model
         'status' => PemiraStatus::class,
     ];
 
+    public function votings(): HasMany
+    {
+        return $this->hasMany(Voting::class);
+    }
+
     public function admins(): BelongsToMany
     {
         return $this->belongsToMany(Admin::class);

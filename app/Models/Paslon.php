@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Paslon extends Model
 {
@@ -27,5 +28,10 @@ class Paslon extends Model
     public function partner(): BelongsTo
     {
         return $this->belongsTo(Candidate::class, 'partner_id');
+    }
+
+    public function votings(): HasMany
+    {
+        return $this->hasMany(Voting::class);
     }
 }
