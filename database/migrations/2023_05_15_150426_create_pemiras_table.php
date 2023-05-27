@@ -16,7 +16,6 @@ return new class extends Migration
             $table->id();
             $table->foreignId('creator_id');
             $table->string('nama_pemira');
-            $table->string('slug');
             $table->string('status')->default(PemiraStatus::INACTIVE->value);
             $table->text('keterangan')->nullable();
             $table->dateTime('activated_at');

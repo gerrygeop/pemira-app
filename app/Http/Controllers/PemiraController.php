@@ -53,7 +53,6 @@ class PemiraController extends Controller
 
         $pemira = DB::transaction(function () use ($validated) {
             $validated['creator_id'] = Auth::guard('admin')->id();
-            $validated['slug'] = Str::slug($validated['nama_pemira']);
 
             $pemira = Pemira::create($validated);
             return $pemira;
@@ -75,7 +74,6 @@ class PemiraController extends Controller
         ]);
 
         $updatedPemira = DB::transaction(function () use ($validated, $pemira) {
-            $validated['slug'] = Str::slug($validated['nama_pemira']);
             $pemira->update($validated);
             return $pemira;
         });
