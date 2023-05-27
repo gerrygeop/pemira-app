@@ -18,12 +18,12 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->name(),
             'nim' => fake('id_ID')->unique()->nik(),
+            'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-            'faculty' => fake()->numberBetween(1, 13),
-            'department' => fake()->numberBetween(1, 50),
+            'department_id' => fake()->numberBetween(15, 77),
+            'academic_year' => fake()->numberBetween(2017, 2022),
         ];
     }
 }
