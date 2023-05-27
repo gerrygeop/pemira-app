@@ -12,7 +12,11 @@ export default function Navbar({ header }) {
         useState(false);
 
     return (
-        <nav className="bg-white lg:bg-transparent border-b">
+        <nav
+            className={`bg-white border-b${
+                guard === "admin" ? " lg:bg-transparent" : ""
+            }`}
+        >
             <div className="lg:hidden p-2 pt-4 border">
                 <div className="flex items-center justify-start space-x-2">
                     <img
@@ -27,10 +31,16 @@ export default function Navbar({ header }) {
                 <div className="flex justify-between h-16">
                     <div className="flex">
                         <div className="shrink-0 flex items-center">
-                            {guard === "admin" && (
+                            {guard === "admin" ? (
                                 <h1 className="text-gray-800 text-lg sm:text-xl font-medium">
                                     {header}
                                 </h1>
+                            ) : (
+                                <img
+                                    src="https://img.logoipsum.com/289.svg"
+                                    alt="Logo"
+                                    className="w-28 h-auto hidden lg:block"
+                                />
                             )}
                         </div>
                     </div>
