@@ -1,10 +1,12 @@
 import { SectionTitle } from "@/Components/Container";
 import InputError from "@/Components/InputError";
 import InputLabel from "@/Components/InputLabel";
+import Select from "@/Components/Select";
 import TextArea from "@/Components/TextArea";
 import TextInput from "@/Components/TextInput";
 
-export default function SectionCandidate({ data, handleChange, errors }) {
+export default function SectionCandidate({ ...props }) {
+    const { data, handleChange, errors, faculties } = props;
     return (
         <SectionTitle title="Form Calon Ketua">
             <div>
@@ -20,6 +22,7 @@ export default function SectionCandidate({ data, handleChange, errors }) {
                 />
                 <InputError message={errors.candidate} className="mt-2" />
             </div>
+
             <div>
                 <InputLabel htmlFor="candidate-angkatan" value="Angkatan" />
                 <TextInput
@@ -33,18 +36,31 @@ export default function SectionCandidate({ data, handleChange, errors }) {
                 />
                 <InputError message={errors.candidate} className="mt-2" />
             </div>
+
             <div>
                 <InputLabel htmlFor="candidate-fakultas" value="Fakultas" />
-                <TextInput
+                <Select
                     id="candidate-fakultas"
                     name="candidate.profile.fakultas"
-                    value={data.candidate?.profile?.fakultas || ""}
+                    defaultValue={data.candidate?.profile?.fakultas}
                     onChange={handleChange}
-                    className="mt-2 block w-full"
-                    required
-                />
+                    className="mt-2 block w-full uppercase"
+                >
+                    {faculties.length > 0 ? (
+                        faculties.map((fak) => (
+                            <option key={fak.id} value={fak.name}>
+                                {fak.name}
+                            </option>
+                        ))
+                    ) : (
+                        <option className="italic" disabled>
+                            -
+                        </option>
+                    )}
+                </Select>
                 <InputError message={errors.candidate} className="mt-2" />
             </div>
+
             <div>
                 <InputLabel
                     htmlFor="candidate-organisasi"
@@ -59,6 +75,7 @@ export default function SectionCandidate({ data, handleChange, errors }) {
                 />
                 <InputError message={errors.candidate} className="mt-2" />
             </div>
+
             <div>
                 <InputLabel
                     htmlFor="candidate-pendidikan"
@@ -73,6 +90,7 @@ export default function SectionCandidate({ data, handleChange, errors }) {
                 />
                 <InputError message={errors.candidate} className="mt-2" />
             </div>
+
             <div>
                 <InputLabel
                     htmlFor="candidate-prestasi"

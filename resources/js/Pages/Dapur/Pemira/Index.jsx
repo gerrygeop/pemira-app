@@ -97,7 +97,7 @@ export default function Index({ auth, pemiraList, flash }) {
                                     ))
                                 ) : (
                                     <tr>
-                                        <Table.Td colSpan="3">
+                                        <Table.Td colSpan="4">
                                             <p className="text-gray-500 text-center italic">
                                                 Tidak ada data
                                             </p>

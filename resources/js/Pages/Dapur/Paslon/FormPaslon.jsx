@@ -1,8 +1,8 @@
-import Container, { Board, Section } from "@/Components/Container";
+import Container, { Board } from "@/Components/Container";
 import PrimaryButton from "@/Components/PrimaryButton";
 import SecondaryButton from "@/Components/SecondaryButton";
 import DapurLayout from "@/Layouts/DapurLayout";
-import { Head, Link, router, useForm, usePage } from "@inertiajs/react";
+import { Head, router, useForm } from "@inertiajs/react";
 import SectionVisiMisi from "./Partials/SectionVisiMisi";
 import SectionCandidate from "./Partials/SectionCandidate";
 import SectionPartner from "./Partials/SectionPartner";
@@ -11,7 +11,12 @@ import Modal from "@/Components/Modal";
 import { IconAlertOctagonFilled } from "@tabler/icons-react";
 import DangerButton from "@/Components/DangerButton";
 
-export default function FormPaslon({ auth, paslon = "", pemira = "" }) {
+export default function FormPaslon({
+    auth,
+    paslon = "",
+    pemira = "",
+    faculties,
+}) {
     const {
         data,
         setData,
@@ -35,7 +40,7 @@ export default function FormPaslon({ auth, paslon = "", pemira = "" }) {
                     : "",
                 fakultas: paslon.id
                     ? JSON.parse(paslon.candidate?.profile)?.fakultas
-                    : "",
+                    : faculties[0].name,
                 organisasi: paslon.id
                     ? JSON.parse(paslon.candidate?.profile)?.organisasi
                     : "",
@@ -55,7 +60,7 @@ export default function FormPaslon({ auth, paslon = "", pemira = "" }) {
                     : "",
                 fakultas: paslon.id
                     ? JSON.parse(paslon.partner?.profile)?.fakultas
-                    : "",
+                    : faculties[0].name,
                 organisasi: paslon.id
                     ? JSON.parse(paslon.partner?.profile)?.organisasi
                     : "",
@@ -141,6 +146,7 @@ export default function FormPaslon({ auth, paslon = "", pemira = "" }) {
                                 data={data}
                                 handleChange={handleChange}
                                 errors={errors}
+                                faculties={faculties}
                             />
                         </div>
 
@@ -149,6 +155,7 @@ export default function FormPaslon({ auth, paslon = "", pemira = "" }) {
                                 data={data}
                                 handleChange={handleChange}
                                 errors={errors}
+                                faculties={faculties}
                             />
                         </div>
 
@@ -164,44 +171,36 @@ export default function FormPaslon({ auth, paslon = "", pemira = "" }) {
 
                         <div className="p-6 md:p-8 mt-8 bg-slate-50">
                             <div className="flex items-center justify-between">
-                                {permissions.includes("delete_paslon") && (
-                                    <SecondaryButton
-                                        type="button"
-                                        className="text-red-600"
-                                        onClick={() =>
-                                            setConfirmingDeletion(true)
-                                        }
-                                    >
-                                        Hapus
-                                    </SecondaryButton>
-                                )}
-                                {permissions.includes("update_paslon") ? (
-                                    <div className="flex w-full justify-end">
+                                {permissions.includes("delete_paslon") &&
+                                    paslon.id && (
                                         <SecondaryButton
-                                            onClick={handleCloseForm}
+                                            type="button"
+                                            className="text-red-600"
+                                            onClick={() =>
+                                                setConfirmingDeletion(true)
+                                            }
                                         >
-                                            Batal
+                                            Hapus
                                         </SecondaryButton>
+                                    )}
 
+                                <div className="flex w-full justify-end">
+                                    <SecondaryButton onClick={handleCloseForm}>
+                                        Batal
+                                    </SecondaryButton>
+
+                                    {(permissions.includes("update_paslon") ||
+                                        permissions.includes(
+                                            "create_paslon"
+                                        )) && (
                                         <PrimaryButton
                                             className="ml-3"
                                             disabled={processing}
                                         >
                                             Simpan
                                         </PrimaryButton>
-                                    </div>
-                                ) : (
-                                    <Link
-                                        href={route(
-                                            "d.pemira.show",
-                                            pemira || paslon.pemira_id
-                                        )}
-                                    >
-                                        <SecondaryButton>
-                                            Kembali
-                                        </SecondaryButton>
-                                    </Link>
-                                )}
+                                    )}
+                                </div>
                             </div>
                         </div>
                     </Board>

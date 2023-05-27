@@ -1,10 +1,13 @@
 import { SectionTitle } from "@/Components/Container";
 import InputError from "@/Components/InputError";
 import InputLabel from "@/Components/InputLabel";
+import Select from "@/Components/Select";
 import TextArea from "@/Components/TextArea";
 import TextInput from "@/Components/TextInput";
 
-export default function SectionPartner({ data, handleChange, errors }) {
+export default function SectionPartner({ ...props }) {
+    const { data, handleChange, errors, faculties } = props;
+
     return (
         <SectionTitle title="Form Calon Wakil Ketua">
             <div>
@@ -19,6 +22,7 @@ export default function SectionPartner({ data, handleChange, errors }) {
                 />
                 <InputError message={errors.partner} className="mt-2" />
             </div>
+
             <div>
                 <InputLabel htmlFor="partner-angkatan" value="Angkatan" />
                 <TextInput
@@ -32,18 +36,31 @@ export default function SectionPartner({ data, handleChange, errors }) {
                 />
                 <InputError message={errors.partner} className="mt-2" />
             </div>
+
             <div>
                 <InputLabel htmlFor="partner-fakultas" value="Fakultas" />
-                <TextInput
+                <Select
                     id="partner-fakultas"
                     name="partner.profile.fakultas"
-                    value={data.partner?.profile?.fakultas}
+                    defaultValue={data.partner?.profile?.fakultas}
                     onChange={handleChange}
-                    className="mt-2 block w-full"
-                    required
-                />
+                    className="mt-2 block w-full uppercase"
+                >
+                    {faculties.length > 0 ? (
+                        faculties.map((fak) => (
+                            <option key={fak.id} value={fak.name}>
+                                {fak.name}
+                            </option>
+                        ))
+                    ) : (
+                        <option className="italic" disabled>
+                            -
+                        </option>
+                    )}
+                </Select>
                 <InputError message={errors.partner} className="mt-2" />
             </div>
+
             <div>
                 <InputLabel
                     htmlFor="partner-organisasi"
@@ -58,6 +75,7 @@ export default function SectionPartner({ data, handleChange, errors }) {
                 />
                 <InputError message={errors.partner} className="mt-2" />
             </div>
+
             <div>
                 <InputLabel
                     htmlFor="partner-pendidikan"
@@ -72,6 +90,7 @@ export default function SectionPartner({ data, handleChange, errors }) {
                 />
                 <InputError message={errors.partner} className="mt-2" />
             </div>
+
             <div>
                 <InputLabel
                     htmlFor="partner-prestasi"
