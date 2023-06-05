@@ -3,9 +3,10 @@ import InputLabel from "@/Components/InputLabel";
 import PrimaryButton from "@/Components/PrimaryButton";
 import TextInput from "@/Components/TextInput";
 import { Link, useForm } from "@inertiajs/react";
+import { IconDiscountCheckFilled } from "@tabler/icons-react";
 import { useEffect } from "react";
 
-export default function Welcome() {
+export default function Welcome({ flash }) {
     const { data, setData, post, processing, errors, reset } = useForm({
         email: "",
         nim: "",
@@ -54,96 +55,120 @@ export default function Welcome() {
                                     href="https://www.instagram.com/reel/ClmmO_QDga9/?igshid=YmMyMTA2M2Y="
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="flex items-center justify-center py-2 px-3 gap-x-1 text-white text-sm bg-indigo-500 hover:bg-indigo-600 focus:outline-none tracking-wide capitalize rounded-md sm:w-1/5 md:w-1/4"
+                                    className="flex items-center justify-center py-2 px-3 gap-x-1 text-white text-sm shadow bg-green-600 hover:bg-green-700 focus:outline-none tracking-wide capitalize rounded-md sm:w-1/5 md:w-1/4"
                                 >
-                                    <span>Tutorial Laptop/PC</span>
-                                </Link>
-
-                                <Link
-                                    href="https://www.instagram.com/reel/Clml0N3jJN0/?igshid=YmMyMTA2M2Y="
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="flex items-center justify-center py-2 px-3 gap-x-1 text-white text-sm bg-indigo-500 hover:bg-indigo-600 focus:outline-none tracking-wide capitalize rounded-md sm:w-1/5 md:w-1/4 mt-2 ml-0 sm:ml-2 sm:mt-0"
-                                >
-                                    <span>Tutorial Smartphone</span>
+                                    <span>Tutorial Pemilihan</span>
                                 </Link>
                             </div>
                         </div>
 
                         <div className="w-full px-6 py-4 bg-white shadow-md overflow-hidden rounded-lg">
-                            <div className="mb-4 py-2">
-                                <h2 className="text-2xl font-semibold text-gray-700">
-                                    Log In
-                                </h2>
-                                {/* status */}
-                                <InputError
-                                    message={errors.email}
-                                    className="mt-2"
-                                />
-                            </div>
-
-                            <form onSubmit={submit}>
-                                <div>
-                                    <InputLabel htmlFor="email" value="Email" />
-
-                                    <TextInput
-                                        id="email"
-                                        type="email"
-                                        name="email"
-                                        value={data.email}
-                                        className="mt-1 block w-full"
-                                        autoComplete="username"
-                                        isFocused={true}
-                                        onChange={(e) =>
-                                            setData("email", e.target.value)
-                                        }
+                            {flash.status === "success" ? (
+                                <div className="text-center h-full flex flex-col items-center justify-center">
+                                    <IconDiscountCheckFilled
+                                        className="text-amber-500"
+                                        size={52}
                                     />
+                                    <h3 className="text-2xl text-gray-800 font-semibold my-2">
+                                        Voting berhasil!
+                                    </h3>
+                                    <p className="text-lg text-gray-700">
+                                        Terima kasih telah berpartisipasi!
+                                        <br />
+                                        Suara Anda sangat berarti dalam
+                                        pemilihan.
+                                    </p>
                                 </div>
+                            ) : (
+                                <>
+                                    <div className="mb-4 py-2">
+                                        <h2 className="text-2xl font-semibold text-gray-700">
+                                            Log In
+                                        </h2>
+                                        <InputError
+                                            message={errors.email}
+                                            className="mt-2"
+                                        />
+                                    </div>
 
-                                <div className="mt-4">
-                                    <InputLabel htmlFor="nim" value="NIM" />
+                                    <form onSubmit={submit}>
+                                        <div>
+                                            <InputLabel
+                                                htmlFor="email"
+                                                value="Email"
+                                            />
 
-                                    <TextInput
-                                        id="nim"
-                                        name="nim"
-                                        value={data.nim}
-                                        className="mt-1 block w-full"
-                                        autoComplete="username"
-                                        isFocused={true}
-                                        onChange={(e) =>
-                                            setData("nim", e.target.value)
-                                        }
-                                    />
-                                </div>
+                                            <TextInput
+                                                id="email"
+                                                type="email"
+                                                name="email"
+                                                value={data.email}
+                                                className="mt-1 block w-full"
+                                                autoComplete="username"
+                                                isFocused={true}
+                                                onChange={(e) =>
+                                                    setData(
+                                                        "email",
+                                                        e.target.value
+                                                    )
+                                                }
+                                            />
+                                        </div>
 
-                                <div className="mt-4">
-                                    <InputLabel
-                                        htmlFor="password"
-                                        value="Password"
-                                    />
+                                        <div className="mt-4">
+                                            <InputLabel
+                                                htmlFor="nim"
+                                                value="NIM"
+                                            />
 
-                                    <TextInput
-                                        id="password"
-                                        type="password"
-                                        name="password"
-                                        value={data.password}
-                                        className="mt-1 block w-full"
-                                        autoComplete="current-password"
-                                        onChange={(e) =>
-                                            setData("password", e.target.value)
-                                        }
-                                    />
-                                </div>
+                                            <TextInput
+                                                id="nim"
+                                                name="nim"
+                                                value={data.nim}
+                                                className="mt-1 block w-full"
+                                                autoComplete="username"
+                                                onChange={(e) =>
+                                                    setData(
+                                                        "nim",
+                                                        e.target.value
+                                                    )
+                                                }
+                                            />
+                                        </div>
 
-                                <div className="flex items-center justify-end mt-4">
-                                    <PrimaryButton
-                                        className="ml-4"
-                                        disabled={processing}
-                                    >
-                                        Log in
-                                    </PrimaryButton>
-                                </div>
-                            </form>
+                                        <div className="mt-4">
+                                            <InputLabel
+                                                htmlFor="password"
+                                                value="Password"
+                                            />
+
+                                            <TextInput
+                                                id="password"
+                                                type="password"
+                                                name="password"
+                                                value={data.password}
+                                                className="mt-1 block w-full"
+                                                autoComplete="current-password"
+                                                onChange={(e) =>
+                                                    setData(
+                                                        "password",
+                                                        e.target.value
+                                                    )
+                                                }
+                                            />
+                                        </div>
+
+                                        <div className="flex items-center justify-end mt-4">
+                                            <PrimaryButton
+                                                className="ml-4"
+                                                disabled={processing}
+                                            >
+                                                Log in
+                                            </PrimaryButton>
+                                        </div>
+                                    </form>
+                                </>
+                            )}
                         </div>
                     </div>
                 </div>

@@ -10,4 +10,17 @@
         background-position: center;
         background-size: cover;
     }
+
+    input[type="radio"]:checked + span {
+        background-color: #eab308;
+        color: white;
+    }
+
+    input[type="radio"]:checked + span > .no-urut {
+        display: none;
+    }
+
+    input[type="radio"]:checked + span > .icon-check {
+        display: block;
+    }
 }
