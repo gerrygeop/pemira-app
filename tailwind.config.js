@@ -13,7 +13,7 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                sans: ["Fira Sans", ...defaultTheme.fontFamily.sans],
+                sans: ["Be Vietnam Pro", ...defaultTheme.fontFamily.sans],
             },
         },
     },
