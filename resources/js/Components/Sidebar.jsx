@@ -9,12 +9,12 @@ import {
 export default function Sidebar({ can }) {
     return (
         <div className="fixed hidden lg:block lg:w-64">
-            <div className="flex flex-col md:h-screen bg-gray-700 py-6 px-2">
-                <div className="flex-shrink-0 flex items-center mx-5 mb-10">
+            <div className="flex flex-col md:h-screen bg-gray-800 py-4 px-2">
+                <div className="flex-shrink-0 flex items-center mx-auto mb-10">
                     <img
                         src="https://img.logoipsum.com/289.svg"
                         alt="Logo"
-                        className="w-24"
+                        className="h-14 w-auto"
                     />
                 </div>
 

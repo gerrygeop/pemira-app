@@ -65,7 +65,7 @@ export default function TablePanitia({ pemira, roles }) {
                                         <Table.Td>{panitia.username}</Table.Td>
                                         <Table.Td>
                                             {panitia.roles.length > 0 ? (
-                                                <span className="px-1 mr-1.5 bg-indigo-50 text-indigo-800 uppercase ring-1 ring-indigo-600/20 rounded">
+                                                <span className="px-1 mr-1.5 bg-indigo-50 text-sm text-indigo-800 uppercase ring-1 ring-indigo-600/20 rounded">
                                                     {panitia.roles[0].name}
                                                 </span>
                                             ) : (
