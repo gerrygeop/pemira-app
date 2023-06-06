@@ -34,7 +34,7 @@ class AuthenticateLoginAttempt
         //         $this->validateEmail($request->email, $sanitizeEmail);
         //         $this->findOrSaveHierarchy($data);
 
-        //         $arrData = [
+        //         $userData = [
         //             'name' => $data->name,
         //             'email' => $sanitizeEmail,
         //             'password' => Hash::make($request->password),
@@ -45,10 +45,12 @@ class AuthenticateLoginAttempt
         //         $user = User::find($data->nim);
 
         //         if (is_null($user)) {
-        //             $arrData['nim'] = $data->nim;
-        //             $user = User::create($arrData);
+        //             $this->validateUniqueEmail($sanitizeEmail);
+
+        //             $userData['nim'] = $data->nim;
+        //             $user = User::create($userData);
         //         } else {
-        //             $user->update($arrData);
+        //             $user->update($userData);
         //         }
         //     }
         // }
@@ -59,9 +61,6 @@ class AuthenticateLoginAttempt
 
             $this->hasVoted($pemira_id, $user->nim);
 
-            // GENERATE OTP & SEND OTP
-            // $user->generateTwoFactorCode();
-            // $user->notify(new TwoFactorCode());
             return $user;
         }
     }
@@ -134,13 +133,17 @@ class AuthenticateLoginAttempt
         return $data->data;
     }
 
-    public function validateEmail($requestEmail, $emailSIA)
+    public function  validateEmail($requestEmail, $emailSIA)
     {
         if ($requestEmail != $emailSIA) {
             throw ValidationException::withMessages([
-                'email' => 'Email salah. Masukan email yang sesuai dengan SIA.',
+                'email' => 'Email salah. Masukan email yang sesuai dengan SIA anda.',
             ]);
         }
+    }
+
+    public function validateUniqueEmail($emailSIA)
+    {
         if (User::where('email', $emailSIA)->count() > 0) {
             throw ValidationException::withMessages([
                 'email' => 'Email sudah pernah digunakan.',

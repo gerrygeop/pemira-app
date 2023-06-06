@@ -2,15 +2,12 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Events\UserOneTimePassword;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
-use App\Providers\RouteServiceProvider;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
-use Inertia\Response;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -19,11 +16,15 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request): RedirectResponse
     {
-        $request->authenticate();
+        $user = $request->authenticate();
 
-        $request->session()->regenerate();
+        $user->generateToken();
 
-        return redirect()->intended(RouteServiceProvider::HOME);
+        UserOneTimePassword::dispatch($user);
+
+        Auth::guard('web')->login($user);
+
+        return to_route('otp.index');
     }
 
     /**

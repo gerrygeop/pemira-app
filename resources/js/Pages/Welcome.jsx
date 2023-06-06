@@ -85,10 +85,16 @@ export default function Welcome({ flash }) {
                                         <h2 className="text-2xl font-semibold text-gray-700">
                                             Log In
                                         </h2>
-                                        <InputError
-                                            message={errors.email}
-                                            className="mt-2"
-                                        />
+
+                                        <div className="mt-2">
+                                            <p className="text-sm text-red-600">
+                                                {flash.status === "expired" &&
+                                                    "Kode telah kedaluwarsa. Silahkan login kembali."}
+                                                {flash.status === "invalid" &&
+                                                    "Kode OTP tidak valid!"}
+                                                {errors.email && errors.email}
+                                            </p>
+                                        </div>
                                     </div>
 
                                     <form onSubmit={submit}>

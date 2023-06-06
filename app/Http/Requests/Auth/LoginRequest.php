@@ -39,16 +39,14 @@ class LoginRequest extends FormRequest
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function authenticate(): void
+    public function authenticate()
     {
         $this->ensureIsNotRateLimited();
+
         $authenticator = new AuthenticateLoginAttempt();
         $user = $authenticator($this);
 
         if (is_null($user)) {
-            dd('aduh null');
-        }
-        if (!Auth::attempt($this->only('email', 'nim', 'password'))) {
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([
@@ -57,6 +55,8 @@ class LoginRequest extends FormRequest
         }
 
         RateLimiter::clear($this->throttleKey());
+
+        return $user;
     }
 
     /**
