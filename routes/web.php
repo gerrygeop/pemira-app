@@ -19,13 +19,13 @@ Route::get('/', function () {
     return Inertia::render('Welcome');
 });
 
-Route::get('/dashboard', [UserDashboardController::class, 'dashboard'])
-    ->middleware(['auth', 'verified'])
-    ->name('dashboard');
+Route::middleware(['auth', 'verified.otp'])->group(function () {
+    Route::get('/dashboard', [UserDashboardController::class, 'dashboard'])
+        ->name('dashboard');
 
-Route::post('/vote', [UserDashboardController::class, 'vote'])
-    ->middleware(['auth'])
-    ->name('vote');
+    Route::post('/vote', [UserDashboardController::class, 'vote'])
+        ->name('vote');
+});
 
 require __DIR__ . '/auth.php';
 require __DIR__ . '/admin.php';

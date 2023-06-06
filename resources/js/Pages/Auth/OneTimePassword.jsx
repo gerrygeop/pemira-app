@@ -24,15 +24,11 @@ export default function OneTimePassword({ flash }) {
         <GuestLayout>
             <div className="mb-3">
                 {flash.status === "resend" && (
-                    <div className="text-sm text-amber-600">
-                        Kode telah dikirim ulang
+                    <div className="text-sm text-emerald-600">
+                        Kode OTP telah dikirim ulang
                     </div>
                 )}
-                {flash.status === "invalid" && (
-                    <div className="text-sm text-red-600">
-                        Kode OTP tidak cocok
-                    </div>
-                )}
+
                 {errors.token && (
                     <div className="text-sm text-red-600">{errors.token}</div>
                 )}

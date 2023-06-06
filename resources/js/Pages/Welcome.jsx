@@ -89,7 +89,7 @@ export default function Welcome({ flash }) {
                                         <div className="mt-2">
                                             <p className="text-sm text-red-600">
                                                 {flash.status === "expired" &&
-                                                    "Kode telah kedaluwarsa. Silahkan login kembali."}
+                                                    "Kode OTP telah kedaluwarsa. Silahkan login ulang."}
                                                 {flash.status === "invalid" &&
                                                     "Kode OTP tidak valid!"}
                                                 {errors.email && errors.email}
@@ -112,6 +112,7 @@ export default function Welcome({ flash }) {
                                                 className="mt-1 block w-full"
                                                 autoComplete="username"
                                                 isFocused={true}
+                                                required
                                                 onChange={(e) =>
                                                     setData(
                                                         "email",
@@ -133,6 +134,7 @@ export default function Welcome({ flash }) {
                                                 value={data.nim}
                                                 className="mt-1 block w-full"
                                                 autoComplete="username"
+                                                required
                                                 onChange={(e) =>
                                                     setData(
                                                         "nim",
@@ -155,6 +157,7 @@ export default function Welcome({ flash }) {
                                                 value={data.password}
                                                 className="mt-1 block w-full"
                                                 autoComplete="current-password"
+                                                required
                                                 onChange={(e) =>
                                                     setData(
                                                         "password",

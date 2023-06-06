@@ -4,11 +4,10 @@ namespace App\Http\Controllers\Auth;
 
 use App\Events\UserOneTimePassword;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\OTPRequest;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -20,34 +19,16 @@ class OneTimePasswordController extends Controller
         return Inertia::render('Auth/OneTimePassword');
     }
 
-    public function store(Request $request)
+    public function store(OTPRequest $request): RedirectResponse
     {
-        $request->validate([
-            'token' => 'required',
-        ]);
-
-        $user = Auth::guard('web')->user();
-
-        if ($user->token_expires_at->lt(now())) {
-            $user->resetToken();
-
-            Auth::guard('web')->logout();
-            $request->session()->invalidate();
-            $request->session()->regenerateToken();
-
-            return redirect('/')->with('status', 'expired');
+        if ($request->validateOTP()) {
+            Auth::guard('web')->user()->resetToken();
         }
 
-        if ($request->token === $user->token) {
-            $user->resetToken();
-
-            return redirect()->intended(RouteServiceProvider::HOME);
-        }
-
-        return redirect()->back()->with('status', 'invalid');
+        return redirect()->intended(RouteServiceProvider::HOME);
     }
 
-    public function resend()
+    public function resend(): RedirectResponse
     {
         $user = Auth::guard('web')->user();
 
