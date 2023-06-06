@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests\Auth;
 
-use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;

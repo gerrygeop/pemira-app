@@ -71,16 +71,16 @@ export default function FormRole({ closeModal, permissions, role }) {
         <div>
             {confirmingDeletion ? (
                 <>
-                    <div className="p-6 flex items-center">
+                    <div className="p-6 flex flex-col items-center">
                         <IconAlertOctagonFilled
-                            className="text-red-600 mr-3 animate-pulse"
+                            className="text-red-600 animate-pulse mb-2"
                             size={32}
                         />
-                        <p className="text-gray-700 text-lg font-medium">
+                        <p className="text-center text-gray-700 font-medium">
                             Yakin ingin menghapus role {role?.name}
                         </p>
                     </div>
-                    <div className="flex items-center justify-end gap-x-4 bg-gray-100 px-6 py-4">
+                    <div className="flex items-center justify-between gap-x-4 bg-gray-100 px-6 py-4">
                         <SecondaryButton
                             type="button"
                             onClick={() => {

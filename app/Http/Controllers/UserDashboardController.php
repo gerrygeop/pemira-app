@@ -6,7 +6,6 @@ use App\Enums\PemiraStatus;
 use App\Http\Requests\VotingRequest;
 use App\Models\Pemira;
 use App\Models\Voting;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;

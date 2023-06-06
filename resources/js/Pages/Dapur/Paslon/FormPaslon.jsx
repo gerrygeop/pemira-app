@@ -212,17 +212,17 @@ export default function FormPaslon({
                 onClose={() => setConfirmingDeletion(false)}
                 maxWidth="2xl"
             >
-                <div className="p-6 flex items-center">
+                <div className="p-6 flex flex-col items-center">
                     <IconAlertOctagonFilled
-                        className="text-red-600 mr-3 animate-pulse"
+                        className="text-red-600 mb-2 animate-pulse"
                         size={32}
                     />
-                    <p className="text-gray-700 text-lg font-medium">
+                    <p className="text-center text-gray-700 font-medium">
                         Yakin ingin menghapus Paslon {paslon.candidate?.name}{" "}
                         {paslon?.partner?.name && " & " + paslon.partner.name}
                     </p>
                 </div>
-                <div className="flex items-center justify-end gap-x-4 bg-gray-100 px-6 py-4">
+                <div className="flex items-center justify-between gap-x-4 bg-gray-100 px-6 py-4">
                     <SecondaryButton
                         type="button"
                         onClick={() => setConfirmingDeletion(false)}

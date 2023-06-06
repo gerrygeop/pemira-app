@@ -4,7 +4,7 @@ import UpdateProfileInformationForm from "./Partials/UpdateProfileInformationFor
 import { Head } from "@inertiajs/react";
 import DapurLayout from "@/Layouts/DapurLayout";
 
-export default function Edit({ mustVerifyEmail, status }) {
+export default function Edit() {
     return (
         <DapurLayout header="Profile">
             <Head title="Profile" />
