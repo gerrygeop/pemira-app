@@ -105,13 +105,17 @@ class AuthenticateLoginAttempt
                 'usertype' => 'MHS',
             ]);
 
-        if ($response->failed()) {
+        if ($response->ok()) {
+            return $response;
+        } else if ($response->failed()) {
             throw ValidationException::withMessages([
                 'email' => 'Data tidak ditemukan. Pastikan data anda sesuai dengan yang terdaftar pada SIA.',
             ]);
+        } else {
+            throw ValidationException::withMessages([
+                'email' => 'Terjadi kesalahan saat melakukan autentikasi.',
+            ]);
         }
-
-        return $response;
     }
 
     private function getDetailUser($nim)
