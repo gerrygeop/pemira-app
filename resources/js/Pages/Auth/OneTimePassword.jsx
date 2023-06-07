@@ -29,6 +29,11 @@ export default function OneTimePassword({ flash }) {
                     </div>
                 )}
 
+                {flash?.status !== "resend" && (
+                    <div className="text-sm text-red-600">
+                        {flash?.status?.limiter}
+                    </div>
+                )}
                 {errors.token && (
                     <div className="text-sm text-red-600">{errors.token}</div>
                 )}
