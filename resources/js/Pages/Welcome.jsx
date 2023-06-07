@@ -1,9 +1,8 @@
-import InputError from "@/Components/InputError";
 import InputLabel from "@/Components/InputLabel";
 import PrimaryButton from "@/Components/PrimaryButton";
 import TextInput from "@/Components/TextInput";
 import { Link, useForm } from "@inertiajs/react";
-import { IconDiscountCheckFilled } from "@tabler/icons-react";
+import { IconDiscountCheckFilled, IconLoader2 } from "@tabler/icons-react";
 import { useEffect } from "react";
 
 export default function Welcome({ flash }) {
@@ -39,11 +38,11 @@ export default function Welcome({ flash }) {
                         </div>
 
                         <div className="mb-4 md:mb-0 md:col-span-2 flex flex-col justify-center text-slate-800">
-                            <h2 className="text-5xl font-semibold uppercase">
+                            <h2 className="text-3xl lg:text-5xl font-semibold uppercase">
                                 Pemilihan Umum Raya <br /> universitas
                                 mulawarman
                             </h2>
-                            <p className="mt-3 md:w-3/4 text-lg text-gray-70">
+                            <p className="mt-3 md:w-3/4 lg:text-lg text-gray-70">
                                 PEMIRA adalah pesta demokrasi mahasiswa dalam
                                 rangka pemilihan Presiden dan Wakil Presiden BEM
                                 Fakultas Ilmu Sosial dan Ilmu Politik
@@ -62,7 +61,7 @@ export default function Welcome({ flash }) {
                             </div>
                         </div>
 
-                        <div className="w-full px-6 py-4 bg-white shadow-md overflow-hidden rounded-lg">
+                        <div className="w-full px-4 md:px-6 py-4 bg-white shadow-md overflow-hidden rounded-lg">
                             {flash.status === "success" ? (
                                 <div className="text-center h-full flex flex-col items-center justify-center">
                                     <IconDiscountCheckFilled
@@ -90,8 +89,6 @@ export default function Welcome({ flash }) {
                                             <p className="text-sm text-red-600">
                                                 {flash.status === "expired" &&
                                                     "Kode OTP telah kedaluwarsa. Silahkan login ulang."}
-                                                {flash.status === "invalid" &&
-                                                    "Kode OTP tidak valid!"}
                                                 {errors.email && errors.email}
                                             </p>
                                         </div>
@@ -167,12 +164,21 @@ export default function Welcome({ flash }) {
                                             />
                                         </div>
 
-                                        <div className="flex items-center justify-end mt-4">
+                                        <div className="flex items-center justify-end mt-4 anima">
                                             <PrimaryButton
                                                 className="ml-4"
                                                 disabled={processing}
                                             >
-                                                Log in
+                                                {processing ? (
+                                                    <>
+                                                        Loading
+                                                        <span className="animate-spin">
+                                                            <IconLoader2 className="w-4 h-4 ml-1" />
+                                                        </span>
+                                                    </>
+                                                ) : (
+                                                    "Log in"
+                                                )}
                                             </PrimaryButton>
                                         </div>
                                     </form>
