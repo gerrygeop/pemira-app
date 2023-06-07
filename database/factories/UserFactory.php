@@ -22,7 +22,7 @@ class UserFactory extends Factory
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-            'department_id' => fake()->numberBetween(15, 77),
+            'department_id' => fake()->numberBetween(1, 63),
             'academic_year' => fake()->numberBetween(2017, 2022),
         ];
     }

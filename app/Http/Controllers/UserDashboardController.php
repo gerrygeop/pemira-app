@@ -16,9 +16,9 @@ class UserDashboardController extends Controller
     public function dashboard(): Response
     {
         $pemira = Pemira::with('paslon')
-            ->whereIn('hierarchy_id', [1])
+            ->whereIn('level', [1])
             ->where('status', PemiraStatus::ACTIVE)
-            ->orderBy('hierarchy_id')
+            ->orderBy('level')
             ->get();
 
         return Inertia::render('Dashboard', [

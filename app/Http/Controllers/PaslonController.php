@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\PaslonRequest;
 use App\Models\Candidate;
-use App\Models\Hierarchy;
+use App\Models\Faculty;
 use App\Models\Paslon;
 use App\Models\Pemira;
 use App\Validators\PaslonValidator;
@@ -30,7 +30,7 @@ class PaslonController extends Controller
     {
         return Inertia::render('Dapur/Paslon/FormPaslon', [
             'pemira' => $pemira->id,
-            'faculties' => Hierarchy::where('parent_id', 1)->get()
+            'faculties' => Faculty::all()
         ]);
     }
 
@@ -83,7 +83,7 @@ class PaslonController extends Controller
     {
         return Inertia::render('Dapur/Paslon/FormPaslon', [
             'paslon' => $paslon,
-            'faculties' => Hierarchy::where('parent_id', 1)->get()
+            'faculties' => Faculty::all()
         ]);
     }
 

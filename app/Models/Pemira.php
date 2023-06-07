@@ -6,7 +6,6 @@ use App\Enums\PemiraStatus;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -34,11 +33,6 @@ class Pemira extends Model
     public function paslon(): HasMany
     {
         return $this->hasMany(Paslon::class);
-    }
-
-    public function hierarchy(): BelongsTo
-    {
-        return $this->belongsTo(Hierarchy::class);
     }
 
     public function validateActivation()

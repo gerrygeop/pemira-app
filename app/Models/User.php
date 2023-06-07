@@ -45,7 +45,7 @@ class User extends Authenticatable
 
     public function department(): BelongsTo
     {
-        return $this->belongsTo(Hierarchy::class, 'department_id');
+        return $this->belongsTo(Department::class);
     }
 
     public function votings(): HasMany
@@ -63,9 +63,12 @@ class User extends Authenticatable
 
     public function resetToken()
     {
-        $this->timestamps = false;
-        $this->token = null;
-        $this->token_expires_at = null;
-        $this->save();
+        if (!is_null($this->token)) {
+            $this->timestamps = false;
+            $this->token = null;
+            $this->token_expires_at = null;
+
+            $this->save();
+        }
     }
 }
