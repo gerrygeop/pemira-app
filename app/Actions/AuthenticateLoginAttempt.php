@@ -3,7 +3,8 @@
 namespace App\Actions;
 
 use App\Enums\PemiraStatus;
-use App\Models\Hierarchy;
+use App\Models\Department;
+use App\Models\Faculty;
 use App\Models\Pemira;
 use App\Models\User;
 use App\Models\Voting;
@@ -20,44 +21,44 @@ class AuthenticateLoginAttempt
     {
         $user = $this->findUser($request);
 
-        // if (is_null($user)) {
-        //     $response = $this->loginSIA($request->nim, $request->password);
+        if (is_null($user)) {
+            $response = $this->loginSIA($request);
 
-        //     if ($response->ok()) {
-        //         $data = $this->getDetailUser(json_decode($response)->data->id);
+            if ($response->ok()) {
+                $data = $this->getDetailUser(json_decode($response)->data->id);
 
-        //         $this->isPemiraAvailable([1, $data->faculty_id, $data->departement_id]);
+                $this->isPemiraAvailable([1, $data->faculty_id, $data->departement_id]);
 
-        //         $sanitizeEmail = Str::of($data->email)->trim()->lower();
+                $sanitizeEmail = Str::of($data->email)->trim()->lower();
 
-        //         $this->validateStatusSIA($data->status);
-        //         $this->validateEmail($request->email, $sanitizeEmail);
-        //         $this->findOrSaveHierarchy($data);
+                $this->validateStatusSIA($data->status);
+                $this->validateEmail($request->email, $sanitizeEmail);
+                $this->findOrSaveHierarchy($data);
 
-        //         $userData = [
-        //             'name' => $data->name,
-        //             'email' => $sanitizeEmail,
-        //             'password' => Hash::make($request->password),
-        //             'department_id' => $data->departement_id,
-        //             'academic_year' => $data->academic_year,
-        //         ];
+                $userData = [
+                    'name' => $data->name,
+                    'email' => $sanitizeEmail,
+                    'password' => Hash::make($request->password),
+                    'department_id' => $data->departement_id,
+                    'academic_year' => $data->academic_year,
+                ];
 
-        //         $user = User::find($data->nim);
+                $user = User::find($data->nim);
 
-        //         if (is_null($user)) {
-        //             $this->validateUniqueEmail($sanitizeEmail);
+                if (is_null($user)) {
+                    $this->validateUniqueEmail($sanitizeEmail);
 
-        //             $userData['nim'] = $data->nim;
-        //             $user = User::create($userData);
-        //         } else {
-        //             $user->update($userData);
-        //         }
-        //     }
-        // }
+                    $userData['nim'] = $data->nim;
+                    $user = User::create($userData);
+                } else {
+                    $user->update($userData);
+                }
+            }
+        }
 
         if ($user && Hash::check($request->password, $user->password)) {
 
-            $pemira_id = $this->isPemiraAvailable([1, $user->department->parent_id, $user->department_id], true);
+            $pemira_id = $this->isPemiraAvailable([1, $user->department->faculty_id, $user->department_id], true);
 
             $this->hasVoted($pemira_id, $user->nim);
 
@@ -91,7 +92,7 @@ class AuthenticateLoginAttempt
         return $user;
     }
 
-    private function loginSIA($nim, $password)
+    private function loginSIA($request)
     {
         $response = Http::acceptJson()
             ->withHeaders([
@@ -99,8 +100,8 @@ class AuthenticateLoginAttempt
                 'apikey' => env('API_KEY'),
             ])
             ->post(env("URL_LOGIN"), [
-                'username' => $nim,
-                'password' => $password,
+                'username' => $request->nim,
+                'password' => $request->password,
                 'usertype' => 'MHS',
             ]);
 
@@ -120,13 +121,13 @@ class AuthenticateLoginAttempt
                 'Authorization' => 'Bearer ' . env('BEARER_TOKEN'),
                 'apikey' => env('API_KEY'),
             ])
-            ->get(env("URL_GET_USER") . $nim);
+            ->get(env("URL_DETAIL_USER") . $nim);
 
         $data = json_decode($res);
 
         if ($data->message != 'Success') {
             throw ValidationException::withMessages([
-                'email' => 'Gagal login.',
+                'email' => 'Gagal mendapatkan data user.',
             ]);
         }
 
@@ -164,16 +165,16 @@ class AuthenticateLoginAttempt
     {
         if ($faculty != env("ID_FACULTY")) {
             throw ValidationException::withMessages([
-                'email' => 'Anda bukan mahasiswa Fakultas.',
+                'email' => 'Anda tidak terdaftar didalam SIA.',
             ]);
         }
     }
 
-    private function isPemiraAvailable($hierarchies, $return = false)
+    private function isPemiraAvailable($level, $return = false)
     {
-        $pemiras = Pemira::whereIn('hierarchy_id', $hierarchies)
+        $pemiras = Pemira::whereIn('level', $level)
             ->where('activated_at', '<', now())
-            ->orWhere('status', PemiraStatus::ACTIVE)
+            ->where('finished_at', '>', now())
             ->get();
 
         $pemiras->map(fn ($pemira) => $pemira->validateActivation());
@@ -181,7 +182,7 @@ class AuthenticateLoginAttempt
 
         if ($pemira->isEmpty()) {
             throw ValidationException::withMessages([
-                'email' => 'Tidak tersedia Pemilihan Raya (PEMIRA) saat ini.',
+                'email' => 'Tidak ada Pemilihan Raya (PEMIRA) saat ini.',
             ]);
         }
 
@@ -192,21 +193,32 @@ class AuthenticateLoginAttempt
 
     private function findOrSaveHierarchy($data)
     {
-        $faculty = Hierarchy::find($data->faculty_id);
+        $this->createOrUpdateFaculty($data);
+        $this->createOrUpdateDepartment($data);
+    }
+
+    private function createOrUpdateFaculty($data)
+    {
+        $faculty = Faculty::find($data->faculty_id);
         if (is_null($faculty)) {
-            Hierarchy::create([
+            Faculty::create([
                 'id' => $data->faculty_id,
-                'name' => $data->nameFaculty,
-                'parent_id' => 1,
+                'name' => $data->faculty_name,
+            ]);
+        } else if (str()->lower($data->faculty_name) !== str()->lower($faculty->name)) {
+            $faculty->update([
+                'name' => $data->faculty_name,
             ]);
         }
-
-        $departement = Hierarchy::find($data->departement_id);
-        if (is_null($departement)) {
-            Hierarchy::create([
+    }
+    private function createOrUpdateDepartment($data)
+    {
+        $department = Department::find($data->departement_id);
+        if (is_null($department)) {
+            Department::create([
                 'id' => $data->departement_id,
                 'name' => $data->departement_name,
-                'parent_id' => $data->faculty_id,
+                'faculty_id' => $data->faculty_id,
             ]);
         }
     }
