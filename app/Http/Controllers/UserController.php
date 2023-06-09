@@ -23,17 +23,13 @@ class UserController extends Controller
                 $request->search,
                 fn ($query) => $query->where('name', 'LIKE', "%" . $request->search . "%")->orWhere('email', 'LIKE', '%' . $request->search . '%')
             )
-            ->when(
-                $request->faculty,
-                fn ($query) => $query->whereHas('department', function ($query) use ($request) {
-                    $query->where('faculty_id', $request->faculty);
-                })
-            )
-            ->paginate(15);
+            ->paginate(15)
+            ->appends($request->all());
 
         return Inertia::render('Dapur/Users/Index', [
             'users' => $users,
-            'faculties' => Faculty::whereNot('id', 1)->get()
+            'faculties' => Faculty::whereNot('id', 1)->get(),
+            'filters' => $request->all('search')
         ]);
     }
 }
