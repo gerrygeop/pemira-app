@@ -13,6 +13,7 @@ class Department extends Model
 
     protected $guarded = [];
     protected $table = 'departments';
+    protected $with = ['faculty'];
 
     public function faculty(): BelongsTo
     {

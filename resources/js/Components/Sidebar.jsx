@@ -4,6 +4,7 @@ import {
     IconLayoutDashboard,
     IconShieldLock,
     IconBuildingBank,
+    IconUsers,
 } from "@tabler/icons-react";
 
 export default function Sidebar({ can }) {
@@ -38,15 +39,24 @@ export default function Sidebar({ can }) {
                     )}
 
                     {can.includes("cooking") && (
-                        <SideLink
-                            href={route("d.roles.index")}
-                            active={route().current("d.roles.*")}
-                        >
-                            <IconShieldLock />
-                            <span className="tracking-wide">
-                                Roles & Permissions
-                            </span>
-                        </SideLink>
+                        <>
+                            <SideLink
+                                href={route("d.users.index")}
+                                active={route().current("d.users.index")}
+                            >
+                                <IconUsers />
+                                <span className="tracking-wide">Users</span>
+                            </SideLink>
+                            <SideLink
+                                href={route("d.roles.index")}
+                                active={route().current("d.roles.*")}
+                            >
+                                <IconShieldLock />
+                                <span className="tracking-wide">
+                                    Roles & Permissions
+                                </span>
+                            </SideLink>
+                        </>
                     )}
                 </nav>
             </div>

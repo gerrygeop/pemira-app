@@ -119,18 +119,32 @@ export default function Navbar({ header }) {
                         >
                             Dashboard
                         </ResponsiveNavLink>
-                        <ResponsiveNavLink
-                            href={route("d.pemira.index")}
-                            active={route().current("d.pemira.*")}
-                        >
-                            Pemira
-                        </ResponsiveNavLink>
-                        <ResponsiveNavLink
-                            href={route("d.roles.index")}
-                            active={route().current("d.roles.*")}
-                        >
-                            Roles & Permissions
-                        </ResponsiveNavLink>
+
+                        {user?.permission.includes("read_pemira") && (
+                            <ResponsiveNavLink
+                                href={route("d.pemira.index")}
+                                active={route().current("d.pemira.*")}
+                            >
+                                Pemira
+                            </ResponsiveNavLink>
+                        )}
+
+                        {user?.permission.includes("cooking") && (
+                            <>
+                                <ResponsiveNavLink
+                                    href={route("d.users.index")}
+                                    active={route().current("d.users.index")}
+                                >
+                                    Users
+                                </ResponsiveNavLink>
+                                <ResponsiveNavLink
+                                    href={route("d.roles.index")}
+                                    active={route().current("d.roles.*")}
+                                >
+                                    Roles & Permissions
+                                </ResponsiveNavLink>
+                            </>
+                        )}
                     </div>
                 )}
 

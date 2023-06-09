@@ -7,6 +7,7 @@ use App\Http\Controllers\PaslonController;
 use App\Http\Controllers\PemiraController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -50,6 +51,9 @@ Route::prefix('d')->name('d.')->group(function () {
 
         // Roles & Permissions
         Route::resource('roles', RoleController::class)->except(['show', 'create', 'edit']);
+
+        // Users
+        Route::resource('users', UserController::class)->only('index');
 
         // Profile auth admin/panitia
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
