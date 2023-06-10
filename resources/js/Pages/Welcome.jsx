@@ -29,11 +29,31 @@ export default function Welcome({ flash }) {
             <div className="min-h-screen flex flex-col text-gray-900 bg-gradient-to-br from-yellow-500 to-[#f5df48]/50 bg-opacity-90 backdrop-blur-[3px] font-custom antialiased">
                 <div className="max-w-7xl mx-auto flex-auto py-10 px-4 sm:px-6 lg:px-8">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-2">
-                        <div className="col-span-full flex justify-between items-center mb-8 lg:mb-20 h-16">
+                        <div className="col-span-full flex justify-start items-center gap-x-2.5 mb-8 lg:mb-20 h-16">
                             <img
                                 src="/image/Logo-UNMUL.png"
                                 alt="Logo UNMUL"
-                                className="h-16 flex-shrink-0"
+                                className="h-14 md:h-16 shrink-0"
+                            />
+                            <img
+                                src="/image/logo-dpm-km.png"
+                                alt="Logo"
+                                className="h-14 md:h-16 shrink-0"
+                            />
+                            <img
+                                src="/image/logo-kppr.png"
+                                alt="Logo"
+                                className="h-14 md:h-16 shrink-0"
+                            />
+                            <img
+                                src="/image/logo-itp.png"
+                                alt="Logo"
+                                className="h-14 md:h-16 shrink-0"
+                            />
+                            <img
+                                src="/image/logo-uname.png"
+                                alt="Logo"
+                                className="h-14 md:h-16 shrink-0"
                             />
                         </div>
 

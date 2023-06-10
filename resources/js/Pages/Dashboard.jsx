@@ -16,8 +16,6 @@ export default function Dashboard({ collections }) {
         pemira: {},
     });
 
-    console.log(errors.pemira);
-
     const [showModal, setShowModal] = useState(false);
     const [paslon, setPaslon] = useState("");
 
@@ -50,48 +48,52 @@ export default function Dashboard({ collections }) {
         <AuthenticatedLayout header="Dashboard">
             <Container>
                 <form onSubmit={submit}>
-                    {collections.map((pemira) => (
-                        <div key={pemira.id}>
-                            <div className="p-6 md:px-20 text-center">
-                                <div className="mb-2 md:mb-4">
-                                    <h1 className="font-medium uppercase text-2xl lg:text-3xl text-gray-800">
-                                        {pemira.nama_pemira}
-                                    </h1>
+                    <div className="divide-y">
+                        {collections.map((pemira) => (
+                            <div key={pemira.id} className="py-6">
+                                <div className="p-6 md:px-20 text-center">
+                                    <div className="mb-2 md:mb-4">
+                                        <h1 className="font-medium uppercase text-2xl lg:text-3xl text-gray-800">
+                                            {pemira.nama_pemira}
+                                        </h1>
 
-                                    {pemira.keterangan && (
-                                        <p className="text-gray-600 mt-2">
-                                            {pemira.keterangan}
-                                        </p>
-                                    )}
-                                </div>
-
-                                <div className="flex flex-col sm:flex-row items-center justify-center">
-                                    <div className="flex items-center text-gray-600">
-                                        <IconClockHour5 className="w-5 h-5" />
-                                        <span className="ml-1">Selesai:</span>
+                                        {pemira.keterangan && (
+                                            <p className="text-gray-600 mt-2">
+                                                {pemira.keterangan}
+                                            </p>
+                                        )}
                                     </div>
 
-                                    <h6 className="text-gray-700 font-medium ml-0 md:ml-3">
-                                        <DateTime
-                                            datetime={pemira?.finished_at}
+                                    <div className="flex flex-col sm:flex-row items-center justify-center">
+                                        <div className="flex items-center text-gray-600">
+                                            <IconClockHour5 className="w-5 h-5" />
+                                            <span className="ml-1">
+                                                Selesai:
+                                            </span>
+                                        </div>
+
+                                        <h6 className="text-gray-700 font-medium ml-0 md:ml-3">
+                                            <DateTime
+                                                datetime={pemira?.finished_at}
+                                            />
+                                        </h6>
+                                    </div>
+                                </div>
+
+                                <div className="flex justify-center flex-wrap mt-6">
+                                    {pemira.paslon.map((paslon) => (
+                                        <CardPaslon
+                                            key={paslon.id}
+                                            paslon={paslon}
+                                            detailPaslon={showingModal}
+                                            data={data}
+                                            setData={setData}
                                         />
-                                    </h6>
+                                    ))}
                                 </div>
                             </div>
-
-                            <div className="flex justify-center flex-wrap mt-6">
-                                {pemira.paslon.map((paslon) => (
-                                    <CardPaslon
-                                        key={paslon.id}
-                                        paslon={paslon}
-                                        detailPaslon={showingModal}
-                                        data={data}
-                                        setData={setData}
-                                    />
-                                ))}
-                            </div>
-                        </div>
-                    ))}
+                        ))}
+                    </div>
 
                     <div className="flex items-center justify-center mt-10">
                         <PrimaryButton

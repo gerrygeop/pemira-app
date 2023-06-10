@@ -17,9 +17,9 @@ export default function Navbar({ header }) {
                 guard === "admin" ? " lg:bg-transparent" : ""
             }`}
         >
-            <div className={guard === "admin" ? "block lg:hidden" : ""}>
-                <div className="max-w-7xl mx-auto p-2 pt-2 sm:px-6 lg:px-8">
-                    <div className="flex items-center justify-start space-x-2">
+            <div className="block lg:hidden">
+                <div className="max-w-7xl mx-auto px-2 py-4 sm:px-6 lg:px-8">
+                    <div className="flex items-center justify-center lg:justify-start space-x-2">
                         <img
                             src="/image/Logo-UNMUL.png"
                             alt="Logo"
@@ -52,13 +52,41 @@ export default function Navbar({ header }) {
             </div>
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex justify-between h-16">
+                <div className="flex justify-between h-20">
                     <div className="flex">
                         <div className="shrink-0 flex items-center gap-x-4">
-                            {guard === "admin" && (
+                            {guard === "admin" ? (
                                 <h1 className="text-gray-800 text-lg sm:text-xl font-medium">
                                     {header}
                                 </h1>
+                            ) : (
+                                <div className="hidden lg:flex lg:items-center lg:gap-x-3">
+                                    <img
+                                        src="/image/Logo-UNMUL.png"
+                                        alt="Logo"
+                                        className="w-14"
+                                    />
+                                    <img
+                                        src="/image/logo-dpm-km.png"
+                                        alt="Logo"
+                                        className="w-14 h-auto"
+                                    />
+                                    <img
+                                        src="/image/logo-kppr.png"
+                                        alt="Logo"
+                                        className="w-14 h-auto"
+                                    />
+                                    <img
+                                        src="/image/logo-itp.png"
+                                        alt="Logo"
+                                        className="w-14 h-auto"
+                                    />
+                                    <img
+                                        src="/image/logo-uname.png"
+                                        alt="Logo"
+                                        className="w-14 h-auto"
+                                    />
+                                </div>
                             )}
                         </div>
                     </div>
