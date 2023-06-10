@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Enums\PemiraStatus;
 use App\Http\Requests\VotingRequest;
+use App\Models\Paslon;
 use App\Models\Pemira;
 use App\Models\Voting;
 use Illuminate\Support\Facades\Auth;
@@ -37,6 +38,10 @@ class UserDashboardController extends Controller
                     'user_id' => Auth::guard('web')->id(),
                     'paslon_id' => $paslonId,
                 ]);
+
+                $paslon = Paslon::findOrFail($paslonId);
+                $paslon->total_suara += 1;
+                $paslon->save();
             }
         });
 
