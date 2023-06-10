@@ -26,7 +26,7 @@ export default function Navbar({ header }) {
                             className="w-14"
                         />
                         <img
-                            src="/image/logo-dpm.png"
+                            src="/image/logo-dpm-km.png"
                             alt="Logo"
                             className="w-14 h-auto"
                         />
