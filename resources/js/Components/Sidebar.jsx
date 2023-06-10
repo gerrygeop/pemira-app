@@ -13,9 +13,9 @@ export default function Sidebar({ can }) {
             <div className="flex flex-col md:h-screen bg-gray-800 py-4 px-2">
                 <div className="flex-shrink-0 flex items-center mx-auto mb-10">
                     <img
-                        src="https://img.logoipsum.com/289.svg"
+                        src="/image/Logo-UNMUL.png"
                         alt="Logo"
-                        className="h-14 w-auto"
+                        className="w-24 h-auto"
                     />
                 </div>
 

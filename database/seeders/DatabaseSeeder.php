@@ -19,6 +19,6 @@ class DatabaseSeeder extends Seeder
             HierarchySeeder::class,
         ]);
 
-        \App\Models\User::factory(1000)->create();
+        // \App\Models\User::factory(1000)->create();
     }
 }

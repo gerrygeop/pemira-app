@@ -17,30 +17,48 @@ export default function Navbar({ header }) {
                 guard === "admin" ? " lg:bg-transparent" : ""
             }`}
         >
-            <div className="lg:hidden p-2 pt-4 border">
-                <div className="flex items-center justify-start space-x-2">
-                    <img
-                        src="https://img.logoipsum.com/289.svg"
-                        alt="Logo"
-                        className="w-24"
-                    />
+            <div className={guard === "admin" ? "block lg:hidden" : ""}>
+                <div className="max-w-7xl mx-auto p-2 pt-2 sm:px-6 lg:px-8">
+                    <div className="flex items-center justify-start space-x-2">
+                        <img
+                            src="/image/Logo-UNMUL.png"
+                            alt="Logo"
+                            className="w-14"
+                        />
+                        <img
+                            src="/image/logo-dpm.png"
+                            alt="Logo"
+                            className="w-14 h-auto"
+                        />
+                        <img
+                            src="/image/logo-kppr.png"
+                            alt="Logo"
+                            className="w-14 h-auto"
+                        />
+                        <img
+                            src="/image/logo-itp.png"
+                            alt="Logo"
+                            className="w-14 h-auto"
+                        />
+                        <img
+                            src="/image/logo-uname.png"
+                            alt="Logo"
+                            className="w-14 h-auto"
+                        />
+                    </div>
                 </div>
+
+                <div className="border-t"></div>
             </div>
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-between h-16">
                     <div className="flex">
-                        <div className="shrink-0 flex items-center">
-                            {guard === "admin" ? (
+                        <div className="shrink-0 flex items-center gap-x-4">
+                            {guard === "admin" && (
                                 <h1 className="text-gray-800 text-lg sm:text-xl font-medium">
                                     {header}
                                 </h1>
-                            ) : (
-                                <img
-                                    src="https://img.logoipsum.com/289.svg"
-                                    alt="Logo"
-                                    className="w-28 h-auto hidden lg:block"
-                                />
                             )}
                         </div>
                     </div>
