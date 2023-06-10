@@ -8,6 +8,7 @@ use App\Http\Controllers\PemiraController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\VotingController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -54,6 +55,8 @@ Route::prefix('d')->name('d.')->group(function () {
 
         // Users
         Route::resource('users', UserController::class)->only('index');
+
+        Route::resource('voting', VotingController::class);
 
         // Profile auth admin/panitia
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

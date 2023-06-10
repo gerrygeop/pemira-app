@@ -38,6 +38,16 @@ export default function Sidebar({ can }) {
                         </SideLink>
                     )}
 
+                    {can.includes("read_voting") && (
+                        <SideLink
+                            href={route("d.voting.index")}
+                            active={route().current("d.voting.*")}
+                        >
+                            <IconBuildingBank />
+                            <span className="tracking-wide">Voting</span>
+                        </SideLink>
+                    )}
+
                     {can.includes("cooking") && (
                         <>
                             <SideLink
