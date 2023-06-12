@@ -31,17 +31,17 @@ export default function Navbar({ header }) {
                             className="w-14 h-auto"
                         />
                         <img
+                            src="/image/logo-bawasra.png"
+                            alt="Logo"
+                            className="w-14 h-auto"
+                        />
+                        <img
                             src="/image/logo-kppr.png"
                             alt="Logo"
                             className="w-14 h-auto"
                         />
                         <img
                             src="/image/logo-itp.png"
-                            alt="Logo"
-                            className="w-14 h-auto"
-                        />
-                        <img
-                            src="/image/logo-uname.png"
                             alt="Logo"
                             className="w-14 h-auto"
                         />
@@ -72,17 +72,17 @@ export default function Navbar({ header }) {
                                         className="w-14 h-auto"
                                     />
                                     <img
+                                        src="/image/logo-bawasra.png"
+                                        alt="Logo"
+                                        className="w-14 h-auto"
+                                    />
+                                    <img
                                         src="/image/logo-kppr.png"
                                         alt="Logo"
                                         className="w-14 h-auto"
                                     />
                                     <img
                                         src="/image/logo-itp.png"
-                                        alt="Logo"
-                                        className="w-14 h-auto"
-                                    />
-                                    <img
-                                        src="/image/logo-uname.png"
                                         alt="Logo"
                                         className="w-14 h-auto"
                                     />

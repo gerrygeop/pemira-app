@@ -41,17 +41,17 @@ export default function Welcome({ flash }) {
                                 className="h-14 md:h-16 shrink-0"
                             />
                             <img
+                                src="/image/logo-bawasra.png"
+                                alt="Logo"
+                                className="h-14 md:h-16 shrink-0"
+                            />
+                            <img
                                 src="/image/logo-kppr.png"
                                 alt="Logo"
                                 className="h-14 md:h-16 shrink-0"
                             />
                             <img
                                 src="/image/logo-itp.png"
-                                alt="Logo"
-                                className="h-14 md:h-16 shrink-0"
-                            />
-                            <img
-                                src="/image/logo-uname.png"
                                 alt="Logo"
                                 className="h-14 md:h-16 shrink-0"
                             />
