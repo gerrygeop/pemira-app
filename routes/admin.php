@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Dapur\Auth\AdminPasswordController;
 use App\Http\Controllers\Dapur\Auth\AdminAuthenticatedSessionController;
+use App\Http\Controllers\DapurDashboardController;
 use App\Http\Controllers\PanitiaController;
 use App\Http\Controllers\PaslonController;
 use App\Http\Controllers\PemiraController;
@@ -26,9 +27,7 @@ Route::prefix('d')->name('d.')->group(function () {
 
     // Admin after login
     Route::middleware('auth:admin')->group(function () {
-        Route::get('dashboard', function () {
-            return Inertia::render('Dapur/Dashboard');
-        })->name('dashboard');
+        Route::get('dashboard', [DapurDashboardController::class, 'dashboard'])->name('dashboard');
 
         // Pemira
         Route::resource('pemira', PemiraController::class);

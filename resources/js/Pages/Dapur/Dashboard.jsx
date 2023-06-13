@@ -1,9 +1,10 @@
 import BarChart from "@/Components/BarChart";
 import Container, { Board } from "@/Components/Container";
+import RealTimeChart from "@/Components/RealTimeChart";
 import DapurLayout from "@/Layouts/DapurLayout";
 import { Head } from "@inertiajs/react";
 
-export default function Dashboard() {
+export default function Dashboard({ pemira }) {
     return (
         <DapurLayout header="Dashboard">
             <Head title="Dashboard" />
@@ -18,7 +19,7 @@ export default function Dashboard() {
                                 strokeLinecap="round"
                                 strokeLinejoin="round"
                                 strokeWidth="2"
-                                className="text-indigo-500 w-10 h-10 lg:w-12 lg:h-12"
+                                className="text-green-600 w-10 h-10 lg:w-12 lg:h-12"
                                 viewBox="0 0 24 24"
                             >
                                 <path d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z" />
@@ -39,7 +40,7 @@ export default function Dashboard() {
                                 strokeLinecap="round"
                                 strokeLinejoin="round"
                                 strokeWidth="1.5"
-                                className="text-indigo-500 w-11 h-11 lg:w-14 lg:h-14"
+                                className="text-green-600 w-11 h-11 lg:w-14 lg:h-14"
                                 viewBox="0 0 24 24"
                             >
                                 <path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
@@ -60,7 +61,7 @@ export default function Dashboard() {
                                 strokeLinecap="round"
                                 strokeLinejoin="round"
                                 strokeWidth="2"
-                                className="text-indigo-500 w-10 h-10 lg:w-12 lg:h-12"
+                                className="text-green-600 w-10 h-10 lg:w-12 lg:h-12"
                                 viewBox="0 0 24 24"
                             >
                                 <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"></path>
@@ -83,7 +84,7 @@ export default function Dashboard() {
                                 strokeLinecap="round"
                                 strokeLinejoin="round"
                                 strokeWidth="2"
-                                className="text-indigo-500 w-10 h-10 lg:w-12 lg:h-12"
+                                className="text-green-600 w-10 h-10 lg:w-12 lg:h-12"
                                 viewBox="0 0 24 24"
                             >
                                 <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
@@ -98,21 +99,38 @@ export default function Dashboard() {
                     </div>
                 </section>
 
-                <div className="my-8 border-t"></div>
+                <div className="my-6 border-t"></div>
 
-                <h2 className="mb-2 font-medium text-lg text-gray-800">
+                {/* <h2 className="mb-2 font-medium text-lg text-gray-700">
                     Jumlah Suara Masuk
-                </h2>
-                <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                    <div className="p-6 text-gray-900">
-                        <div className="flex justify-center mb-4">
-                            <h2 className="font-medium text-lg text-gray-700 uppercase">
-                                Pemilihan Ketua RT
-                            </h2>
-                        </div>
-                        <BarChart />
+                </h2> */}
+
+                {pemira.length > 0 ? (
+                    <div className="grid grid-cols-1 gap-y-10">
+                        {pemira.map((item) => (
+                            <div key={item.id} className="pb-10 border-b-2">
+                                <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
+                                    <div className="flex justify-center mb-4">
+                                        <h2 className="font-medium text-lg text-gray-700 uppercase">
+                                            {item.nama_pemira}
+                                        </h2>
+                                    </div>
+                                    <RealTimeChart pemira={item} />
+                                </div>
+                            </div>
+                        ))}
                     </div>
-                </div>
+                ) : (
+                    <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                        <div className="p-6">
+                            <div className="flex justify-center">
+                                <h2 className="font-medium text-lg text-gray-600 capitalize">
+                                    Tidak ada pemira
+                                </h2>
+                            </div>
+                        </div>
+                    </div>
+                )}
             </Container>
         </DapurLayout>
     );

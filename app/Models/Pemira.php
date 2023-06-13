@@ -71,4 +71,22 @@ class Pemira extends Model
         $this->status = $status->value;
         $this->save();
     }
+
+    public function countVotes()
+    {
+        $totalVotesPaslon = $this->paslon
+            ->groupBy('pemira_id')
+            ->map(
+                function ($paslon) {
+                    return $paslon->map->total_suara;
+                }
+            );
+
+        $count = '';
+        foreach ($totalVotesPaslon->toArray() as $key => $value) {
+            $count = array_sum($value);
+        }
+
+        return $count;
+    }
 }
