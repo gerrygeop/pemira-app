@@ -13,7 +13,7 @@ export default function RealTimeChart({ pemira }) {
     ];
 
     function handleOnReload() {
-        router.get(route("d.dashboard"), "", {
+        router.get(route("d.voting.index"), "", {
             replace: true,
             preserveState: true,
             preserveScroll: true,

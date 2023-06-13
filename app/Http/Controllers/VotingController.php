@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\DapurResource;
 use App\Models\Pemira;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -13,8 +14,10 @@ class VotingController extends Controller
     public function index(): Response
     {
         $admin = Auth::guard('admin')->id();
-        $pemira = Pemira::where('creator_id', $admin)->orWhereRelation('admins', 'admin_id', $admin)->get();
+        $pemira = Pemira::where('status', 'active')->where('creator_id', $admin)->orWhereRelation('admins', 'admin_id', $admin)->get();
 
-        return Inertia::render('Dapur/Voting/Index');
+        return Inertia::render('Dapur/Voting/Index', [
+            'pemira' => DapurResource::collection($pemira),
+        ]);
     }
 }
