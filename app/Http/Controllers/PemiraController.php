@@ -33,6 +33,7 @@ class PemiraController extends Controller
 
     public function show(Pemira $pemira): Response
     {
+        $pemira->validateActivation();
         return Inertia::render('Dapur/Pemira/Show', [
             'pemira' => $pemira->load('paslon', 'admins'),
             'roles' => Role::all()
