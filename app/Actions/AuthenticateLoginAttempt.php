@@ -109,11 +109,11 @@ class AuthenticateLoginAttempt
             return $response;
         } else if ($response->failed()) {
             throw ValidationException::withMessages([
-                'email' => json_decode($response)->message,
+                'email' => 'Username dan password tidak sesuai.',
             ]);
         } else {
             throw ValidationException::withMessages([
-                'email' => json_decode($response)->message,
+                'email' => 'Username dan password tidak sesuai.',
             ]);
         }
     }
