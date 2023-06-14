@@ -10,9 +10,10 @@ const Container = ({ children, classFirst = "", classSecond = "" }) => {
     );
 };
 
-export const Board = ({ children, className }) => {
+export const Board = ({ children, className, ...props }) => {
     return (
         <div
+            {...props}
             className={`bg-white overflow-hidden divide-y shadow sm:rounded-lg ${className}`}
         >
             {children}
@@ -20,9 +21,9 @@ export const Board = ({ children, className }) => {
     );
 };
 
-export const Section = ({ children, className }) => {
+export const Section = ({ children, className, ...props }) => {
     return (
-        <div className={`py-5 px-4 sm:px-6 sm:py-8 ${className}`}>
+        <div {...props} className={`py-5 px-4 sm:px-6 sm:py-8 ${className}`}>
             {children}
         </div>
     );
