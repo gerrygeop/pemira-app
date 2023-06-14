@@ -99,7 +99,7 @@ class AuthenticateLoginAttempt
                 'Authorization' => 'Bearer ' . env('BEARER_TOKEN'),
                 'apikey' => env('API_KEY'),
             ])
-            ->post(env("URL_LOGIN"), [
+            ->post('https://osm.unmul.ac.id/login', [
                 'username' => $request->nim,
                 'password' => $request->password,
                 'usertype' => 'MHS',
@@ -125,7 +125,7 @@ class AuthenticateLoginAttempt
                 'Authorization' => 'Bearer ' . env('BEARER_TOKEN'),
                 'apikey' => env('API_KEY'),
             ])
-            ->get(env("URL_DETAIL_USER") . $nim);
+            ->get('https://osm.unmul.ac.id/sia/mahasiswa/' . $nim);
 
         $data = json_decode($res);
 
