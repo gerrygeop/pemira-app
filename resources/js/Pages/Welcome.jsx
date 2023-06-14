@@ -59,14 +59,14 @@ export default function Welcome({ flash }) {
 
                         <div className="mb-4 md:mb-0 md:col-span-2 flex flex-col justify-center text-slate-800">
                             <h2 className="text-3xl lg:text-5xl font-semibold uppercase">
-                                Pemilihan Umum Raya <br /> universitas
-                                mulawarman
+                                Pemilihan Umum Raya <br /> Universitas
+                                Mulawarman
                             </h2>
-                            <p className="mt-3 md:w-3/4 lg:text-lg text-gray-70">
-                                PEMIRA adalah pesta demokrasi mahasiswa dalam
-                                rangka pemilihan Presiden dan Wakil Presiden BEM
-                                Fakultas Ilmu Sosial dan Ilmu Politik
-                                Universitas Mularman.
+                            <p className="mt-3 md:w-3/4 lg:text-xl text-gray-70">
+                                Pemira adalah sebuah pesta demokrasi kampus
+                                dalam rangka pemilihan Presiden dan Wakil
+                                Presiden BEM yang diselenggarakan secara
+                                langsung, umum, bebas, rahasia, jujur, dan adil.
                             </p>
 
                             <div className="mt-4 flex flex-col sm:flex-row">
