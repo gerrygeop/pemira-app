@@ -109,11 +109,11 @@ class AuthenticateLoginAttempt
             return $response;
         } else if ($response->failed()) {
             throw ValidationException::withMessages([
-                'email' => 'Data tidak ditemukan. Pastikan data anda sesuai dengan yang terdaftar pada SIA.',
+                'email' => json_decode($response)->message,
             ]);
         } else {
             throw ValidationException::withMessages([
-                'email' => 'Terjadi kesalahan saat melakukan autentikasi.',
+                'email' => json_decode($response)->message,
             ]);
         }
     }
