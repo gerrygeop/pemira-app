@@ -13,6 +13,7 @@ import Badge from "@/Components/Badge";
 import TablePaslon from "../Paslon/TablePaslon";
 import DateTime from "@/Components/DateTime";
 import TablePanitia from "../Panitia/TablePanitia";
+import PemiraTabs from "./PemiraTabs";
 
 export default function Show({ auth, pemira, roles, flash }) {
     const permissions = auth.user?.permission;
@@ -46,7 +47,9 @@ export default function Show({ auth, pemira, roles, flash }) {
 
     return (
         <DapurLayout header="Pemira">
-            <Container>
+            <Container classFirst="lg:py-8">
+                <PemiraTabs className="mb-6" params={pemira} />
+
                 <Board>
                     <div className="py-4 px-4 sm:px-6 flex items-center justify-between">
                         <div className="flex items-center">
@@ -67,8 +70,8 @@ export default function Show({ auth, pemira, roles, flash }) {
                                 />
                             )
                         ) : (
-                            <p className="font-medium flex items-center gap-x-2">
-                                <IconAlertOctagon />
+                            <p className="font-medium text-sm text-gray-800 flex items-center gap-x-2">
+                                <IconAlertOctagon className="w-5 h-5" />
                                 Pemira telah selesai
                             </p>
                         )}

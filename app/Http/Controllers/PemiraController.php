@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\DapurResource;
 use App\Models\Pemira;
 use App\Models\Role;
+use App\Models\Voting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -96,5 +98,40 @@ class PemiraController extends Controller
     {
         $pemira->toggleStatus();
         return back()->with('status', ['message' => 'Pemira ' . str()->title($pemira->status->value)]);
+    }
+
+    public function suaraMasuk(Pemira $pemira): Response
+    {
+        return Inertia::render('Dapur/Pemira/SuaraMasuk', [
+            'pemira' => DapurResource::make($pemira->load('paslon')),
+        ]);
+    }
+
+    public function rekapitulasi(Pemira $pemira): Response
+    {
+        foreach ($pemira->paslon as $paslon) {
+            $pair = is_null($paslon->partner) ? $paslon->candidate->name : $paslon->candidate->name . ' & ' . $paslon->partner->name;
+
+            $votings = Voting::select(['paslon_id', 'created_at'])->where('pemira_id', $pemira->id)->get();
+
+            $groupByHour = $votings->sortBy('created_at')->groupBy(function ($voting) {
+                return $voting->created_at->format('H');
+            });
+
+            $totalVoted = 0;
+            $i = 1;
+            foreach ($groupByHour as $hour => $collect) {
+                $hour = Str::of($hour)->ltrim('0');
+                $totalVoted += $collect->where('paslon_id', $paslon->id)->count();
+                $vote[strval($hour)][$pair] = $totalVoted;
+                $i++;
+            }
+        }
+        // dd(collect($vote)->toArray());
+
+        return Inertia::render('Dapur/Pemira/Rekapitulasi', [
+            'pemira' => $pemira,
+            'votes' => collect($vote)
+        ]);
     }
 }

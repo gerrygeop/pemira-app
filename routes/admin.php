@@ -32,6 +32,9 @@ Route::prefix('d')->name('d.')->group(function () {
         // Pemira
         Route::resource('pemira', PemiraController::class);
         Route::patch('pemira/switchable/{pemira}', [PemiraController::class, 'switchable'])->name('pemira.switchable');
+        // Pemira Voting
+        Route::get('pemira/{pemira}/suara-masuk', [PemiraController::class, 'suaraMasuk'])->name('pemira.suara-masuk');
+        Route::get('pemira/{pemira}/rekapitulasi', [PemiraController::class, 'rekapitulasi'])->name('pemira.rekapitulasi');
 
         // Paslon & Panitia
         Route::prefix('pemira')->name('pemira.')->group(function () {
@@ -54,8 +57,6 @@ Route::prefix('d')->name('d.')->group(function () {
 
         // Users
         Route::resource('users', UserController::class)->only('index');
-
-        Route::resource('voting', VotingController::class);
 
         // Profile auth admin/panitia
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

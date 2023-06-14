@@ -8,12 +8,12 @@ export default function RealTimeChart({ pemira }) {
     const data = [
         {
             category: "Suara Masuk",
-            value: pemira.votes,
+            value: pemira.votes || 0,
         },
     ];
 
     function handleOnReload() {
-        router.get(route("d.voting.index"), "", {
+        router.get(route("d.pemira.suara-masuk", pemira), "", {
             replace: true,
             preserveState: true,
             preserveScroll: true,
@@ -21,11 +21,13 @@ export default function RealTimeChart({ pemira }) {
     }
 
     useEffect(() => {
-        handleOnReload();
+        if (pemira.status === "active") {
+            handleOnReload();
 
-        const interval = setInterval(handleOnReload, 8000);
+            const interval = setInterval(handleOnReload, 8000);
 
-        return () => clearInterval(interval);
+            return () => clearInterval(interval);
+        }
     }, []);
 
     useEffect(() => {
@@ -37,8 +39,8 @@ export default function RealTimeChart({ pemira }) {
         // Create chart
         let chart = root.container.children.push(
             am5xy.XYChart.new(root, {
-                panX: true,
-                panY: true,
+                panX: false,
+                panY: false,
                 wheelX: "none",
                 wheelY: "none",
             })
@@ -107,9 +109,11 @@ export default function RealTimeChart({ pemira }) {
         series.data.setAll(data);
 
         // update data values each 1.5 sec
-        setInterval(function () {
-            updateData();
-        }, 8100);
+        if (pemira.status === "active") {
+            setInterval(function () {
+                updateData();
+            }, 8100);
+        }
 
         function updateData() {
             am5.array.each(series.dataItems, function (dataItem) {
