@@ -66,7 +66,7 @@ class AuthenticateLoginAttempt
         }
     }
 
-    public function hasVoted($pemira_id, $user_id)
+    private function hasVoted($pemira_id, $user_id)
     {
         $voter = Voting::whereIn('pemira_id', $pemira_id)
             ->where('user_id',  $user_id)
@@ -79,7 +79,7 @@ class AuthenticateLoginAttempt
         }
     }
 
-    public function findUser(Request $request)
+    private function findUser(Request $request)
     {
         $user = User::where('nim', '=', $request->nim)
             ->where('email', '=', $request->email)
@@ -96,8 +96,8 @@ class AuthenticateLoginAttempt
     {
         $response = Http::acceptJson()
             ->withHeaders([
-                'Authorization' => 'Bearer ' . env('BEARER_TOKEN'),
-                'apikey' => env('API_KEY'),
+                'Authorization' => 'Bearer ' . config('sia.bearer_token'),
+                'apikey' => config('sia.api_key'),
             ])
             ->post('https://osm.unmul.ac.id/login', [
                 'username' => $request->nim,
@@ -109,11 +109,11 @@ class AuthenticateLoginAttempt
             return $response;
         } else if ($response->failed()) {
             throw ValidationException::withMessages([
-                'email' => 'Username dan password tidak sesuai.',
+                'email' => json_decode($response)->message,
             ]);
         } else {
             throw ValidationException::withMessages([
-                'email' => 'Username dan password tidak sesuai.',
+                'email' => 'Gagal melakukan autentikasi.',
             ]);
         }
     }
@@ -122,8 +122,8 @@ class AuthenticateLoginAttempt
     {
         $res = Http::acceptJson()
             ->withHeaders([
-                'Authorization' => 'Bearer ' . env('BEARER_TOKEN'),
-                'apikey' => env('API_KEY'),
+                'Authorization' => 'Bearer ' . config('sia.bearer_token'),
+                'apikey' => config('sia.api_key'),
             ])
             ->get('https://osm.unmul.ac.id/sia/mahasiswa/' . $nim);
 
@@ -131,14 +131,14 @@ class AuthenticateLoginAttempt
 
         if ($data->message != 'Success') {
             throw ValidationException::withMessages([
-                'email' => 'Gagal mendapatkan data user.',
+                'email' => 'NIM tidak terdaftar.',
             ]);
         }
 
         return $data->data;
     }
 
-    public function  validateEmail($requestEmail, $emailSIA)
+    private function  validateEmail($requestEmail, $emailSIA)
     {
         if ($requestEmail != $emailSIA) {
             throw ValidationException::withMessages([
@@ -147,7 +147,7 @@ class AuthenticateLoginAttempt
         }
     }
 
-    public function validateUniqueEmail($emailSIA)
+    private function validateUniqueEmail($emailSIA)
     {
         if (User::where('email', $emailSIA)->count() > 0) {
             throw ValidationException::withMessages([
@@ -156,20 +156,11 @@ class AuthenticateLoginAttempt
         }
     }
 
-    public function validateStatusSIA($status)
+    private function validateStatusSIA($status)
     {
-        if ($status != env("STATUS_MHS")) {
+        if ($status != 'A') {
             throw ValidationException::withMessages([
                 'email' => 'Anda bukan mahasiswa aktif.',
-            ]);
-        }
-    }
-
-    public function validateFaculty($faculty)
-    {
-        if ($faculty != env("ID_FACULTY")) {
-            throw ValidationException::withMessages([
-                'email' => 'Anda tidak terdaftar didalam SIA.',
             ]);
         }
     }
