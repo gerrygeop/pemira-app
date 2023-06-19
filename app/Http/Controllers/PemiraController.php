@@ -109,30 +109,36 @@ class PemiraController extends Controller
 
     public function rekapitulasi(Pemira $pemira): Response
     {
+        $votings = Voting::select(['paslon_id', 'created_at'])->where('pemira_id', $pemira->id)->get();
+        $groupByHours = $votings->sortBy('created_at')->groupBy(function ($voting) {
+            return $voting->created_at->format('Y-m-d H');
+        });
+
         foreach ($pemira->paslon as $paslon) {
             $pair = is_null($paslon->partner) ? $paslon->candidate->name : $paslon->candidate->name . ' & ' . $paslon->partner->name;
 
-            $votings = Voting::select(['paslon_id', 'created_at'])->where('pemira_id', $pemira->id)->get();
-
-            $groupByHour = $votings->sortBy('created_at')->groupBy(function ($voting) {
-                return $voting->created_at->format('Y-m-d H');
-            });
-
             $totalVoted = 0;
             $i = 1;
-            foreach ($groupByHour as $hour => $collect) {
+            foreach ($groupByHours as $hour => $collect) {
                 $hour = Str::of($hour)->ltrim('0');
                 $totalVoted += $collect->where('paslon_id', $paslon->id)->count();
+
                 $vote[$i][$pair] = $totalVoted;
                 $times[$i] = strval($hour);
+
                 $i++;
             }
         }
 
+        $donut = $pemira->getTotalSuara();
+        $bar = $pemira->countVotings();
+
         return Inertia::render('Dapur/Pemira/Rekapitulasi', [
             'pemira' => $pemira,
             'votes' => collect($vote),
-            'times' => collect($times)
+            'times' => collect($times),
+            'donutChartData' => collect($donut)->toArray(),
+            'barChartData' => collect($bar)->toArray()
         ]);
     }
 }

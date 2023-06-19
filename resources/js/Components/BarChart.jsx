@@ -2,16 +2,17 @@ import * as am5 from "@amcharts/amcharts5";
 import * as am5xy from "@amcharts/amcharts5/xy";
 import am5themes_Animated from "@amcharts/amcharts5/themes/Animated";
 import { useEffect } from "react";
+import { usePage } from "@inertiajs/react";
 
 export default function BarChart() {
-    useEffect(() => {
-        // Create root element
-        let root = am5.Root.new("chartdiv");
+    const { barChartData } = usePage().props;
 
-        // Set themes
+    useEffect(() => {
+        const data = barChartData;
+
+        let root = am5.Root.new("chartdiv");
         root.setThemes([am5themes_Animated.new(root)]);
 
-        // Create chart and configure it
         let chart = root.container.children.push(
             am5xy.XYChart.new(root, {
                 panX: true,
@@ -22,20 +23,6 @@ export default function BarChart() {
             })
         );
 
-        const colors = chart.get("colors");
-        const data = [
-            {
-                country: "Jack Grealish & Phil Foden",
-                visits: 59,
-                columnSettings: { fill: colors.next() },
-            },
-            {
-                country: "Jude Bellingham & Vini Jr",
-                visits: 34,
-                columnSettings: { fill: colors.next() },
-            },
-        ];
-
         // Create axes
         const xRenderer = am5xy.AxisRendererX.new(root, {
             minGridDistance: 30,
@@ -43,7 +30,7 @@ export default function BarChart() {
 
         const xAxis = chart.xAxes.push(
             am5xy.CategoryAxis.new(root, {
-                categoryField: "country",
+                categoryField: "category",
                 renderer: xRenderer,
             })
         );
@@ -67,16 +54,20 @@ export default function BarChart() {
             am5xy.ColumnSeries.new(root, {
                 xAxis: xAxis,
                 yAxis: yAxis,
-                valueYField: "visits",
-                categoryXField: "country",
+                valueYField: "value",
+                categoryXField: "category",
             })
         );
 
         series.columns.template.setAll({
-            tooltipText: "{categoryX}: {valueY}",
+            tooltipText: "{categoryX}: {valueY} Pemilih",
             tooltipY: 0,
             strokeOpacity: 0,
-            templateField: "columnSettings",
+            width: 150,
+        });
+
+        series.columns.template.adapters.add("fill", function (fill, target) {
+            return chart.get("colors").getIndex(series.columns.indexOf(target));
         });
 
         series.data.setAll(data);

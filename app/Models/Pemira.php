@@ -89,4 +89,29 @@ class Pemira extends Model
 
         return $count;
     }
+
+    public function getTotalSuara()
+    {
+        return $this->paslon->map(function ($pair) {
+            $candidate = is_null($pair->partner) ? $pair->candidate->name : $pair->candidate->name . ' & ' . $pair->partner->name;
+
+            return [
+                'category' => $candidate,
+                'value' => $pair->total_suara,
+            ];
+        });
+    }
+
+    public function countVotings()
+    {
+        return $this->paslon->map(function ($pair) {
+            $candidate = is_null($pair->partner) ? $pair->candidate->name : $pair->candidate->name . ' & ' . $pair->partner->name;
+            $votes = $pair->votings->count();
+
+            return [
+                'category' => $candidate,
+                'value' => $votes
+            ];
+        });
+    }
 }

@@ -24,7 +24,7 @@ export default function Rekapitulasi({ pemira }) {
 
     return (
         <DapurLayout header="Pemira">
-            <div className="mx-auto py-8 sm:px-6 lg:px-8">
+            <div className="max-w-7xl mx-auto py-8 sm:px-6 lg:px-8">
                 <PemiraTabs className="mb-6" params={pemira} />
 
                 <Board
