@@ -5,43 +5,81 @@ import PemiraTabs from "./PemiraTabs";
 import BarChart from "@/Components/BarChart";
 import PrimaryButton from "@/Components/PrimaryButton";
 import BarChartRace from "@/Components/BarChartRace";
+import { useEffect, useState } from "react";
+import DonutChart from "@/Components/DonutChart";
 
-export default function Rekapitulasi({ pemira, votes }) {
+export default function Rekapitulasi({ pemira }) {
+    const [isFinished, setIsFinished] = useState(false);
+    const [showComponent, setShowComponent] = useState(false);
+
+    useEffect(() => {
+        if (isFinished) {
+            const timer = setTimeout(() => {
+                setShowComponent(true);
+            }, 5000);
+
+            return () => clearTimeout(timer);
+        }
+    }, [isFinished]);
+
     return (
         <DapurLayout header="Pemira">
-            <Container classFirst="lg:py-8">
+            <div className="mx-auto py-8 sm:px-6 lg:px-8">
                 <PemiraTabs className="mb-6" params={pemira} />
 
-                <Board>
+                <Board
+                    className={`mb-8 ${
+                        showComponent
+                            ? "opacity-100 h-auto scale-100"
+                            : "opacity-0 h-0 scale-95"
+                    } transition-all duration-1000`}
+                >
                     <div className="py-6 px-4 sm:px-6 flex flex-col lg:flex-row items-start lg:items-center lg:justify-between gap-3">
                         <h2 className="font-semibold text-lg lg:text-2xl text-gray-700 uppercase">
                             {pemira.nama_pemira}
                         </h2>
-                        <div className="flex items-center">
-                            <span className="font-medium text-sm text-gray-600 mr-2">
-                                Status:
-                            </span>
-                            <Badge status={pemira.status} />
-                        </div>
                     </div>
 
-                    <div>
-                        <div className="bg-white overflow-hidden flex justify-center py-4 lg:py-6">
-                            <BarChartRace pemira={pemira} />
+                    <div className="grid grid-cols-12">
+                        <div className="col-span-full lg:col-span-8 bg-white font-medium text-lg text-gray-700 overflow-hidden flex flex-col justify-center items-center p-4 lg:p-6">
+                            <div className="flex">
+                                Berdasarkan jumlah pemilih
+                            </div>
+                            <BarChart />
+                        </div>
+                        <div className="col-span-full lg:col-span-4 bg-white border-t lg:border-l lg:border-t-0 font-medium text-lg text-gray-700 overflow-hidden flex flex-col justify-center items-center p-4 lg:p-6">
+                            <div className="flex">Perolehan suara paslon</div>
+                            <DonutChart uniqueId="2bc" />
                         </div>
                     </div>
                 </Board>
 
-                {/* {pemira.status === "finished" && (
-                    <Board className="mt-6">
-                        <div>
-                            <div className="bg-white overflow-hidden flex justify-center p-4 lg:p-6">
-                                p
+                <Board>
+                    {!showComponent && (
+                        <div className="py-6 px-4 sm:px-6 flex flex-col lg:flex-row items-start lg:items-center lg:justify-between gap-3">
+                            <h2 className="font-semibold text-lg lg:text-2xl text-gray-700 uppercase">
+                                {pemira.nama_pemira}
+                            </h2>
+                            <div className="flex items-center">
+                                <span className="font-medium text-sm text-gray-600 mr-2">
+                                    Status:
+                                </span>
+                                <Badge status={pemira.status} />
                             </div>
                         </div>
-                    </Board>
-                )} */}
-            </Container>
+                    )}
+
+                    <div>
+                        <div className="bg-white overflow-hidden flex justify-center py-4 lg:py-6">
+                            <BarChartRace
+                                pemira={pemira}
+                                isFinished={isFinished}
+                                setIsFinished={setIsFinished}
+                            />
+                        </div>
+                    </div>
+                </Board>
+            </div>
         </DapurLayout>
     );
 }

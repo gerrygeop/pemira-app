@@ -115,7 +115,7 @@ class PemiraController extends Controller
             $votings = Voting::select(['paslon_id', 'created_at'])->where('pemira_id', $pemira->id)->get();
 
             $groupByHour = $votings->sortBy('created_at')->groupBy(function ($voting) {
-                return $voting->created_at->format('H');
+                return $voting->created_at->format('Y-m-d H');
             });
 
             $totalVoted = 0;
@@ -123,15 +123,16 @@ class PemiraController extends Controller
             foreach ($groupByHour as $hour => $collect) {
                 $hour = Str::of($hour)->ltrim('0');
                 $totalVoted += $collect->where('paslon_id', $paslon->id)->count();
-                $vote[strval($hour)][$pair] = $totalVoted;
+                $vote[$i][$pair] = $totalVoted;
+                $times[$i] = strval($hour);
                 $i++;
             }
         }
-        // dd(collect($vote)->toArray());
 
         return Inertia::render('Dapur/Pemira/Rekapitulasi', [
             'pemira' => $pemira,
-            'votes' => collect($vote)
+            'votes' => collect($vote),
+            'times' => collect($times)
         ]);
     }
 }

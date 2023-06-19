@@ -1,19 +1,13 @@
 import * as am5 from "@amcharts/amcharts5";
 import * as am5xy from "@amcharts/amcharts5/xy";
 import am5themes_Animated from "@amcharts/amcharts5/themes/Animated";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { usePage } from "@inertiajs/react";
 
-export default function BarChartRace({ pemira }) {
-    const { votes } = usePage().props;
-
-    let keys = Object.keys(votes);
-    let firstKey = keys[0];
-    let lastKey = keys[keys.length];
+export default function BarChartRace({ pemira, setIsFinished }) {
+    const { votes, times } = usePage().props;
 
     useEffect(() => {
-        let allData = votes;
-
         let root = am5.Root.new("chartdiv_" + pemira.id);
 
         root.numberFormatter.setAll({
@@ -35,7 +29,7 @@ export default function BarChartRace({ pemira }) {
             smallNumberPrefixes: [],
         });
 
-        let stepDuration = 5000;
+        let stepDuration = 3000;
 
         // Set themes
         root.setThemes([am5themes_Animated.new(root)]);
@@ -87,7 +81,6 @@ export default function BarChartRace({ pemira }) {
         xAxis.set("interpolationEasing", am5.ease.linear);
 
         // Add series
-        // https://www.amcharts.com/docs/v5/charts/xy-chart/series/
         var series = chart.series.push(
             am5xy.ColumnSeries.new(root, {
                 name: "name",
@@ -135,9 +128,9 @@ export default function BarChartRace({ pemira }) {
 
         var label = chart.plotContainer.children.push(
             am5.Label.new(root, {
-                text: "Jam 08",
+                text: times[1],
                 fontSize: "1.5em",
-                opacity: 0.3,
+                opacity: 0.7,
                 x: am5.p100,
                 y: am5.p100,
                 centerY: am5.p100,
@@ -160,7 +153,6 @@ export default function BarChartRace({ pemira }) {
             // sort by value
             series.dataItems.sort(function (x, y) {
                 return y.get("valueX") - x.get("valueX"); // descending
-                //return x.get("valueX") - y.get("valueX"); // ascending
             });
 
             // go through each axis item
@@ -198,15 +190,17 @@ export default function BarChartRace({ pemira }) {
             });
         }
 
-        let hour = firstKey;
+        let hour = 1;
 
         // update data with values each 1.5 sec
         var interval = setInterval(function () {
             hour++;
 
-            if (hour > lastKey) {
+            if (hour >= Object.keys(votes).length) {
                 clearInterval(interval);
                 clearInterval(sortInterval);
+                setIsFinished(true);
+                console.log("finished");
             }
 
             updateData();
@@ -217,7 +211,7 @@ export default function BarChartRace({ pemira }) {
         }, 100);
 
         function setInitialData() {
-            var d = allData[hour];
+            var d = votes[hour];
             for (var n in d) {
                 series.data.push({
                     name: n,
@@ -233,12 +227,12 @@ export default function BarChartRace({ pemira }) {
         function updateData() {
             var itemsWithNonZero = 0;
 
-            if (allData[hour]) {
-                label.set("text", "Jam " + hour.toString());
+            if (votes[hour]) {
+                label.set("text", times[hour].toString());
 
                 am5.array.each(series.dataItems, function (dataItem) {
                     var category = dataItem.get("categoryY");
-                    var value = allData[hour][category];
+                    var value = votes[hour][category];
 
                     if (value > 0) {
                         itemsWithNonZero++;
@@ -268,8 +262,6 @@ export default function BarChartRace({ pemira }) {
             updateData();
         }, 50);
 
-        // Make stuff animate on load
-        // https://www.amcharts.com/docs/v5/concepts/animations/
         series.appear(1000);
         chart.appear(1000, 100);
     }, []);

@@ -14,7 +14,7 @@ export default function BarChart() {
         // Create chart and configure it
         let chart = root.container.children.push(
             am5xy.XYChart.new(root, {
-                panX: false,
+                panX: true,
                 panY: false,
                 wheelX: "panX",
                 wheelY: "zoomX",
@@ -26,17 +26,12 @@ export default function BarChart() {
         const data = [
             {
                 country: "Jack Grealish & Phil Foden",
-                visits: 325,
+                visits: 59,
                 columnSettings: { fill: colors.next() },
             },
             {
                 country: "Jude Bellingham & Vini Jr",
-                visits: 225,
-                columnSettings: { fill: colors.next() },
-            },
-            {
-                country: "Muh. Hendra Setiawan & Ahmad Ahsan",
-                visits: 502,
+                visits: 34,
                 columnSettings: { fill: colors.next() },
             },
         ];

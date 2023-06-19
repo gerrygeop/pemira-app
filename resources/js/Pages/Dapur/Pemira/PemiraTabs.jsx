@@ -13,7 +13,10 @@ export default function PemiraTabs({ className, params }) {
                 </TabButton>
                 <TabButton
                     href={route("d.pemira.suara-masuk", params)}
-                    active={route().current("d.pemira.suara-masuk")}
+                    active={
+                        route().current("d.pemira.suara-masuk") ||
+                        route().current("d.pemira.rekapitulasi")
+                    }
                 >
                     Suara Masuk
                 </TabButton>
