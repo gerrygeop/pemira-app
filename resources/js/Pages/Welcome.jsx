@@ -70,14 +70,14 @@ export default function Welcome({ flash }) {
                             </p>
 
                             <div className="mt-4 flex flex-col sm:flex-row">
-                                <Link
-                                    href="https://www.instagram.com/reel/ClmmO_QDga9/?igshid=YmMyMTA2M2Y="
+                                <a
+                                    href="https://www.instagram.com/p/CtfxBsjPHtN/?igshid=MzRlODBiNWFlZA=="
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="flex items-center justify-center py-2 px-3 gap-x-1 text-white text-sm shadow bg-green-600 hover:bg-green-700 focus:outline-none tracking-wide capitalize rounded-md sm:w-1/5 md:w-1/4"
                                 >
                                     <span>Tutorial Pemilihan</span>
-                                </Link>
+                                </a>
                             </div>
                         </div>
 
