@@ -200,7 +200,6 @@ export default function BarChartRace({ pemira, setIsFinished }) {
                 clearInterval(interval);
                 clearInterval(sortInterval);
                 setIsFinished(true);
-                console.log("finished");
             }
 
             updateData();

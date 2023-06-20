@@ -1,7 +1,7 @@
 import InputLabel from "@/Components/InputLabel";
 import PrimaryButton from "@/Components/PrimaryButton";
 import TextInput from "@/Components/TextInput";
-import { Link, useForm } from "@inertiajs/react";
+import { useForm } from "@inertiajs/react";
 import { IconDiscountCheckFilled, IconLoader2 } from "@tabler/icons-react";
 import { useEffect } from "react";
 

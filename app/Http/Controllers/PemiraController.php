@@ -132,14 +132,27 @@ class PemiraController extends Controller
 
         $donut = $pemira->getTotalSuara();
         $bar = $pemira->countVotings();
+        $users = $this->countUsersByfaculties($pemira->id);
 
         return Inertia::render('Dapur/Pemira/Rekapitulasi', [
             'pemira' => $pemira,
             'votes' => collect($vote),
             'times' => collect($times),
             'donutChartData' => collect($donut)->toArray(),
-            'barChartData' => collect($bar)->toArray()
+            'barChartData' => collect($bar)->toArray(),
+            'facultyUserCounts' => $users
         ]);
+    }
+
+    private function countUsersByfaculties($pemiraId)
+    {
+        return Voting::where('pemira_id', $pemiraId)
+            ->join('users', 'votings.user_id', '=', 'users.nim')
+            ->join('departments', 'users.department_id', '=', 'departments.id')
+            ->join('faculties', 'departments.faculty_id', '=', 'faculties.id')
+            ->select('faculties.id', 'faculties.name', DB::raw('count(users.nim) as user_count'))
+            ->groupBy('faculties.id', 'faculties.name')
+            ->get();
     }
 
     public function coldBrew(Pemira $pemira)

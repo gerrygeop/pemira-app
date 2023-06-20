@@ -8,7 +8,7 @@ import BarChartRace from "@/Components/BarChartRace";
 import { useEffect, useState } from "react";
 import DonutChart from "@/Components/DonutChart";
 
-export default function Rekapitulasi({ pemira }) {
+export default function Rekapitulasi({ pemira, facultyUserCounts }) {
     const [isFinished, setIsFinished] = useState(false);
     const [showComponent, setShowComponent] = useState(false);
 
@@ -41,7 +41,7 @@ export default function Rekapitulasi({ pemira }) {
                     </div>
 
                     <div className="grid grid-cols-12">
-                        <div className="col-span-full lg:col-span-8 bg-white font-medium text-lg text-gray-700 overflow-hidden flex flex-col justify-center items-center p-4 lg:p-6">
+                        <div className="col-span-full lg:col-span-8 bg-white font-medium text-lg text-gray-700 overflow-hidden flex flex-col justify-center items-center py-4 lg:py-6">
                             <div className="flex">
                                 Berdasarkan jumlah pemilih
                             </div>
@@ -51,6 +51,35 @@ export default function Rekapitulasi({ pemira }) {
                             <div className="flex">Perolehan suara paslon</div>
                             <DonutChart uniqueId="2bc" />
                         </div>
+                    </div>
+                </Board>
+
+                <Board
+                    className={`mb-8 ${
+                        showComponent
+                            ? "opacity-100 h-auto scale-100"
+                            : "opacity-0 h-0 scale-95"
+                    } transition-all duration-1000`}
+                >
+                    <div className="py-6 px-4 sm:px-6 flex flex-col lg:flex-row items-start lg:items-center lg:justify-between gap-3">
+                        <h2 className="font-semibold text-base lg:text-xl text-gray-700 uppercase">
+                            Jumlah pemilih setiap fakultas
+                        </h2>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 lg:p-6">
+                        {facultyUserCounts.map((faculty) => (
+                            <div
+                                key={faculty.id}
+                                className="flex items-center justify-between border rounded px-4 py-3 text-sm text-gray-900"
+                            >
+                                <span className="uppercase text-xs tracking-wide">
+                                    {faculty.name}
+                                </span>
+                                <span className="font-medium text-base rounded-md bg-blue-50 px-3 text-blue-800 ring-1 ring-inset ring-blue-600/20">
+                                    {faculty.user_count}
+                                </span>
+                            </div>
+                        ))}
                     </div>
                 </Board>
 

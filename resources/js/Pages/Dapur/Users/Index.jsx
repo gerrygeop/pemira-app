@@ -1,10 +1,7 @@
 import Container, { Board, Section } from "@/Components/Container";
-import Modal from "@/Components/Modal";
 import Table from "@/Components/Table";
 import DapurLayout from "@/Layouts/DapurLayout";
 import { useState } from "react";
-import { Link } from "@inertiajs/react";
-import SecondaryButton from "@/Components/SecondaryButton";
 import SearchFilter from "./SearchFilter";
 import { DetailUser } from "./DetailUser";
 import { Paginator } from "./Paginator";
