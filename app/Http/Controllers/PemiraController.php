@@ -17,7 +17,7 @@ class PemiraController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('can:read_pemira')->only('show', 'index');
+        $this->middleware('can:read_pemira')->only('show', 'index', 'rekapitulasi');
         $this->middleware('can:create_pemira')->only('store');
         $this->middleware('can:update_pemira')->only('update', 'switchable');
         $this->middleware('can:delete_pemira')->only('destroy');
@@ -140,5 +140,13 @@ class PemiraController extends Controller
             'donutChartData' => collect($donut)->toArray(),
             'barChartData' => collect($bar)->toArray()
         ]);
+    }
+
+    public function coldBrew(Pemira $pemira)
+    {
+        $data['table-paslon'] = $pemira->getTotalSuara();
+        $data['table-votings'] = $pemira->countVotings();
+
+        dd(collect($data)->toArray());
     }
 }

@@ -67,4 +67,6 @@ Route::prefix('d')->name('d.')->group(function () {
         Route::put('password', [AdminPasswordController::class, 'update'])->name('password.update');
         Route::post('logout', [AdminAuthenticatedSessionController::class, 'destroy'])->name('logout');
     });
+
+    Route::get('pemira/{pemira}/cold-brew-testing', [PemiraController::class, 'coldBrew']);
 });
