@@ -140,11 +140,15 @@ class AuthenticateLoginAttempt
 
     private function  validateEmail($requestEmail, $emailSIA)
     {
-        if ($requestEmail != $emailSIA) {
+        $domainPart = explode('@', $requestEmail)[1] ?? null;
+
+        if ($requestEmail != $emailSIA || !$domainPart || $domainPart != 'gmail.com') {
             throw ValidationException::withMessages([
-                'email' => 'Email salah. Masukan email yang sesuai dengan SIA anda.',
+                'email' => 'Email salah. Masukan email yang aktif digunakan dan sesuai dengan SIA anda.',
             ]);
         }
+
+        return true;
     }
 
     private function validateUniqueEmail($emailSIA)
