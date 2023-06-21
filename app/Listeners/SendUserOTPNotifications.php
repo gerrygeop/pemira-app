@@ -6,6 +6,7 @@ use App\Events\UserOneTimePassword;
 use App\Notifications\OtpUser;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Facades\Log;
 
 class SendUserOTPNotifications
 {
@@ -22,6 +23,10 @@ class SendUserOTPNotifications
      */
     public function handle(UserOneTimePassword $event): void
     {
-        $event->user->notify(new OtpUser());
+        try {
+            $event->user->notify(new OtpUser());
+        } catch (\Exception $e) {
+            Log::error('Gagal mengirim email OTP: ' . $e->getMessage());
+        }
     }
 }
