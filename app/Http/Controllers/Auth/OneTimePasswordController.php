@@ -14,7 +14,7 @@ use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Inertia\Response;
-
+use Monolog\Handler\IFTTTHandler;
 
 class OneTimePasswordController extends Controller
 {
@@ -31,6 +31,11 @@ class OneTimePasswordController extends Controller
 
         $user = request()->user();
 
+        if (is_null($user->token) || is_null($user->token_expires_at)) {
+            throw ValidationException::withMessages([
+                'token' => 'Kode OTP telah kedaluwarsa. Silahkan klik kirim ulang kode.',
+            ]);
+        }
         if ($user->token_expires_at->lt(now())) {
             throw ValidationException::withMessages([
                 'token' => 'Kode OTP telah kedaluwarsa. Silahkan klik kirim ulang kode.',
