@@ -1,9 +1,8 @@
 import DapurLayout from "@/Layouts/DapurLayout";
-import Container, { Board } from "@/Components/Container";
+import { Board } from "@/Components/Container";
 import Badge from "@/Components/Badge";
 import PemiraTabs from "./PemiraTabs";
 import BarChart from "@/Components/BarChart";
-import PrimaryButton from "@/Components/PrimaryButton";
 import BarChartRace from "@/Components/BarChartRace";
 import { useEffect, useState } from "react";
 import DonutChart from "@/Components/DonutChart";
@@ -16,7 +15,7 @@ export default function Rekapitulasi({ pemira, facultyUserCounts }) {
         if (isFinished) {
             const timer = setTimeout(() => {
                 setShowComponent(true);
-            }, 5000);
+            }, 8000);
 
             return () => clearTimeout(timer);
         }
@@ -49,7 +48,7 @@ export default function Rekapitulasi({ pemira, facultyUserCounts }) {
                         </div>
                         <div className="col-span-full lg:col-span-4 bg-white border-t lg:border-l lg:border-t-0 font-medium text-lg text-gray-700 overflow-hidden flex flex-col justify-center items-center p-4 lg:p-6">
                             <div className="flex">Perolehan suara paslon</div>
-                            <DonutChart uniqueId="2bc" />
+                            <DonutChart />
                         </div>
                     </div>
                 </Board>
