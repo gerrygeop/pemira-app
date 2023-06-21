@@ -29,7 +29,7 @@ export default function BarChartRace({ pemira, setIsFinished }) {
             smallNumberPrefixes: [],
         });
 
-        let stepDuration = 3000;
+        let stepDuration = 5000;
 
         // Set themes
         root.setThemes([am5themes_Animated.new(root)]);
