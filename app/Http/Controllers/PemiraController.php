@@ -165,7 +165,10 @@ class PemiraController extends Controller
             ->groupBy('votings.paslon_id', 'faculties.id', 'faculties.name')
             ->get();
 
-        dd(collect($votings)->toArray());
+        return Inertia::render('Dapur/Pemira/Stats', [
+            'pemira' => $pemira,
+            'votings' => collect($votings)->toArray()
+        ]);
     }
 
     public function coldBrew(Pemira $pemira)
