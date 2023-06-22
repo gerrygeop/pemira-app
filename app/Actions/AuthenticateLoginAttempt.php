@@ -109,7 +109,7 @@ class AuthenticateLoginAttempt
             return $response;
         } else if ($response->failed()) {
             throw ValidationException::withMessages([
-                'email' => json_decode($response)->message,
+                'email' => 'username dan password tidak sesuai',
             ]);
         } else {
             throw ValidationException::withMessages([
@@ -129,6 +129,12 @@ class AuthenticateLoginAttempt
 
         $data = json_decode($res);
 
+        if ($res->failed()) {
+            throw ValidationException::withMessages([
+                'email' => json_decode($res)->message,
+            ]);
+        }
+
         if ($data->message != 'Success') {
             throw ValidationException::withMessages([
                 'email' => 'NIM tidak terdaftar.',
@@ -140,9 +146,7 @@ class AuthenticateLoginAttempt
 
     private function  validateEmail($requestEmail, $emailSIA)
     {
-        $domainPart = explode('@', $requestEmail)[1] ?? null;
-
-        if ($requestEmail != $emailSIA || !$domainPart || $domainPart != 'gmail.com') {
+        if ($requestEmail != $emailSIA) {
             throw ValidationException::withMessages([
                 'email' => 'Email salah. Masukan email yang aktif digunakan dan sesuai dengan SIA anda.',
             ]);

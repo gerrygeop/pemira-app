@@ -155,6 +155,19 @@ class PemiraController extends Controller
             ->get();
     }
 
+    public function robusta(Pemira $pemira)
+    {
+        $votings = Voting::where('pemira_id', $pemira->id)
+            ->join('users', 'votings.user_id', '=', 'users.nim')
+            ->join('departments', 'users.department_id', '=', 'departments.id')
+            ->join('faculties', 'departments.faculty_id', '=', 'faculties.id')
+            ->select('votings.paslon_id', 'faculties.id', 'faculties.name', DB::raw('count(users.nim) as user_count'))
+            ->groupBy('votings.paslon_id', 'faculties.id', 'faculties.name')
+            ->get();
+
+        dd(collect($votings)->toArray());
+    }
+
     public function coldBrew(Pemira $pemira)
     {
         $data['table-paslon'] = $pemira->getTotalSuara();

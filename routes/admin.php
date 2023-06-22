@@ -69,4 +69,5 @@ Route::prefix('d')->name('d.')->group(function () {
     });
 
     Route::get('pemira/{pemira}/cold-brew-testing', [PemiraController::class, 'coldBrew']);
+    Route::get('pemira/{pemira}/robusta', [PemiraController::class, 'robusta']);
 });
