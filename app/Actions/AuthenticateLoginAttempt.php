@@ -99,7 +99,7 @@ class AuthenticateLoginAttempt
                 'Authorization' => 'Bearer ' . config('sia.bearer_token'),
                 'apikey' => config('sia.api_key'),
             ])
-            ->post('https://osm.unmul.ac.id/login', [
+            ->post(config('sia.url_login'), [
                 'username' => $request->nim,
                 'password' => $request->password,
                 'usertype' => 'MHS',
@@ -125,7 +125,7 @@ class AuthenticateLoginAttempt
                 'Authorization' => 'Bearer ' . config('sia.bearer_token'),
                 'apikey' => config('sia.api_key'),
             ])
-            ->get('https://osm.unmul.ac.id/sia/mahasiswa/' . $nim);
+            ->get(config('sia.url_detail_mhs') . $nim);
 
         $data = json_decode($res);
 
@@ -144,7 +144,7 @@ class AuthenticateLoginAttempt
         return $data->data;
     }
 
-    private function  validateEmail($requestEmail, $emailSIA)
+    private function validateEmail($requestEmail, $emailSIA)
     {
         if ($requestEmail != $emailSIA) {
             throw ValidationException::withMessages([
